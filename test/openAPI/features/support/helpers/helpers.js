@@ -174,6 +174,7 @@ module.exports = {
   },
   // wallet_link_status
   walletLinkStatusEndpoint: 'linked-authorization/link-status',
+  walletLinkStatusExpectedResponseTime: 25000,
   walletLiskStatusResponseSchema: {
     type: 'object',
     properties: {
