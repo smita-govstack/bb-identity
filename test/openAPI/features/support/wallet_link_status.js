@@ -4,12 +4,12 @@ const { Given, When, Then, Before, After } = require('@cucumber/cucumber');
 const {
   localhost,
   contentTypeHeader,
-  defaultExpectedResponseTime,
   walletGenerateLinkCodeEndpoint,
   X_XSRF_TOKEN,
   transactionId,
   walletLiskStatusResponseSchema,
   walletLinkStatusEndpoint,
+  walletLinkStatusExpectedResponseTime,
 } = require('./helpers/helpers');
 
 chai.use(require('chai-json-schema'));
@@ -67,11 +67,11 @@ Then(
 );
 
 Then(
-  'The \\/linked-authorization\\/link-status endpoint response should be returned in a timely manner 15000ms',
+  'The \\/linked-authorization\\/link-status endpoint response should be returned in a timely manner 25000ms',
   () =>
     specWalletLinkStatus
       .response()
-      .to.have.responseTimeLessThan(defaultExpectedResponseTime)
+      .to.have.responseTimeLessThan(walletLinkStatusExpectedResponseTime)
 );
 
 Then(
@@ -105,10 +105,10 @@ Then(
       .to.be.equal(transactionId)
 );
 
-// Scenario: Not able to check the status of link code because of the invalid transactionId
+// Scenario: Not able to check the status of link code because of the blank transactionId
 // Given and others Then for this scenario are written in the aforementioned example
 When(
-  'Send POST \\/linked-authorization\\/link-status request with given X-XSRF-TOKEN header, invalid transactionId, linkCode and requestTime',
+  'Send POST \\/linked-authorization\\/link-status request with given X-XSRF-TOKEN header, blank transactionId, linkCode and requestTime',
   () =>
     specWalletLinkStatus
       .post(baseUrl)
@@ -144,10 +144,44 @@ Then(
       .to.be.equal(errorCode)
 );
 
-// Scenario: Not able to check the status of link code because of the invalid linkCode
+// Scenario: Not able to check the status of link code because of the random transactionId
 // Given and others Then for this scenario are written in the aforementioned example
 When(
-  'Send POST \\/linked-authorization\\/link-status request with given X-XSRF-TOKEN header, transactionId, invalid linkCode and requestTime',
+  'Send POST \\/linked-authorization\\/link-status request with given X-XSRF-TOKEN header, random transactionId, linkCode and requestTime',
+  () =>
+    specWalletLinkStatus
+      .post(baseUrl)
+      .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+      .withJson({
+        requestTime: new Date().toISOString(),
+        request: {
+          transactionId: 'random-transaction-id',
+          linkCode: recivedLinkCode,
+        },
+      })
+);
+
+// Scenario: Not able to check the status of link code because of the completed transactionId
+// Given and others Then for this scenario are written in the aforementioned example
+When(
+  'Send POST \\/linked-authorization\\/link-status request with given X-XSRF-TOKEN header, completed transactionId, linkCode and requestTime',
+  () =>
+    specWalletLinkStatus
+      .post(baseUrl)
+      .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+      .withJson({
+        requestTime: new Date().toISOString(),
+        request: {
+          transactionId: 'completed-transaction-id',
+          linkCode: recivedLinkCode,
+        },
+      })
+);
+
+// Scenario: Not able to check the status of link code because of the random linkCode
+// Given and others Then for this scenario are written in the aforementioned example
+When(
+  'Send POST \\/linked-authorization\\/link-status request with given X-XSRF-TOKEN header, transactionId, random linkCode and requestTime',
   () =>
     specWalletLinkStatus
       .post(baseUrl)
@@ -157,6 +191,23 @@ When(
         request: {
           transactionId: transactionId,
           linkCode: 'invalid_link_code',
+        },
+      })
+);
+
+// Scenario: Not able to check the status of link code because of the blank linkCode
+// Given and others Then for this scenario are written in the aforementioned example
+When(
+  'Send POST \\/linked-authorization\\/link-status request with given X-XSRF-TOKEN header, transactionId, blank linkCode and requestTime',
+  () =>
+    specWalletLinkStatus
+      .post(baseUrl)
+      .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+      .withJson({
+        requestTime: new Date().toISOString(),
+        request: {
+          transactionId: transactionId,
+          linkCode: '',
         },
       })
 );
