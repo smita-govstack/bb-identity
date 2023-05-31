@@ -10,6 +10,7 @@ const {
   transactionId,
   walletLinkTransactionEndpoint,
   walletLinkTransactionResponseSchema,
+  expiredLinkCode,
 } = require('./helpers/helpers');
 
 chai.use(require('chai-json-schema'));
@@ -89,12 +90,12 @@ Then(
 );
 
 Then(
-  'The \\/linked-authorization\\/link-transaction endpoint response should match json schema',
+  'The \\/linked-authorization\\/link-transaction endpoint response should match json schema with no error',
   () => {
-    walletLinkTransactionResponseSchema.properties.errors = [];
     chai
       .expect(specWalletLinkTransaction._response.json)
       .to.be.jsonSchema(walletLinkTransactionResponseSchema);
+    chai.expect(specWalletLinkTransaction._response.json.errors).to.be.empty;
   }
 );
 
@@ -112,6 +113,14 @@ When(
 );
 
 Then(
+  'The \\/linked-authorization\\/link-transaction endpoint response should match json schema',
+  () =>
+    chai
+      .expect(specWalletLinkTransaction._response.json)
+      .to.be.jsonSchema(walletLinkTransactionResponseSchema)
+);
+
+Then(
   'The \\/linked-authorization\\/link-transaction response should contain errorCode property equals to {string}',
   (errorCode) =>
     chai
@@ -121,6 +130,18 @@ Then(
           .toString()
       )
       .to.be.equal(errorCode)
+);
+
+// Scenario: Not able to validate the link-code and its expiry and generate the linkTransactionId because of expired linkCode
+When(
+  'Send POST \\/linked-authorization\\/link-transaction request with given expired linkCode',
+  () =>
+    specWalletLinkTransaction.post(baseUrl).withJson({
+      requestTime: new Date().toISOString(),
+      request: {
+        linkCode: expiredLinkCode,
+      },
+    })
 );
 
 After(endpointTag, () => {

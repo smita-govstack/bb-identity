@@ -1263,6 +1263,43 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": false
+        },
+        {
+          "uuid": "255b7fd3-65d5-4262-8fee-c88ce05f986d",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {},\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_link_code\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Expired linkCode ",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkCode",
+              "value": "^expired-link-code-001$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
         }
       ],
       "enabled": true,
@@ -1523,91 +1560,6 @@
               "value": "^[A-Za-z0-9]+$",
               "invert": false,
               "operator": "regex"
-            },
-            {
-              "target": "body",
-              "modifier": "request.linkCode",
-              "value": "^linkCode$",
-              "invert": true,
-              "operator": "regex"
-            }
-          ],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": false
-        }
-      ],
-      "enabled": true,
-      "responseMode": null
-    },
-    {
-      "uuid": "6437140a-dc3a-40c4-b7d2-515b7fb5130f",
-      "type": "http",
-      "documentation": "Validate the link-code and its expiry and generate the linkTransactionId",
-      "method": "post",
-      "endpoint": "linked-authorization/link-transaction",
-      "responses": [
-        {
-          "uuid": "72d7a9ac-daa5-4459-b744-a2686b316eed",
-          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"linkTransactionId\": \"link_transaction_id_01\",\n    \"clientName\": \"OIDC Client\",\n    \"logoUrl\": \"http://example.com\",\n    \"authorizeScopes\": [\n      \"openid\"\n    ],\n    \"essentialClaims\": [\n      \"name\"\n    ],\n    \"voluntaryClaims\": [\n      \"nonce\"\n    ],\n    \"authFactors\": [\n      [\n        {\n          \"type\": \"PIN\",\n          \"count\": 0,\n          \"bioSubTypes\": [\n            \"string\"\n          ]\n        }\n      ]\n    ],\n    \"configs\": {}\n  },\n  \"errors\": []\n}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "Successfully validates the link-code and its expiry and generates the linkTransactionId",
-          "headers": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "body",
-              "modifier": "requestTime",
-              "value": "",
-              "invert": true,
-              "operator": "null"
-            },
-            {
-              "target": "body",
-              "modifier": "request.linkCode",
-              "value": "^linkCode$",
-              "invert": false,
-              "operator": "regex"
-            }
-          ],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": true
-        },
-        {
-          "uuid": "9fdf6972-d4b2-455c-a301-38dbcbcff367",
-          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"linkTransactionId\": \"\",\n    \"clientName\": \"\",\n    \"logoUrl\": \"\",\n    \"authorizeScopes\": [],\n    \"essentialClaims\": [],\n    \"voluntaryClaims\": [],\n    \"authFactors\": [\n      [\n        {\n          \"type\": \"PIN\",\n          \"count\": 0,\n          \"bioSubTypes\": []\n        }\n      ]\n    ],\n    \"configs\": {}\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_link_code\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "Invalid linkCode",
-          "headers": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "body",
-              "modifier": "requestTime",
-              "value": "",
-              "invert": true,
-              "operator": "null"
             },
             {
               "target": "body",
@@ -2497,339 +2449,6 @@
       "responseMode": null
     },
     {
-      "uuid": "45fb06bf-afca-452b-abef-324e64fd8d59",
-      "documentation": "",
-      "method": "post",
-      "endpoint": "oauth/token",
-      "responses": [
-        {
-          "uuid": "f88a042f-689d-4d5c-94ed-97af674e7cd0",
-          "body": "{\n  \"id_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\",\n  \"access_token\": \"string.string.string\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 0\n}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "Succesfully recieves the ID and access token",
-          "headers": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            },
-            {
-              "key": "Cache-Control",
-              "value": "no-store"
-            },
-            {
-              "key": "Pragma",
-              "value": "no-cache"
-            }
-          ],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "body",
-              "modifier": "grant_type",
-              "value": "authorization_code",
-              "invert": false,
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "code",
-              "value": "",
-              "invert": true,
-              "operator": "null"
-            },
-            {
-              "target": "body",
-              "modifier": "client_id",
-              "value": "",
-              "invert": true,
-              "operator": "null"
-            },
-            {
-              "target": "body",
-              "modifier": "client_assertion_type",
-              "value": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-              "invert": false,
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "client_assertion",
-              "value": "",
-              "invert": true,
-              "operator": "null"
-            },
-            {
-              "target": "body",
-              "modifier": "redirect_uri",
-              "value": "http://example.com",
-              "invert": true,
-              "operator": "null"
-            }
-          ],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": false
-        },
-        {
-          "uuid": "a567c176-9d3a-43db-9578-9815083ab280",
-          "body": "{\n  \"error\": \"invalid_assertion\",\n  \"error_description\": \"string\"\n}",
-          "latency": 0,
-          "statusCode": 400,
-          "label": "Invalid assertion",
-          "headers": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "body",
-              "modifier": "client_assertion",
-              "value": "^([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_\\-\\+\\/=]*)",
-              "invert": false,
-              "operator": "null"
-            },
-            {
-              "target": "body",
-              "modifier": "redirect_uri",
-              "value": "",
-              "invert": true,
-              "operator": "null"
-            }
-          ],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": false
-        },
-        {
-          "uuid": "e903c8e8-792c-45dd-8f33-bab4f11fdb13",
-          "body": "{\n  \"error\": \"invalid_assertion_type\",\n  \"error_description\": \"string\"\n}",
-          "latency": 0,
-          "statusCode": 400,
-          "label": "Invalid assertion type",
-          "headers": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "body",
-              "modifier": "client_assertion_type",
-              "value": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-              "invert": false,
-              "operator": "null"
-            },
-            {
-              "target": "body",
-              "modifier": "redirect_uri",
-              "value": "",
-              "invert": true,
-              "operator": "null"
-            }
-          ],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": false
-        },
-        {
-          "uuid": "7a44b4f4-4bb1-41b8-bb73-9009984aa24a",
-          "body": "{\n  \"error\": \"invalid_redirect_uri\",\n  \"error_description\": \"string\"\n}",
-          "latency": 0,
-          "statusCode": 400,
-          "label": "invalid_redirect_uri",
-          "headers": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            },
-            {
-              "key": "Cache-Control",
-              "value": "no-store"
-            },
-            {
-              "key": "Pragma",
-              "value": "no-cache"
-            }
-          ],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "body",
-              "modifier": "client_assertion",
-              "value": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-              "invert": false,
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "redirect_uri",
-              "value": "http://example.com",
-              "invert": false,
-              "operator": "null"
-            }
-          ],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": false
-        },
-        {
-          "uuid": "355d39c4-d54f-48cb-9516-ed6944f0dff7",
-          "body": "{\n  \"error\": \"invalid_payload\",\n  \"error_description\": \"string\"\n}",
-          "latency": 0,
-          "statusCode": 400,
-          "label": "Invalid payload",
-          "headers": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "body",
-              "modifier": "grant_type",
-              "value": "",
-              "invert": false,
-              "operator": "null"
-            },
-            {
-              "target": "body",
-              "modifier": "code",
-              "value": "",
-              "invert": false,
-              "operator": "null"
-            },
-            {
-              "target": "body",
-              "modifier": "client_id",
-              "value": "",
-              "invert": false,
-              "operator": "null"
-            },
-            {
-              "target": "body",
-              "modifier": "client_assertion_type",
-              "value": "",
-              "invert": false,
-              "operator": "null"
-            },
-            {
-              "target": "body",
-              "modifier": "client_assertion",
-              "value": "",
-              "invert": false,
-              "operator": "null"
-            },
-            {
-              "target": "body",
-              "modifier": "redirect_uri",
-              "value": "",
-              "invert": false,
-              "operator": "null"
-            }
-          ],
-          "rulesOperator": "OR",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": true
-        },
-        {
-          "uuid": "a90bf3b4-04bd-4d29-a061-4003780626dd",
-          "body": "{\n  \"error\": \"invalid_input\",\n  \"error_description\": \"string\"\n}",
-          "latency": 0,
-          "statusCode": 400,
-          "label": "Invalid input",
-          "headers": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "body",
-              "modifier": "grant_type",
-              "value": "",
-              "invert": false,
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "code",
-              "value": "",
-              "invert": false,
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "client_id",
-              "value": "",
-              "invert": false,
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "client_assertion_type",
-              "value": "",
-              "invert": false,
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "client_assertion",
-              "value": "",
-              "invert": false,
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "redirect_uri",
-              "value": "",
-              "invert": false,
-              "operator": "equals"
-            }
-          ],
-          "rulesOperator": "OR",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": false
-        }
-      ],
-      "enabled": true,
-      "responseMode": null,
-      "type": "http"
-    },
-    {
       "uuid": "415293ba-d1e6-484a-8803-8166cfc8974c",
       "type": "http",
       "documentation": "API to receive user information",
@@ -2899,7 +2518,7 @@
   "rootChildren": [
     {
       "type": "route",
-      "uuid": "45bd6c8d-c23c-42dd-9a73-51e98c7d7588"
+      "uuid": "f90e90b4-866f-478f-b34c-a358d8196f01"
     },
     {
       "type": "route",
@@ -2907,7 +2526,11 @@
     },
     {
       "type": "route",
-      "uuid": "f90e90b4-866f-478f-b34c-a358d8196f01"
+      "uuid": "45bd6c8d-c23c-42dd-9a73-51e98c7d7588"
+    },
+    {
+      "type": "route",
+      "uuid": "fe5ca74b-beea-400b-b9d4-057370aeb705"
     },
     {
       "type": "route",
@@ -2915,11 +2538,11 @@
     },
     {
       "type": "route",
-      "uuid": "6437140a-dc3a-40c4-b7d2-515b7fb5130f"
+      "uuid": "5674c6e6-5e80-4f0b-9bcb-30416f76d9a7"
     },
     {
       "type": "route",
-      "uuid": "5674c6e6-5e80-4f0b-9bcb-30416f76d9a7"
+      "uuid": "7ab6c815-e9ae-4e3a-b04e-54239ab25d9f"
     },
     {
       "type": "route",
@@ -2931,11 +2554,11 @@
     },
     {
       "type": "route",
-      "uuid": "fe5ca74b-beea-400b-b9d4-057370aeb705"
+      "uuid": "d4170fb5-331e-4065-8fc0-5a377bb57307"
     },
     {
       "type": "route",
-      "uuid": "45fb06bf-afca-452b-abef-324e64fd8d59"
+      "uuid": "432e2b24-4bf0-4573-9cac-f5bd555a838a"
     },
     {
       "type": "route",
@@ -2944,18 +2567,6 @@
     {
       "type": "route",
       "uuid": "67587670-d11a-4e8e-a3ef-5cceb0eeed64"
-    },
-    {
-      "type": "route",
-      "uuid": "7ab6c815-e9ae-4e3a-b04e-54239ab25d9f"
-    },
-    {
-      "type": "route",
-      "uuid": "d4170fb5-331e-4065-8fc0-5a377bb57307"
-    },
-    {
-      "type": "route",
-      "uuid": "432e2b24-4bf0-4573-9cac-f5bd555a838a"
     },
     {
       "type": "route",
