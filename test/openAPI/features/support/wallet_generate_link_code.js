@@ -83,10 +83,10 @@ Then(
       .to.be.equal(transactionId)
 );
 
-// Scenario: Not able to generate link code because of invalid transaction_id
+// Scenario: Not able to generate link code because of a random transaction_id
 // Given and others Then for this scenario are written in the aforementioned example
 When(
-  'Send POST \\/linked-authorization\\/link-code request with given X-XSRF-TOKEN header, invalid transactionId and {string} as requestTime',
+  'Send POST \\/linked-authorization\\/link-code request with given X-XSRF-TOKEN header, random transactionId and {string} as requestTime',
   (requestTime) =>
     specWalletGenerateLinkCode
       .post(baseUrl)
@@ -94,7 +94,7 @@ When(
       .withJson({
         requestTime: requestTime,
         request: {
-          transactionId: '',
+          transactionId: 'random-transaction-id',
         },
       })
 );
@@ -122,6 +122,37 @@ Then(
       .to.be.equal(errorCode)
 );
 
+// Scenario: Not able to generate link code because of a blank transaction_id
+// Given and others Then for this scenario are written in the aforementioned example
+When(
+  'Send POST \\/linked-authorization\\/link-code request with given X-XSRF-TOKEN header, blank transactionId and {string} as requestTime',
+  (requestTime) =>
+    specWalletGenerateLinkCode
+      .post(baseUrl)
+      .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+      .withJson({
+        requestTime: requestTime,
+        request: {
+          transactionId: '',
+        },
+      })
+);
+
+// Scenario: Not able to generate link code because of reause of the completed transaction_id
+// Given and others Then for this scenario are written in the aforementioned example
+When(
+  'Send POST \\/linked-authorization\\/link-code request with given X-XSRF-TOKEN header, reaused completed transactionId and {string} as requestTime',
+  (requestTime) =>
+    specWalletGenerateLinkCode
+      .post(baseUrl)
+      .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+      .withJson({
+        requestTime: requestTime,
+        request: {
+          transactionId: 'reused_completed_transaction_id',
+        },
+      })
+);
 After(endpointTag, () => {
   specWalletGenerateLinkCode.end();
 });
