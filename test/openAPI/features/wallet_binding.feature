@@ -8,7 +8,10 @@ Feature: The endpoint to validate wallet create wallet user id
     Then Receive a response from the /wallet-binding endpoint
     And The /wallet-binding response should be returned in a timely manner 15000ms
     And The /wallet-binding endpoint response should have status 200
+    And The /wallet-binding endpoint endpoint response should have content-type: application/json header
     And The /wallet-binding endpoint response should match json schema with no errors
+    And The /wallet-binding endpoint response should have authFactorType value should be equal to specified enum
+    And The /wallet-binding endpoint response should contain expireDateTime
 
   @negative
   Scenario: Not able to generate the wallet binding because of unsupported challenge format
@@ -17,6 +20,7 @@ Feature: The endpoint to validate wallet create wallet user id
     Then Receive a response from the /wallet-binding endpoint
     And The /wallet-binding response should be returned in a timely manner 15000ms
     And The /wallet-binding endpoint response should have status 200
+    And The /wallet-binding endpoint endpoint response should have content-type: application/json header
     And The /wallet-binding endpoint response should match json schema with errors
     And The /wallet-binding response should contain errorCode property equals to "unsupported_challenge_format"
 
@@ -27,5 +31,6 @@ Feature: The endpoint to validate wallet create wallet user id
     Then Receive a response from the /wallet-binding endpoint
     And The /wallet-binding response should be returned in a timely manner 15000ms
     And The /wallet-binding endpoint response should have status 200
+    And The /wallet-binding endpoint endpoint response should have content-type: application/json header
     And The /wallet-binding endpoint response should match json schema with errors
     And The /wallet-binding response should contain errorCode property equals to "invalid_public_key"

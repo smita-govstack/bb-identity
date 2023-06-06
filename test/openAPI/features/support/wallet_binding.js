@@ -5,12 +5,13 @@ const {
   localhost,
   defaultExpectedResponseTime,
   walletBindingEndpoint,
-  walletBindingResponseSchema,
+  walletBindingResponseSchema, contentTypeHeader,
 } = require('./helpers/helpers');
 
 chai.use(require('chai-json-schema'));
 
 let specWalletBinding;
+let providedAuthFactorType;
 const publicKey = JSON.stringify({
   kty: 'RSA',
   a: 'AQAB',
@@ -37,24 +38,26 @@ Given('Wants to validate the wallet and generate wallet user id',
 
 When(
     /^Send POST \/wallet\-binding request with given "([^"]*)" as individualId and "([^"]*)" as authFactorType and "([^"]*)" as format and "([^"]*)" as challenge and publicKey$/,
-    (individualId, authFactorType, format, challenge) =>
-        specWalletBinding
-            .post(baseUrl)
-            .withJson({
-              requestTime: new Date().toISOString(),
-              request: {
-                individualId: individualId,
+    (individualId, authFactorType, format, challenge) => {
+      specWalletBinding
+          .post(baseUrl)
+          .withJson({
+            requestTime: new Date().toISOString(),
+            request: {
+              individualId: individualId,
+              authFactorType: authFactorType,
+              format: format,
+              challengeList: {
                 authFactorType: authFactorType,
+                challenge: challenge,
                 format: format,
-                challengeList: {
-                  authFactorType: authFactorType,
-                  challenge: challenge,
-                  format: format,
-                },
-                publicKey: base64ToJson(publicKey),
               },
-            })
-);
+              publicKey: base64ToJson(publicKey),
+            },
+          })
+
+      providedAuthFactorType = authFactorType;
+    });
 
 Then(
     /^Receive a response from the \/wallet\-binding endpoint$/,
@@ -75,6 +78,14 @@ Then(
 );
 
 Then(
+    /^The \/wallet\-binding endpoint endpoint response should have content\-type: application\/json header$/,
+    () =>
+        specWalletBinding
+            .response()
+            .should.have.header(contentTypeHeader.key, contentTypeHeader.value)
+);
+
+Then(
     /^The \/wallet\-binding endpoint response should match json schema with no errors$/,
     () => {
       chai
@@ -82,6 +93,18 @@ Then(
           .to.be.jsonSchema(walletBindingResponseSchema);
       chai.expect(specWalletBinding._response.json.errors).to.be.empty;
     }
+);
+
+Then(
+    /^The \/wallet\-binding endpoint response should have authFactorType value should be equal to specified enum$/,
+    () =>
+        chai.expect(providedAuthFactorType).to.be.oneOf(['OTP','BIO','PIN','WLA'])
+);
+
+Then(
+    /^The \/wallet\-binding endpoint response should contain expireDateTime$/,
+    () =>
+      chai.expect(specWalletBinding._response.json.response.expireDateTime).to.not.be.empty
 );
 
 // Scenario: Not able to generate the wallet binding because of unsupported challenge format
