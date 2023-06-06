@@ -5,7 +5,8 @@ const {
   localhost,
   defaultExpectedResponseTime,
   walletBindingEndpoint,
-  walletBindingResponseSchema, contentTypeHeader,
+  walletBindingResponseSchema,
+  contentTypeHeader,
 } = require('./helpers/helpers');
 
 chai.use(require('chai-json-schema'));
