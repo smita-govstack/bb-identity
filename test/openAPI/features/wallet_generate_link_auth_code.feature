@@ -22,3 +22,36 @@ Feature: The endpoint to validates the link-code and its expiry and generates th
     And The /linked-authorization/link-auth-code endpoint response should have content-type: application/json header
     And The /linked-authorization/link-auth-code endpoint response should match json schema with errors
     And The /linked-authorization/link-auth-code response should contain errorCode property equals to "invalid_link_code"
+
+  @negative
+  Scenario: Not able to validate the link-code and its expiry and generate the link auth code because of invalid transactionId
+    Given Wants to validate the link-auth-code and generate the auth code
+    When Send POST /linked-authorization/link-auth-code request with given invalid transactionId
+    Then Receive a response from the /linked-authorization/link-auth-code endpoint
+    And The /linked-authorization/link-auth-code endpoint response should be returned in a timely manner 15000ms
+    And The /linked-authorization/link-auth-code endpoint response should have status 200
+    And The /linked-authorization/link-auth-code endpoint response should have content-type: application/json header
+    And The /linked-authorization/link-auth-code endpoint response should match json schema with errors
+    And The /linked-authorization/link-auth-code response should contain errorCode property equals to "invalid_transaction_id"
+
+  @negative
+  Scenario: Not able to validate the link-code and its expiry and generate the link auth code because of invalid linkCode and transactionId
+    Given Wants to validate the link-auth-code and generate the auth code
+    When Send POST /linked-authorization/link-auth-code request with given invalid linkCode and transactionId
+    Then Receive a response from the /linked-authorization/link-auth-code endpoint
+    And The /linked-authorization/link-auth-code endpoint response should be returned in a timely manner 15000ms
+    And The /linked-authorization/link-auth-code endpoint response should have status 200
+    And The /linked-authorization/link-auth-code endpoint response should have content-type: application/json header
+    And The /linked-authorization/link-auth-code endpoint response should match json schema with errors
+    And The /linked-authorization/link-auth-code response should contain errorCode property equals to "invalid_link_code"
+
+  @negative
+  Scenario: Not able to validate the link-code and its expiry and generate the link auth code because of invalid requestTime
+    Given Wants to validate the link-auth-code and generate the auth code
+    When Send POST /linked-authorization/link-auth-code request with given linkCode and transactionId and invalidRequestTime
+    Then Receive a response from the /linked-authorization/link-auth-code endpoint
+    And The /linked-authorization/link-auth-code endpoint response should be returned in a timely manner 15000ms
+    And The /linked-authorization/link-auth-code endpoint response should have status 200
+    And The /linked-authorization/link-auth-code endpoint response should have content-type: application/json header
+    And The /linked-authorization/link-auth-code endpoint response should match json schema with errors
+    And The /linked-authorization/link-auth-code response should contain errorCode property equals to "invalid_request"

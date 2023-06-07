@@ -139,6 +139,54 @@ Then(
             .to.be.equal(errorCode)
 );
 
+// Scenario: Not able to validate the link-code and its expiry and generate the link auth code because of invalid transactionId
+// Given and others Then for this scenario are written in the aforementioned example
+When(
+    /^Send POST \/linked\-authorization\/link\-auth\-code request with given invalid transactionId$/,
+    () =>
+        specWalletGenerateLinkAuthCode.post(baseUrl)
+            .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+            .withJson({
+              requestTime: new Date().toISOString(),
+              request: {
+                transactionId: 'invalid_transaction_id',
+                linkedCode: receivedLinkCode
+              },
+            })
+);
+
+// Scenario: Not able to validate the link-code and its expiry and generate the link auth code because of invalid linkCode and transactionId
+// Given and others Then for this scenario are written in the aforementioned example
+When(
+    /^Send POST \/linked\-authorization\/link\-auth\-code request with given invalid linkCode and transactionId$/,
+    () =>
+        specWalletGenerateLinkAuthCode.post(baseUrl)
+            .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+            .withJson({
+              requestTime: new Date().toISOString(),
+              request: {
+                transactionId: 'invalid_transaction_id',
+                linkedCode: 'invalid_linked_code',
+              },
+            })
+);
+
+// Scenario: Not able to validate the link-code and its expiry and generate the link auth code because of invalid requestTime
+// Given and others Then for this scenario are written in the aforementioned example
+When(
+    /^Send POST \/linked\-authorization\/link\-auth\-code request with given linkCode and transactionId and invalidRequestTime$/,
+    () =>
+        specWalletGenerateLinkAuthCode.post(baseUrl)
+            .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+            .withJson({
+              requestTime: null,
+              request: {
+                transactionId: transactionId,
+                linkedCode: receivedLinkCode,
+              },
+            })
+);
+
 After(endpointTag, () => {
   specWalletGenerateLinkCode.end();
   specWalletGenerateLinkAuthCode.end();
