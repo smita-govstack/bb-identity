@@ -163,6 +163,7 @@ module.exports = {
                 'invalid_transaction_id',
                 'link_code_gen_failed',
                 'invalid_transaction',
+                'invalid_request',
               ],
               errorMessage: { type: 'string' },
             },

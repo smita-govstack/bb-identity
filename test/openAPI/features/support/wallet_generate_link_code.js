@@ -153,6 +153,44 @@ When(
         },
       })
 );
+
+// Scenario: Not able to generate link code because of invalid requestTime
+// Given and others Then for this scenario are written in the aforementioned example
+When(
+  'Send POST \\/linked-authorization\\/link-code request with given X-XSRF-TOKEN header, transactionId and invalid requestTime',
+  () =>
+    specWalletGenerateLinkCode
+      .post(baseUrl)
+      .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+      .withJson({
+        requestTime: null,
+        request: {
+          transactionId: transactionId,
+        },
+      })
+);
+
+// Scenario: Not able to generate link code because of invalid xsrf token
+// Given and others Then for this scenario are written in the aforementioned example
+When(
+  'Send POST \\/linked-authorization\\/link-code request with given invalid X-XSRF-TOKEN header, transactionId and requestTime',
+  () =>
+    specWalletGenerateLinkCode
+      .post(baseUrl)
+      .withHeaders(X_XSRF_TOKEN.key, 'invalid value')
+      .withJson({
+        requestTime: new Date().toISOString(),
+        request: {
+          transactionId: transactionId,
+        },
+      })
+);
+
+Then(
+  'The \\/linked-authorization\\/link-code endpoint response should have status 403',
+  () => specWalletGenerateLinkCode.response().to.have.status(403)
+);
+
 After(endpointTag, () => {
   specWalletGenerateLinkCode.end();
 });
