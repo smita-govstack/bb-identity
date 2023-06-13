@@ -1,5 +1,5 @@
 const chai = require('chai');
-const { spec } = require('pactum');
+const { spec, sleep } = require('pactum');
 const { Given, When, Then, Before, After } = require('@cucumber/cucumber');
 const {
   localhost,
@@ -10,7 +10,6 @@ const {
   transactionId,
   walletLinkTransactionEndpoint,
   walletLinkTransactionResponseSchema,
-  expiredLinkCode,
 } = require('./helpers/helpers');
 
 chai.use(require('chai-json-schema'));
@@ -18,6 +17,7 @@ chai.use(require('chai-json-schema'));
 let specWalletLinkTransaction;
 let specWalletGenerateLinkCode;
 let receivedLinkCode;
+let newExpiredLinkCode;
 
 const baseUrl = localhost + walletLinkTransactionEndpoint;
 const endpointTag = { tags: `@endpoint=/${walletLinkTransactionEndpoint}` };
@@ -133,13 +133,35 @@ Then(
 );
 
 // Scenario: Not able to validate the link-code and its expiry and generate the linkTransactionId because of expired linkCode
+Given(
+  'The link code is generated before POST \\/linked-authorization\\/link-transaction but wait 30s to be expired',
+  { timeout: 31 * 1000 },
+  async () => {
+    specWalletGenerateLinkCode
+      .post(localhost + walletGenerateLinkCodeEndpoint)
+      .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+      .withJson({
+        requestTime: new Date().toISOString(),
+        request: {
+          transactionId: 'transactionIdToBeExpired',
+        },
+      });
+    await specWalletGenerateLinkCode.toss();
+
+    await sleep(30 * 1000);
+
+    newExpiredLinkCode =
+      specWalletGenerateLinkCode._response.json.response.linkCode;
+  }
+);
+
 When(
   'Send POST \\/linked-authorization\\/link-transaction request with given expired linkCode',
   () =>
     specWalletLinkTransaction.post(baseUrl).withJson({
       requestTime: new Date().toISOString(),
       request: {
-        linkCode: expiredLinkCode,
+        linkCode: newExpiredLinkCode,
       },
     })
 );

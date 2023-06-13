@@ -1036,6 +1036,50 @@
       "endpoint": "linked-authorization/link-code",
       "responses": [
         {
+          "uuid": "790ecc3c-e3c6-4c1e-99c0-428d8fb218e5",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"transactionId\": \"{{bodyRaw 'request.transactionId'}}\",\n    \"linkCode\": \"linkCodeToBeExpired\",\n    \"expireDateTime\": \"2023-10-05T14:49:00.000Z\"\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Succesfully generate link code to be expired",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^transactionIdToBeExpired$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
           "uuid": "13129174-8b5a-4d01-8aac-8b1d154c069a",
           "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"transactionId\": \"{{bodyRaw 'request.transactionId'}}\",\n    \"linkCode\": \"linkCode\",\n    \"expireDateTime\": \"2023-10-05T14:49:00.000Z\"\n  },\n  \"errors\": []\n}",
           "latency": 0,
@@ -1077,7 +1121,7 @@
           "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": true
+          "default": false
         },
         {
           "uuid": "3181a1d5-4546-4546-ac52-3e60a0ca944d",
@@ -1291,7 +1335,7 @@
             {
               "target": "body",
               "modifier": "request.linkCode",
-              "value": "^expired-link-code-001$",
+              "value": "^linkCodeToBeExpired$",
               "invert": false,
               "operator": "regex"
             }

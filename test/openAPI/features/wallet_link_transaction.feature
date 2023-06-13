@@ -26,6 +26,7 @@ Feature: The endpoint to validates the link-code and its expiry and generates th
   @negative
   Scenario: Not able to validate the link-code and its expiry and generate the linkTransactionId because of expired linkCode
     Given Wants to validate the link-code and its expiry and generate the linkTransactionId
+    And The link code is generated before POST /linked-authorization/link-transaction but wait 30s to be expired
     When Send POST /linked-authorization/link-transaction request with given expired linkCode
     Then Receive a response from the /linked-authorization/link-transaction endpoint
     And The /linked-authorization/link-transaction endpoint response should be returned in a timely manner 15000ms
