@@ -31,6 +31,7 @@ When(
     specWalletGenerateLinkCode
       .post(baseUrl)
       .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+      .withCookies(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
       .withJson({
         requestTime: new Date().toISOString(),
         request: {
@@ -91,6 +92,7 @@ When(
     specWalletGenerateLinkCode
       .post(baseUrl)
       .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+      .withCookies(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
       .withJson({
         requestTime: requestTime,
         request: {
@@ -130,6 +132,7 @@ When(
     specWalletGenerateLinkCode
       .post(baseUrl)
       .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+      .withCookies(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
       .withJson({
         requestTime: requestTime,
         request: {
@@ -146,6 +149,7 @@ When(
     specWalletGenerateLinkCode
       .post(baseUrl)
       .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+      .withCookies(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
       .withJson({
         requestTime: requestTime,
         request: {
@@ -162,6 +166,7 @@ When(
     specWalletGenerateLinkCode
       .post(baseUrl)
       .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+      .withCookies(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
       .withJson({
         requestTime: null,
         request: {
@@ -178,6 +183,7 @@ When(
     specWalletGenerateLinkCode
       .post(baseUrl)
       .withHeaders(X_XSRF_TOKEN.key, 'invalid value')
+      .withCookies(X_XSRF_TOKEN.key, 'invalid value')
       .withJson({
         requestTime: new Date().toISOString(),
         request: {
