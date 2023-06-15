@@ -10,20 +10,30 @@ const {
   transactionId,
   walletGenerateLinkAuthCodeResponseSchema,
   walletGenerateLinkAuthCodeEndpoint,
+  individualId,
+  walletLinkedAuthenticateEndpoint,
+  walletLinkTransactionEndpoint
 } = require('./helpers/helpers');
 
 chai.use(require('chai-json-schema'));
 
 let specWalletGenerateLinkCode;
 let specWalletGenerateLinkAuthCode;
+let specWalletGenerateLinkAuthCodeReusable;
+let specWalletLinkTransaction;
+let specWalletLinkedAuthenticate;
 let receivedLinkCode;
+let receivedLinkedTransactionId;
 
 const baseUrl = localhost + walletGenerateLinkAuthCodeEndpoint;
 const endpointTag = { tags: `@endpoint=/${walletGenerateLinkAuthCodeEndpoint}` };
 
 Before(endpointTag, () => {
   specWalletGenerateLinkAuthCode = spec();
+  specWalletGenerateLinkAuthCodeReusable = spec();
   specWalletGenerateLinkCode = spec();
+  specWalletLinkTransaction = spec();
+  specWalletLinkedAuthenticate = spec();
 });
 
 // Scenario: Successfully validates the link-code and its expiry and generates the link auth code smoke type test
@@ -34,20 +44,54 @@ Given(
 );
 
 Given(
-    /^The link code is generated before POST \/linked\-authorization\/link\-auth\-code$/,
+    /^The link code, transaction and authenticate is completed before POST \/linked\-authorization\/link\-auth\-code$/,
     async () => {
       specWalletGenerateLinkCode
-          .post(localhost + walletGenerateLinkCodeEndpoint)
-          .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
-          .withJson({
-            requestTime: new Date().toISOString(),
-            request: {
-              transactionId: transactionId,
-            },
-          });
+        .post(localhost + walletGenerateLinkCodeEndpoint)
+        .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+        .withJson({
+          requestTime: new Date().toISOString(),
+          request: {
+            transactionId: transactionId,
+          },
+        });
+
       await specWalletGenerateLinkCode.toss();
+
       receivedLinkCode =
           specWalletGenerateLinkCode._response.json.response.linkCode;
+
+      specWalletLinkTransaction
+        .post(localhost + walletLinkTransactionEndpoint)
+        .withJson({
+          requestTime: new Date().toISOString(),
+          request: {
+            linkCode: receivedLinkCode,
+          },
+        });
+
+      await specWalletLinkTransaction.toss();
+
+      receivedLinkedTransactionId =
+          specWalletLinkTransaction._response.json.response.linkTransactionId;
+
+      specWalletLinkedAuthenticate.post(localhost + walletLinkedAuthenticateEndpoint)
+        .withJson({
+          requestTime: new Date().toISOString(),
+          request: {
+            linkedTransactionId: receivedLinkedTransactionId,
+            individualId: individualId,
+            challengeList: [
+              {
+                authFactorType: "PIN",
+                challenge: "password",
+                format: "alpha-numeric",
+              },
+            ],
+          },
+        })
+
+      await specWalletLinkedAuthenticate.toss();
     }
 );
 
@@ -185,6 +229,150 @@ When(
                 linkedCode: receivedLinkCode,
               },
             })
+);
+
+// Scenario: Not able to validate the link-code and its expiry because of transaction and link code are not connected to each other
+// Given and others Then for this scenario are written in the aforementioned example
+
+When(
+    /^Send POST \/linked\-authorization\/link\-auth\-code request with given valid linkCode and transactionId$/,
+    () =>
+        specWalletGenerateLinkAuthCode.post(baseUrl)
+            .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+            .withJson({
+              requestTime: new Date().toISOString(),
+              request: {
+                linkedCode: 'valid_link_code_001',
+                transactionId: transactionId
+              },
+            })
+);
+
+// Scenario: Not able to validate the link-code and its expiry because of reuse of the completed transaction_id
+// Given and others Then for this scenario are written in the aforementioned example
+
+Given(
+    /^The first authorization flow for transactionId ends$/,
+    async () => {
+      specWalletGenerateLinkCode
+          .post(localhost + walletGenerateLinkCodeEndpoint)
+          .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+          .withJson({
+            requestTime: new Date().toISOString(),
+            request: {
+              transactionId: transactionId,
+            },
+          });
+      await specWalletGenerateLinkCode.toss();
+
+      receivedLinkCode =
+          specWalletGenerateLinkCode._response.json.response.linkCode;
+
+      specWalletLinkTransaction
+          .post(localhost + walletLinkTransactionEndpoint)
+          .withJson({
+            requestTime: new Date().toISOString(),
+            request: {
+              linkCode: receivedLinkCode,
+            },
+          });
+
+      await specWalletLinkTransaction.toss();
+
+      receivedLinkedTransactionId =
+          specWalletLinkTransaction._response.json.response.linkTransactionId;
+
+      specWalletLinkedAuthenticate.post(localhost + walletLinkedAuthenticateEndpoint)
+          .withJson({
+            requestTime: new Date().toISOString(),
+            request: {
+              linkedTransactionId: receivedLinkedTransactionId,
+              individualId: individualId,
+              challengeList: [
+                {
+                  authFactorType: "PIN",
+                  challenge: "password",
+                  format: "alpha-numeric",
+                },
+              ],
+            },
+          })
+
+      await specWalletLinkedAuthenticate.toss();
+
+      specWalletGenerateLinkAuthCode.post(baseUrl)
+          .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+          .withJson({
+            requestTime: new Date().toISOString(),
+            request: {
+              linkedCode: receivedLinkCode,
+              transactionId: 'transaction_id_004'
+            },
+          })
+
+    }
+);
+
+When(
+    /^Send POST \/linked\-authorization\/link\-auth\-code request with given linkCode and reused completed transactionId$/,
+    () =>
+        specWalletGenerateLinkAuthCodeReusable.post(baseUrl)
+            .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+            .withJson({
+              requestTime: new Date().toISOString(),
+              request: {
+                linkedCode: receivedLinkCode,
+                transactionId: 'transaction_id_004'
+              },
+            })
+);
+
+Then(
+    /^Receive a response for reuse transactionId from the \/linked\-authorization\/link\-auth\-code endpoint$/,
+    async () => await specWalletGenerateLinkAuthCodeReusable.toss()
+);
+
+Then(
+    /^The \/linked\-authorization\/link\-auth\-code endpoint response for reuse transactionId should be returned in a timely manner 25000ms$/,
+    () =>
+        specWalletGenerateLinkAuthCodeReusable
+            .response()
+            .to.have.responseTimeLessThan(linkAuthCodeExpectedResponseTime)
+);
+
+Then(
+    /^The \/linked\-authorization\/link\-auth\-code endpoint response for reuse transactionId should have status (\d+)$/,
+    (status) => specWalletGenerateLinkAuthCodeReusable.response().to.have.status(status)
+);
+
+Then(
+    /^The \/linked\-authorization\/link\-auth\-code endpoint response for reuse transactionId should have content\-type: application\/json header$/,
+    () =>
+        specWalletGenerateLinkAuthCodeReusable
+            .response()
+            .should.have.header(contentTypeHeader.key, contentTypeHeader.value)
+);
+
+Then(
+    /^The \/linked\-authorization\/link\-auth\-code endpoint response for reuse transactionId should match json schema with errors$/,
+    () => {
+      chai
+          .expect(specWalletGenerateLinkAuthCodeReusable._response.json)
+          .to.be.jsonSchema(walletGenerateLinkAuthCodeResponseSchema);
+      chai.expect(specWalletGenerateLinkAuthCodeReusable._response.json.errors).to.not.be.empty;
+    }
+);
+
+Then(
+    /^The \/linked\-authorization\/link\-auth\-code response for reuse transactionId should contain errorCode property equals to "([^"]*)"$/,
+    (errorCode) =>
+        chai
+            .expect(
+                specWalletGenerateLinkAuthCodeReusable._response.json.errors
+                    .map((error) => error.errorCode)
+                    .toString()
+            )
+            .to.be.equal(errorCode)
 );
 
 After(endpointTag, () => {
