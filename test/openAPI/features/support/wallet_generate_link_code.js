@@ -20,7 +20,7 @@ let specWalletGenerateLinkCode;
 let specWalletLinkTransaction;
 let specWalletGenerateLinkAuthCode;
 let specWalletConsent;
-let specWalletGenerateLinkCodeReusad;
+let specWalletGenerateLinkCodeReused;
 
 const baseUrl = localhost + walletGenerateLinkCodeEndpoint;
 const endpointTag = { tags: `@endpoint=/${walletGenerateLinkCodeEndpoint}` };
@@ -30,7 +30,7 @@ Before(endpointTag, () => {
   specWalletLinkTransaction = spec();
   specWalletGenerateLinkAuthCode = spec();
   specWalletConsent = spec();
-  specWalletGenerateLinkCodeReusad = spec();
+  specWalletGenerateLinkCodeReused = spec();
 });
 
 // Scenario: Successfully generates link code smoke type test
@@ -202,7 +202,7 @@ Given('The first authorization flow for transactionId ends', async () => {
 When(
   'Send POST \\/linked-authorization\\/link-code request with given X-XSRF-TOKEN header, reaused completed transactionId and requestTime',
   () =>
-    specWalletGenerateLinkCodeReusad
+    specWalletGenerateLinkCodeReused
       .post(baseUrl)
       .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
       .withCookies(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
@@ -216,18 +216,18 @@ When(
 
 Then(
   'Receive a response for completed transactionId from the \\/linked-authorization\\/link-code endpoint',
-  async () => await specWalletGenerateLinkCodeReusad.toss()
+  async () => await specWalletGenerateLinkCodeReused.toss()
 );
 
 Then(
   'The \\/linked-authorization\\/link-code endpoint response for completed transactionId should have status 200',
-  () => specWalletGenerateLinkCodeReusad.response().to.have.status(200)
+  () => specWalletGenerateLinkCodeReused.response().to.have.status(200)
 );
 
 Then(
   'The \\/linked-authorization\\/link-code endpoint response for completed transactionId should have content-type: application\\/json header',
   () =>
-    specWalletGenerateLinkCodeReusad
+    specWalletGenerateLinkCodeReused
       .response()
       .should.have.header(contentTypeHeader.key, contentTypeHeader.value)
 );
@@ -236,9 +236,9 @@ Then(
   'The \\/linked-authorization\\/link-code endpoint response for completed transactionId should match json schema with errors',
   () => {
     chai
-      .expect(specWalletGenerateLinkCodeReusad._response.json)
+      .expect(specWalletGenerateLinkCodeReused._response.json)
       .to.be.jsonSchema(walletGenerateLinkCodeResponseSchema);
-    chai.expect(specWalletGenerateLinkCodeReusad._response.json.errors).to.not
+    chai.expect(specWalletGenerateLinkCodeReused._response.json.errors).to.not
       .be.empty;
   }
 );
@@ -248,7 +248,7 @@ Then(
   (errorCode) =>
     chai
       .expect(
-        specWalletGenerateLinkCodeReusad._response.json.errors
+        specWalletGenerateLinkCodeReused._response.json.errors
           .map((error) => error.errorCode)
           .toString()
       )
@@ -299,5 +299,5 @@ After(endpointTag, () => {
   specWalletLinkTransaction.end();
   specWalletGenerateLinkAuthCode.end();
   specWalletConsent.end();
-  specWalletGenerateLinkCodeReusad.end();
+  specWalletGenerateLinkCodeReused.end();
 });
