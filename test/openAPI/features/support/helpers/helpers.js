@@ -358,6 +358,7 @@ module.exports = {
                 'invalid_no_of_challenges',
                 'auth_failed',
                 'unknown_error',
+                'invalid_request'
               ],
             },
             errorMessage: { type: 'string' },

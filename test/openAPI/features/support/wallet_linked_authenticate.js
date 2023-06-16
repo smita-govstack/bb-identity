@@ -19,6 +19,7 @@ chai.use(require('chai-json-schema'));
 let specWalletGenerateLinkCode;
 let specWalletLinkTransaction;
 let specWalletLinkedAuthenticate;
+let specWalletLinkedAuthenticateReused;
 let receivedLinkedTransactionId;
 
 const baseUrl = localhost + walletLinkedAuthenticateEndpoint;
@@ -28,6 +29,7 @@ Before(endpointTag, () => {
   specWalletGenerateLinkCode = spec();
   specWalletLinkTransaction = spec();
   specWalletLinkedAuthenticate = spec();
+  specWalletLinkedAuthenticateReused = spec();
 });
 
 // Scenario: Successfully checks the correctness of the data smoke type test
@@ -112,7 +114,7 @@ Then(
 );
 
 Then(
-  'The \\/linked-authorization\\/authenticate endpoint response should contain linkedTransactionId',
+    /^The \/linked\-authorization\/authenticate endpoint response linkedTransactionId should be the same as sent in request$/,
   () =>
     chai
       .expect(
@@ -201,6 +203,143 @@ When(
         challengeList: [],
       },
     })
+);
+
+// Scenario: Not able to check the correctness of the data because of duplicated transactionId
+// Given and others Then for this scenario are written in the aforementioned example
+
+When(
+    'Send first POST \\/linked-authorization\\/authenticate request with given requestTime, linkedTransactionId, individualId, {string} as authFactorType, {string} as challenge, {string} as format',
+    (authFactorType, challenge, format) =>
+        specWalletLinkedAuthenticate.post(baseUrl).withJson({
+          requestTime: new Date().toISOString(),
+          request: {
+            linkedTransactionId: 'valid_linked_transaction_id_001',
+            individualId: individualId,
+            challengeList: [
+              {
+                authFactorType: authFactorType,
+                challenge: challenge,
+                format: format,
+              },
+            ],
+          },
+        })
+);
+
+When(
+    /^The second authenticate flow for linkedTransactionId ends$/,
+    () =>
+        specWalletLinkedAuthenticateReused.post(baseUrl).withJson({
+          requestTime: new Date().toISOString(),
+          request: {
+            linkedTransactionId: 'valid_linked_transaction_id_001',
+            individualId: individualId,
+            challengeList: [
+              {
+                authFactorType: "PIN",
+                challenge: "password",
+                format: "alpha-numeric",
+              },
+            ],
+          },
+        })
+);
+
+Then(
+    'Receive a response for reuse linkedTransactionId from the \\/linked-authorization\\/authenticate endpoint',
+    async () => await specWalletLinkedAuthenticateReused.toss()
+);
+
+Then(
+    'The \\/linked-authorization\\/authenticate endpoint response for reuse linkedTransactionId should be returned in a timely manner 15000ms',
+    () =>
+        specWalletLinkedAuthenticateReused
+            .response()
+            .to.have.responseTimeLessThan(defaultExpectedResponseTime)
+);
+
+Then(
+    'The \\/linked-authorization\\/authenticate endpoint response for reuse linkedTransactionId should have status 200',
+    () => specWalletLinkedAuthenticateReused.response().to.have.status(200)
+);
+
+Then(
+    'The \\/linked-authorization\\/authenticate endpoint response for reuse linkedTransactionId should have content-type: application\\/json header',
+    () =>
+        specWalletLinkedAuthenticateReused
+            .response()
+            .should.have.header(contentTypeHeader.key, contentTypeHeader.value)
+);
+
+Then(
+    /^The \/linked-authorization\/authenticate endpoint response for reuse linkedTransactionId should match json schema with errors$/,
+    () => {
+      chai
+          .expect(specWalletLinkedAuthenticateReused._response.json)
+          .to.be.jsonSchema(walletLinkedAuthenticateResponseSchema);
+      chai.expect(specWalletLinkedAuthenticateReused._response.json.errors).to.not.be.empty;
+    }
+);
+
+Then(
+    'The \\/linked-authorization\\/authenticate response for reuse linkedTransactionId should contain errorCode property equals to {string}',
+    (errorCode) =>
+        chai
+            .expect(
+                specWalletLinkedAuthenticateReused._response.json.errors
+                    .map((error) => error.errorCode)
+                    .toString()
+            )
+            .to.be.equal(errorCode)
+);
+
+// Scenario: Not able to check the correctness of the data because of duplicated transactionId
+// Given and others Then for this scenario are written in the aforementioned example
+
+When(
+    'Send POST \\/linked-authorization\\/authenticate request with given invalid requestTime, linkedTransactionId, individualId, {string} as authFactorType, {string} as challenge, {string} as format',
+    (authFactorType, challenge, format) =>
+        specWalletLinkedAuthenticate.post(baseUrl).withJson({
+          requestTime: null,
+          request: {
+            linkedTransactionId: receivedLinkedTransactionId,
+            individualId: individualId,
+            challengeList: [
+              {
+                authFactorType: authFactorType,
+                challenge: challenge,
+                format: format,
+              },
+            ],
+          },
+        })
+);
+
+Then(
+    /^The \/linked-authorization\/authenticate endpoint response should match json schema with errors$/,
+    () => {
+      chai
+          .expect(specWalletLinkedAuthenticate._response.json)
+          .to.be.jsonSchema(walletLinkedAuthenticateResponseSchema);
+      chai.expect(specWalletLinkedAuthenticate._response.json.errors).to.not.be.empty;
+    }
+);
+
+// Scenario: Not able to check the correctness of the data because of duplicated transactionId
+// Given and others Then for this scenario are written in the aforementioned example
+
+When(
+    'Send POST \\/linked-authorization\\/authenticate request with given requestTime, linkedTransactionId, individualId, {string} as invalidAuthFactorType, {string} as challenge, {string} as format',
+    (invalidAuthFactorType, challenge, format) =>
+        specWalletLinkedAuthenticate.post(baseUrl).withJson({
+          requestTime: null,
+          request: {
+            linkedTransactionId: receivedLinkedTransactionId,
+            individualId: individualId,
+            challengeList: [],
+          },
+        })
 );
 
 After(endpointTag, () => {
