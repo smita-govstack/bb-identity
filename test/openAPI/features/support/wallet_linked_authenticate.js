@@ -294,7 +294,7 @@ Then(
             .to.be.equal(errorCode)
 );
 
-// Scenario: Not able to check the correctness of the data because of duplicated transactionId
+// Scenario: Not able to check the correctness of the data because of invalid requestTime
 // Given and others Then for this scenario are written in the aforementioned example
 
 When(
@@ -326,7 +326,7 @@ Then(
     }
 );
 
-// Scenario: Not able to check the correctness of the data because of duplicated transactionId
+// Scenario: Not able to check the correctness of the data because auth failed
 // Given and others Then for this scenario are written in the aforementioned example
 
 When(
@@ -346,4 +346,5 @@ After(endpointTag, () => {
   specWalletGenerateLinkCode.end();
   specWalletLinkTransaction.end();
   specWalletLinkedAuthenticate.end();
+  specWalletLinkedAuthenticateReused.end();
 });
