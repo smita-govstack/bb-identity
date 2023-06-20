@@ -6,34 +6,35 @@ description: >-
 
 # 4 Key Digital Functionalities
 
-## **Current scope:**
+The functional requirements of the Identity Building Block cover the full life cycle or a Foundational ID so as the services offered to use that Identity. The Identity Building Block must offer functionalities to onboard new individuals, update and manage the life cycle of personal data, issue unique identifiers, issue physical or digital credentials, publish identity change events, and offer services to verify identity.
 
-## 4.1 Overview of Identity Building Block Functionality
+The Identity Build Block must have any response data payload it returns through its API only in the form of JSON or YAML formatted datasets. It is left to the application consuming the response to present it appropriately (e.g. as an Event list or calendar) and provision for associated user interface interactions.
 
-The functional requirements of Identity Building Block cover the full life cycle or a Foundational ID so as the services offered to use that Identity.
-
-The Identity Building Block MUST offer functionalities to onboard new individuals, update and manage the life cycle of personal data, issue unique identifiers, issue physical or digital credentials, publish identity change events, and offer services to verify identity.
-
-The Identity Build Block MUST have any response data payload it returns through its API only in the form of JSON or YAML formatted datasets. It is left to the application consuming the response to present it appropriately (e.g. as an Event list or calendar) and provision for associated user interface interactions.
-
-## 4.2 Design and Components of Identity Building Block <a href="#docs-internal-guid-d85f59a4-7fff-1564-6ae2-86d67f36a258" id="docs-internal-guid-d85f59a4-7fff-1564-6ae2-86d67f36a258"></a>
-
-The Identitity Building Block MUST enable usage from the following actors:
+The Identitity Building Block must enable usage from the following actors:
 
 * "BB\_Admin" who manages this Building Block to run efficiently in a hosted environment;
 * "Partners" who get registered and can obtain access to services after authorization ;
 * "Users" who will manage their Identity information, access to this information by third parties, credentials and preferences;
-* "Subscribers" will be notified of identity change events after registration.&#x20;
+* "Subscribers" will be notified of identity change events after registration.
 
-The internal storage of the Identity Building Block MUST hold configuration, status, and logged information of all scheduled events. It MUST also maintain a repository of details of Partners, Users and Subscribers.
+The internal storage of the Identity Building Block must hold the configuration, status, and logged information of all scheduled events. It must also maintain a repository of details of Partners, Users and Subscribers. The Key digital functionalities that are considered within the current scope of the specifications are listed below:
 
-The Key digital functionalities that are considered within the current scope of the specifications are listed below:
+## **4.1 Identity Usage**
 
-* **Identity Usage**: Registered and Authorized Partners have access to Identity Building Block Usage APIs to request Authentication of Users, if successful they can collect personal information after a User informed consent is given. For a specific Partner and a specific User, the Identity Building Block will produce a unique and repeatable Partner Specific User Token (PSUT).
+&#x20;Registered and Authorized Partners have access to Identity Building Block Usage APIs to request Authentication of Users, if successful they can collect personal information after a User informed consent is given. For a specific Partner and a specific User, the Identity Building Block will produce a unique and repeatable Partner Specific User Token (PSUT).
 
-## **4.3 Future scope**
+## **4.2 Identity Management**
 
-1. **Identity management**: New Users can be on-boarded following an Enrollment process, this process can be composed of one or several steps with data coming from one or multiple sources. Once a new identity has been registered a Unique Identifier will be generated for further representing the User in the GovStack. For privacy purposes, this Unique Identifier will be kept secret inside the Identity Management system, and tokens (randomly generated identifiers) or aliases (existing identifiers) will be linked to it and shared with the User for further involvement in the Usage APIs or for the Credential management. User Interfaces and APIs will allow a user to have a management of its personal data for CRUD requests (Create, Read, Update, Delete) according to GDPR regulation and to the Adopting Country laws, policies and practices. A User will have the possibility to generate a temporary and revokable Virtual ID to preserve its privacy for temporary use. A User will have the possibility to link an existing personal identifier for leveraging on existing forms of trusted ID (i.e. ID Card Number, Passport Number, Phone Number, e-mail address, etc.) this identifier will be usable within ID Usage services.
-2. **Credential Management**: A User will have the possibility to generate Credentials containing a set of claims, being personal attributes or declarations (i.e. I am an adult). Those credentials will be possible to be issued in the form of Verifiable Credentials (World Wide Web Consortium, International Civil Aviation Organization, or mobile driving license), with the objective to be readable and verifiable against the issuer by a third party.  Credentials may have a limited lifetime or not and could be limited to usage by specific partners. Identity Building Block would allow a user to suspend (temporarily) or revoke (definitely) a Credential which then would become unusable with the Usage APIs. A User could obtain physical forms of Credentials printed on a physical support (card, paper, etc.), the information printed on the credential would be shared as a verifiable Credential to ensure backward trustability of the information, and the Physical Credential layout could be generated by the Identity Building Block in a PDF format for a further printing by a credential printing partner.  An API would be available to search, authenticate and manage the credentials of a specific User.
-3. **Subscription Management**: Partners will have the possibility to register for Identity-related events for being notified when they will happen. Identity-related events being the creation of identity (new User on-boarded, could be birth registered or a new user registered), update in one or several of the identity personal attributes, or event happening to that identity (i.e. death, disappearance) Subject to preliminary authorization, Partners could register to type of events applicable to all Users, or to specific Users or using filters on some attributes (ie age reaching 18) When an event will occur the Identity Building Block will send a notification to the registered partners, then the partner will be in the capacity to request Identity Building Block event-related information.
-4. **Administration Management**: GovStack administrators will have functionalities to configure the Identity Building Block from a central place.&#x20;
+New Users can be on-boarded following an Enrollment process, this process can be composed of one or several steps with data coming from one or multiple sources. Once a new identity has been registered a Unique Identifier will be generated for further representing the User in the GovStack. For privacy purposes, this Unique Identifier will be kept secret inside the Identity Management system, and tokens (randomly generated identifiers) or aliases (existing identifiers) will be linked to it and shared with the User for further involvement in the Usage APIs or for the Credential management. User Interfaces and APIs will allow a user to have a management of its personal data for CRUD requests (Create, Read, Update, Delete) according to GDPR regulation and to the Adopting Country laws, policies and practices. A User will have the possibility to generate a temporary and revokable Virtual ID to preserve its privacy for temporary use. A User will have the possibility to link an existing personal identifier for leveraging on existing forms of trusted ID (i.e. ID Card Number, Passport Number, Phone Number, e-mail address, etc.) this identifier will be usable within ID Usage services.
+
+## **4.3 Credential Management**
+
+A User will have the possibility to generate Credentials containing a set of claims, being personal attributes or declarations (i.e. I am an adult). Those credentials will be possible to be issued in the form of Verifiable Credentials (World Wide Web Consortium, International Civil Aviation Organization, or mobile driving license), with the objective to be readable and verifiable against the issuer by a third party. Credentials may have a limited lifetime or not and could be limited to usage by specific partners. Identity Building Block would allow a user to suspend (temporarily) or revoke (definitely) a Credential which then would become unusable with the Usage APIs. A User could obtain physical forms of Credentials printed on a physical support (card, paper, etc.), the information printed on the credential would be shared as a verifiable Credential to ensure backward trustability of the information, and the Physical Credential layout could be generated by the Identity Building Block in a PDF format for a further printing by a credential printing partner. An API would be available to search, authenticate and manage the credentials of a specific User.
+
+## **4.4 Subscription Management**
+
+Partners will have the possibility to register for Identity-related events for being notified when they will happen. Identity-related events being the creation of identity (new User on-boarded, could be birth registered or a new user registered), update in one or several of the identity personal attributes, or event happening to that identity (i.e. death, disappearance) Subject to preliminary authorization, Partners could register to type of events applicable to all Users, or to specific Users or using filters on some attributes (i.e. age reaching 18) When an event will occur the Identity Building Block will send a notification to the registered partners, then the partner will be in the capacity to request Identity Building Block event-related information.
+
+## **4.5 Administration Management**&#x20;
+
+GovStack administrators will have functionalities to configure the Identity Building Block from a central place.

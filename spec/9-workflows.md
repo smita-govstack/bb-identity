@@ -17,21 +17,21 @@ Non-exhaustive list of examples:
 
 Those workflows will be described in a later version.
 
-### Identity Verification Workflow
+### 9.1 Identity Verification Workflow
 
-The below workflow details the steps involved in relying party application enabling the end user to login using their National ID. Once the login process is completed, IDBB also allows the relying party to get verified user claims based on explict permission from the end user.
+The below workflow details the steps involved in the relying party application enabling the end user to log in using their National ID. Once the login process is completed, Identity Building Block also allows the relying party to get verified user claims based on explicit permission from the end user.
 
-The steps are&#x20;
+The steps are:
 
-* The relying party wants to authenticate the user to the Identity Building Block
-* The relying party redirects the user to the identity building block UI
-* The user will authenticate on the Identity Build block
-* The Identity Build Block will ask the user a permission for sharing his/her personal data
-* The User selected the attributes he/she accepts to share
-* A code is generated and returned by the identity building block to the relying party
-* The relying part uses the code and receive an ID token and an access token
-* The relying party then use the access token to receive the user information
-* The user can pursue its application within the relying party UI
+* The relying party wants to authenticate the user to the Identity Building Block.
+* The relying party redirects the user to the Identity Building Block UI.
+* The user will authenticate on the Identity Build block.
+* The Identity Build Block will ask the user permission to share his/her personal data.
+* The User selected the attributes he/she accepts to share.
+* A code is generated and returned by the Identity Building Block to the relying party.
+* The relying party uses the code and receives an ID token and an access token.
+* The relying party then uses the access token to receive the user information.
+* The user can pursue its application within the relying party UI.
 
 ```mermaid
 sequenceDiagram

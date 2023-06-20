@@ -8,20 +8,16 @@ description: This section lists the technical capabilities of this Building Bloc
 
 A common set of unique internal functional components are required to orchestrate the services of the Scheduler Building Block as shown below. The REST API's interfaces route service requests to/from external Building Blocks and appropriate internal blocks in appropriate formats. A brief description of the generic functionality of each of these components has been given below from a minimum viable product perspective. Detailed design and feature lists of these blocks can be customized by developers to optimally match specific target implementation needs.
 
-<table data-view="cards"><thead><tr><th></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td></td><td>          Identity Usage</td><td></td><td><a href="6-functional-requirements.md#1.-identity-usage">#1.-identity-usage</a></td></tr><tr><td></td><td>   Identity  Management</td><td></td><td><a href="6-functional-requirements.md#2.-identity-management">#2.-identity-management</a></td></tr><tr><td></td><td>   Credential Management</td><td></td><td><a href="6-functional-requirements.md#3.-credential-management">#3.-credential-management</a></td></tr><tr><td></td><td> Subscription Management</td><td></td><td><a href="6-functional-requirements.md#4.-subscription-management">#4.-subscription-management</a></td></tr><tr><td></td><td>     Security Management</td><td></td><td><a href="6-functional-requirements.md#5.-security-management">#5.-security-management</a></td></tr><tr><td></td><td>      Privacy Management</td><td></td><td><a href="6-functional-requirements.md#6.-privacy-management">#6.-privacy-management</a></td></tr></tbody></table>
+## 6.1 Identity Usage
 
-## 1. Identity Usage &#x20;
+* Identity Building Block must offer an API to verify Identities following a Gov Stack recommended Open Standard API. (REQUIRED)
+* Identity Building Block must offer an API to Verify Identity of an individual based on one of its known identifiers. (REQUIRED)
+* Identity Building Block must offer an API to retrieve personal attributes of an individual from one of its identifiers. To be noted that this service will be subject to preliminary access granted by the system and by the individual (informed consent). Authorized access control should be part of API as opposed to external configuration alone. This ensures that relying parties are verified by the API before sharing sensitive data. (REQUIRED)
+* Identity Building Block must offer an API to identify an unknown individual, which means retrieve an identity identifier from a set of personal attributes sent. This service is normally to be used for security/law enforcement purposes and must be limited to registries of wanted people. For privacy and security reasons, this feature should only be considered where clear and accountable security/law enforcement rules are in place. (REQUIRED)
+* Identity Building Block must offer an API to verify one characteristic of an individual without having to disclose actually the recorded related attributes. The typical request response is Yes or No (sample use case: age verification, is a person older than 18 > Yes to No). (REQUIRED)
+* Identity Building Block must offer Identity Verification services based on modalities listed below following a GovStack recommended Open Standard API. (REQUIRED)
 
-### 1.1 Verification Services API Requirements
-
-* Identity Building Block MUST offer an API to verify Identities following a Gov Stack recommended Open Standard API.
-* Identity Building Block MUST offer an API to Verify Identity of an individual based on one of its known identifiers.
-* Identity Building Block MUST offer an API to retrieve personal attributes of an individual from one of its identifiers. To be noted that this service will be subject to preliminary access granted by the system and by the individual (informed consent). Authorized access control should be part of API as opposed to external configuration alone. This ensures that relying parties are verified by the API before sharing sensitive data.
-* Identity Building Block MUST offer an API to identify an unknown individual, which means retrieve an identity identifier from a set of personal attributes sent. This service is normally to be used for security/law enforcement purposes and must be limited to registries of wanted people. For privacy and security reasons, this feature should only be considered where clear and accountable security/law enforcement rules are in place.
-* Identity Building Block MUST offer an API to verify one characteristic of an individual without having to disclose actually the recorded related attributes. Typical request response is Yes or No (sample use case: age verification, is person older than 18 > Yes to No).
-* Identity  Building Block MUST offer Identity Verification services based on modalities listed below following a GovStack recommended Open Standard API.
-
-#### 1.1.1 Modalities
+#### 6.1.1 Modalities
 
 Identity verification can be performed in several ways and based on several modalities depending on various criteria.
 
@@ -64,104 +60,54 @@ Through this list of capabilities we can see there are numerous but limited opti
 2. **Set of attributes**: attributes provided by the individual or retrieved on/within its Identity credential for purpose of a matching versus a reference (online or ID credential), those attributes can be biographic data, biometrics data, or scan of identity evidence.
 3. **Authentication token**: A previous identity verification token can be used for identity verification, this token would allow the current service provider to verify against the authenticating system the genuineness of the token.
 
-## 2. Identity Management
+## 6.2 Identity Management
 
-### 2.1 New Identity Enrolment
+* Identity Building Block must offer an API to Enroll persons following a GovStack recommended Open Standard API. (REQUIRED)
+* Identity Building Block must offer capacity to perform an enrollment in one step. (REQUIRED)
+* Identity Building Block must offer capacity to perform an enrollment in multiple steps (i.e. pre-enrollment and enrollment). (REQUIRED)
+* Identity Building Block must offer capacity to search, retrieve and update and enrollment made (if it has not been committed yet). (REQUIRED)
+* Identity Building Block must allow to control integrity and origin of an enrollment request by implementing enrollment meta-data about the context and actors of the enrollment, such as signature of data to ensure integrity. To ensure the integrity of the enrollment process, the Building Block must be able to implement technical controls so that only approved enrollment services can engage with the enrollment service. Cryptographic trust should be implemented.(REQUIRED)
+* Identity Building Block must support receiving encrypted data to ensure privacy protection and prevent data theft. (REQUIRED)
+* Identity Building Block must offer capacity to perform an enrollment offline which means not expecting interactions between registration client and server during the enrollment process, and data being uploaded as a whole packet. (REQUIRED)
+* Identity Building Block must keep track of the enrollment request identifiers within its internal management in order to facilitate traceability and troubleshooting. (REQUIRED)
+* Identity Building Block must generate a Unique Identifier for Identity created. This number must be kept secret within the Identity Building Block. (REQUIRED)
+* Identity Building Block must be capable to generate Virtual Identifier for referring to a User. The Virtual Identifier will be linked to the User's Unique Identifier. (REQUIRED)
+* Identity Building Block must offer an API to revoke a Virtual Identifier. In that case, the Alias won't be usable anymore for any Identity Building Block services. (REQUIRED)
+* Identity Building Block must be capable to attach an Alias Identifier to Unique Identifier for referring to a User. The alias will be an existing form of trusted identification of the User in another system. It could be for example an existing identity document number, an email address, a phone, etc. (REQUIRED)
+* Identity Building Block must offer an API to revoke the link to an Alias. In that case, the Alias won't be usable anymore for any Identity Building Block services. (REQUIRED)
+* Identity Building Block must offer APIs to update attributes of identities and to attach legal evidence of that identity change approval (often delivered by justice). (REQUIRED)
 
-* Identity Building Block MUST offer an API to Enroll persons following a GovStack recommended Open Standard API.
-* Identity Building Block MUST offer capacity to perform an enrollment in one step.
-* Identity Building Block MUST offer capacity to perform an enrollment in multiple steps (i.e. pre-enrollment and enrollment).
-* Identity Building Block MUST offer capacity to search, retrieve and update and enrollment made (if it has not been committed yet).
-* Identity Building Block MUST allow to control integrity and origin of an enrollment request by implementing enrollment meta-data about the context and actors of the enrollment, such as signature of data to ensure integrity. To ensure the integrity of the enrollment process, the Building Block must be able to implement technical controls so that only approved enrollment services can engage with the enrollment service. Cryptographic trust should be implemented.
-* Identity Building Block MUST support receiving encrypted data to ensure privacy protection and prevent data theft.
-* Identity Building Block MUST offer capacity to perform an enrollment offline which means not expecting interactions in between registration client and server during the enrollment process, data being uploaded as a whole packet.
-* Identity Building Block MUST keep track of the enrollment request identifiers within its internal management in order to facilitate traceability and troubleshooting.
-* Identity Building Block MUST generate a Unique Identifier for Identity created. This number must be kept secret within the Identity Building Block.
-* &#x20;Identity Building Block MUST be capable to generate Virtual Identifier for refering to a User. The Virtual Identifier will be linked to the User Unique Identifier.
-* &#x20;Identity Building Block MUST offer an API to revoke a Virtual Identifier. In that case the Alias won't be usable anymore for any Identity Building Block services.
-* &#x20;Identity Building Block MUST be capable to attach and Alias Identifier to Unique Identifier for refering to a User. The alias will be an existing form of trusted identification of the User in another system. It could be for example an existing identity document number, an email address, a phone, ...&#x20;
-* Identity Building Block MUST offer an API to revoke the link to an Alias. In that case the Alias won't be usable anymore for any Identity Building Block services.
+## 6.3 Credential Management
 
-#### &#x20;2.1.1 Use Case
+* Identity Building Block must offer an API to request issuance, get status and manage Identity Credentials, following a GovStack recommended Open Standard API. (REQUIRED)
+* Identity Building Block must offer an API to manage the full life cycle of credentials related to an identity in an issuing system. The related credential must keep a strong and verifiable link with the individual identity and with the issuer. (REQUIRED)
+* Identity Building Block API must manage Digital Credentials. (REQUIRED)
+* Identity Building Block API must manage Physical Credentials. (REQUIRED)
+* Identity Building Block must offer an API allowing to request an identity credential issuance to a third-party credential management system. The information sent will have to be verifiable towards their issuer for auditability purposes, so they will have to be packed into Verifiable Credential format.
+* Identity Building Block must offer APIs to either push data for credential issuance in an issuance request or to be requested by the issuing system. (REQUIRED)
+* Identity Building Block must offer an API allowing to issue a similar credential to the one already issued before based on the credential ID number. (REQUIRED)
+* Identity Building Block must offer an API allowing to revoke an issued ID credential. This will be used, for example, when a document is damaged, stolen or definitely lost. (REQUIRED)
+* Identity Building Block must offer an API allowing to temporarily suspend and then un-suspend an issued ID credential. This will be used to disable an ID credential which has been lost, its holder suspending the time to search for it. After retrieval, the document should be unsuspended and usable again. If not retrieved after some time, the document should be revoked. (REQUIRED)
+* Identity Building Block must offer an API allowing to check the suspension status of a document. (REQUIRED)
+* Identity Building Block must offer an API to request the status of ID credentials. Status being related to their production, their delivery or their activation status. (REQUIRED)
+* Identity Building Block must offer an API to search for ID credentials using some of its attributes. The output must be restricted to being a document number which can facilitate an access request only. No information can be shared directly. (REQUIRED)
+* Identity Building Block must offer an API to retrieve a new copy of an ID credential already issued in case the current document has expired. The copy may be received electronically if is digital or delivered physically in case of a physical ID document. (REQUIRED)
+* Identity Building Block must offer an API to download a newly generated digital ID credential. (REQUIRED)
+* Identity Building Block must offer an API to share with a 3rd party a Digital ID Credential. (REQUIRED)
 
-Enrollment in a National Digital Identity is a sensible process as the created digital identity will be recognized by law and then consequence of its use.
+## 6.4 Subscription Management
 
-In some countries, it’s possible to enroll in a National Digital Identity remotely based on an existing form of identity like for example an ID card. If they are convenient they open the risk for fraud or identity theft.
+* Identity Building Block must offer an API for Subscribers to register for identity change events.(REQUIRED)
+* Identity Building Block must offer an API for Subscribers to register to Creation, Update and Disabling (person dead or considered as disappeared) events. (REQUIRED)
+* Identity Building Block must offer an API for Subscribers to collect event details after being notified of them. (REQUIRED)
 
-For all these reasons, it appears that an identity enrollment has to be rolled out in a face-to-face process, with the collection of identity attributes being demographic, biometrics, or related proof of them.
+## 6.5 **Administration** Management
 
-This process will be developed later, for now, we can list its main steps for the face process:
-
-1. Explanation of the purpose of process and usage that will be made of data.
-2. Identity verification: the process starts by providing evidence of identity (i.e. birth certificate, previous ID card, passport).
-3. Collection of demographic data (confirmed with evidence provided).
-4. Collection of biometric data including
-   * Generally, a portrait capture will be used to visually recognize the person, for example, printed on an ID card.
-   * Sometimes fingerprints and iris are captured for identity deduplication purposes or for further biometric authentication.
-5. Scan of identity evidence to sustain the identity attributes certification.
-6. Collection of external identifiers (Birth ID number, Social security card number, etc.) to establish links with external pre-existing forms of Identity.
-7. Verification of the data captured by the individual.
-8. Consent collection to launch the registration process.
-9. Delivery of a registration number.
-10. In case the Enrollment process is synchronous issuance and delivery of a unique identity number.
-
-These are only the steps visible to the individual and the process will pursue within the Identity and Verification Building Block notably with the following steps:
-
-1. Packing and securing the data (signature & encryption).
-2. Transport of data to an identity registration system.
-3. Control of format and origin of data collected to ensure their authenticity.
-4. Control of eligibility criteria
-   * Could include biometrics unicity in case of centralized identity.
-   * Could include additional checks like nationality, and age (but those ones are not recommended to ensure an inclusive system).
-5. Generation of a Unique Identity number.
-6. Storage of identity data by respecting privacy by design principles.
-7. Communication of the Unique Identity Number to the individual.
-8. Eventual issuance of a physical or digital credential.
-9. Optionally notification of the systems around having subscribed to identity creation events (i.e. social security, health, finance, education).
-
-### 2.2 Existing Identity management
-
-* Identity Building Block MUST offer APIs to update attributes of identities and to attach a legal evidence of that identity change approval (often delivered by justice).
-
-## 3. Credential Management
-
-* Identity Building Block MUST offer an API to request issuance, get status and manage Identity Credentials, following a GovStack recommended Open Standard API.
-* Identity Building Block MUST offer an API to manage the full life cycle of credentials related to an identity in an issuing system. The related credential must keep a strong and verifiable link with the individual identity and with the issuer.
-* Identity Building Block API MUST manage Digital Credentials.
-* Identity Building Block API MUST manage Physical Credentials.
-* Identity Building Block MUST offer an API allowing to request an identity credential issuance to a 3rd party credential management system. The information sent will have to be verifiable towards their issuer for auditability purpose, so they will have to be packed into Verifiable Credential format.
-* Identity Building Block MUST offer APIs to either push data for credential issuance in an issuance request or to be requested by the issuing system.
-* Identity Building Block MUST offer an API allowing to issue a similar credential to the one already issued before based on the credential ID number.
-* Identity Building Block MUST offer an API allowing to revoke an issued ID credential. This will be used, for example, when a document is damaged, stolen or definitely lost.
-* Identity Building Block MUST offer an API allowing to temporarily suspend then un-suspend an issued ID credential.  This will be used to disable an ID credential which has been lost, it’s holder suspending it the time to search for it. After retrieval the document should be unsuspended and usable again. If not retrieved after some time, the document should be revoked.&#x20;
-* Identity Building Block MUST offer an API allowing to check suspension status of a document.
-*   Identity Building Block MUST  offer an API to request status of ID credentials.
-
-    Status being related to their production, their delivery or their activation status.
-* Identity Building Block MUST offer an API to search for ID credentials using some of its attributes. The output must be restricted to being a document number which can facilitate an access request only. No information can be shared directly.
-*   Identity Building Block MUST offer an API to retrieve a new copy of an ID credential already issued in case the current document has expired.
-
-    The copy may be received through electronic way if being digital or delivered physically in case of a physical ID document.
-* Identity Building Block MUST offer an API to download a newly generated digital ID credential.
-* Identity Building Block MUST offer an API to share to a 3rd party a Digital ID Credential.
-
-## 4. Subscription Management
-
-* Identity Building Block MUST offer an API for Subscribers to register to identity change events.
-* Identity Building Block MUST offer an API for Subscribers to register to Creation, Update and Disabling (person dead or considered as disapeared) events
-* Identity Building Block MUST offer an API for Subscribers to collect events details after being notified of them. &#x20;
-
-## 5. Security Management
-
-* Identity Building Block MUST prevent any user unauthorized system or user to get access to data.
-* Identity Building Block MUST offer identity verification services only to registered system or users.
-* Identity Building Block MUST offer capacity to grant access to specific verification services for specific or all individuals that are data subjects and hence owners of that data.
-* Identity Building Block MUST respect principles of data security by design in order to maximize protection against hackers: data encryption, data isolation, data separation, data anonymization, data minimization.
-* Identity Building Block MUST implement security best practices in order to ensure the Identities it manages can be trusted.
-* Identity Building Block MUST implement an history of change for any identity must be retrievable and auditable by authorized users to investigate suspicious cases.
-
-## 6. Privacy Management
-
-* Identity Building Block MUST offer identity verification services only with preliminary informed consent on personal data usage of the concerned individual.
-* Identity Building Block MUST NOT disclose any personal unnecessary information as part of its services API, and when possible prefer Yes/No answer rather than sharing attributes. All Sensitive Personal Information/Personally Identifiable Information must not be written to logs/reporting databases.
-
+* Identity Building Block must prevent any unauthorized system or user to get access to data. (REQUIRED)
+* Identity Building Block must offer identity verification services only to a registered system or users. (REQUIRED)
+* Identity Building Block must offer the capacity to grant access to specific verification services for specific or all individuals that are data subjects and hence owners of that data. (REQUIRED)
+* Identity Building Block must respect principles of data security by design in order to maximize protection against hackers: data encryption, data isolation, data separation, data anonymization, data minimization. (REQUIRED)
+* Identity Building Block must implement security best practices in order to ensure the Identities it manages can be trusted. (REQUIRED)
+* Identity Building Block must implement a history of change for any identity must be retrievable and auditable by authorized users to investigate suspicious cases. (REQUIRED)
+* Identity Building Block must offer identity verification services only with preliminary informed consent on personal data usage of the concerned individual. (REQUIRED)
+* Identity Building Block must not disclose any personal unnecessary information as part of its services API, and when possible prefer Yes/No answer rather than sharing attributes. All Sensitive Personal Information/Personally Identifiable Information must not be written to logs/reporting databases. (REQUIRED)

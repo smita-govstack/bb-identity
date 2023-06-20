@@ -6,20 +6,20 @@ description: >-
 
 # 8 Service APIs
 
-This section provides a reference for APIs that should be implemented by this Building Block. The APIs defined here establish a blueprint for how the Building Block will interact with other Building Blocks. Additional APIs may be implemented by the Building Block, but the listed APIs define a minimal set of functionality that should be provided by any implementation of this Building Block.&#x20;
+The APIs defined here establish a blueprint for how the Building Block will interact with other Building Blocks. Additional APIs may be implemented by the Building Block, but the listed APIs define a minimal set of functionality that should be provided by any implementation of this Building Block.
+
+In common for all services of the Identity Building Block, the API expects the calling Partner has been already authenticated and authorized to access the service. For detailed specifications of APIs with input/output formats please refer to API specifications defined in YAML in the corresponding GitHub repository.
+
+The [GovStack non-functional requirements document](https://govstack.gitbook.io/specification/v/1.0/architecture-and-nonfunctional-requirements/6-onboarding) provides additional information on how 'adaptors' may be used to translate an existing API to the patterns described here. This section also provides guidance on how candidate products are tested and how GovStack validates a product's API against the API specifications defined here.&#x20;
+
+The tests for the Identity Building Block can be found in [this GitHub repository](https://github.com/GovStackWorkingGroup/bb-identity/tree/main/test/openAPI).
 
 ## API standards <a href="#_heading-h.3o7alnk" id="_heading-h.3o7alnk"></a>
 
-* The microservice interfaces are defined as per [OPENAPI Ver3.0 standards](https://swagger.io/specification/).&#x20;
+* The microservice interfaces are defined as per [OPENAPI Ver3.0 standards](https://swagger.io/specification/).
 * For implementation purposes, it is suggested to refer [TMF630\_REST\_API\_Design\_Guidelines](https://www.tmforum.org/resources/standard/tmf630-rest-api-design-guidelines-4-2-0/).
 
-## &#x20;Summary of Identity services
-
-In common for all services of the Identity Building Block, the API expects the calling Partner has been already authenticated and autorized to access the service.
-
-&#x20;For detailed specifications of APIs with input/output formats please refer to API specifications defined in YAML in the corresponding GitHub repository.
-
-### Service Groups: Identity Usage
+## 8.1 Identity Usage
 
 The Identity usage APIs are a set of OpenAPI specifications exposed by the Identity Building Block to other building blocks and applications for user verification.
 
@@ -38,8 +38,6 @@ The Identity usage APIs are based on the following principles:
 {% swagger src="https://raw.githubusercontent.com/GovStackWorkingGroup/bb-identity/main/api/Identity-Provider.yaml" path="/client-mgmt/oidc-client/{client_id}" method="put" %}
 [https://raw.githubusercontent.com/GovStackWorkingGroup/bb-identity/main/api/Identity-Provider.yaml](https://raw.githubusercontent.com/GovStackWorkingGroup/bb-identity/main/api/Identity-Provider.yaml)
 {% endswagger %}
-
-#### Service Group: OIDC (OpenID Connect)
 
 {% swagger src="https://raw.githubusercontent.com/GovStackWorkingGroup/bb-identity/main/api/Identity-Provider.yaml" path="/authorize" method="get" %}
 [https://raw.githubusercontent.com/GovStackWorkingGroup/bb-identity/main/api/Identity-Provider.yaml](https://raw.githubusercontent.com/GovStackWorkingGroup/bb-identity/main/api/Identity-Provider.yaml)
@@ -61,9 +59,7 @@ The Identity usage APIs are based on the following principles:
 [https://raw.githubusercontent.com/GovStackWorkingGroup/bb-identity/main/api/Identity-Provider.yaml](https://raw.githubusercontent.com/GovStackWorkingGroup/bb-identity/main/api/Identity-Provider.yaml)
 {% endswagger %}
 
-#### Service Group: Wallet - QR Code
-
-IDBB implementation that supports mobile wallet integration, the following API spec should also be implemented.
+For Identity Building Block implementations that support mobile wallet integration, the following API spec should also be implemented.
 
 {% swagger src="https://raw.githubusercontent.com/GovStackWorkingGroup/bb-identity/main/api/Identity-Provider.yaml" path="/linked-authorization/link-code" method="post" %}
 [https://raw.githubusercontent.com/GovStackWorkingGroup/bb-identity/main/api/Identity-Provider.yaml](https://raw.githubusercontent.com/GovStackWorkingGroup/bb-identity/main/api/Identity-Provider.yaml)
@@ -93,15 +89,11 @@ IDBB implementation that supports mobile wallet integration, the following API s
 [https://raw.githubusercontent.com/GovStackWorkingGroup/bb-identity/main/api/Identity-Provider.yaml](https://raw.githubusercontent.com/GovStackWorkingGroup/bb-identity/main/api/Identity-Provider.yaml)
 {% endswagger %}
 
-Detailed API schemas written in YAML that define REST API endpoints for each of the services mentioned above are available on GitHub located at
+Detailed API schemas written in YAML that define REST API endpoints for each of the services mentioned above are available on GitHub located at the [Identity-Provider YAML](../api/Identity-Provider.yaml).
 
-[https://github.com/GovStackWorkingGroup/bb-identity/blob/main/api/Identity-Provider.yaml](../api/Identity-Provider.yaml)
+The [GovStack non-functional requirements document](https://govstack.gitbook.io/specification/v/1.0/architecture-and-nonfunctional-requirements/6-onboarding) provides additional information on how 'adaptors' may be used to translate an existing API to the patterns described here.
 
-The [GovStack non-functional requirements document](https://govstack.gitbook.io/specification/architecture-and-nonfunctional-requirements/6-onboarding) provides additional information on how 'adaptors' may be used to translate an existing API to the patterns described here.
-
-### Service Groups : Identity Management
-
-#### Service Group: Enrollment
+## 8.2 Identity Management
 
 The Enrollment APIs are a set of OpenAPI specifications exposed by the Identity Building Block ‘Enrollment Server’ service to any enrollment client.
 
@@ -112,12 +104,16 @@ The Enrollment APIs are based on the following principles:
 * Images can be passed by value or reference.
 * Existing standards are used whenever possible, for instance, the preferred image format for biometric data is **ISO-19794**. The underlying data should be of open mime types that offer good compression without loss of data (for example JPEG2000 for images).
 
-This Services APIs is not yet specified, but it should be the purpose of a next iteration of the Identity Building Block Specification.&#x20;
+This Services APIs is not yet specified, but it should be the purpose of a next iteration of the Identity Building Block Specification.
 
-### Service Groups : Credential Management
+## **8.3 Credential Management**
 
-This Services APIs is not yet specified, but it should be the purpose of a next iteration of the Identity Building Block Specification
+This Services APIs is not yet specified, but it should be the purpose of a next iteration of the Identity Building Block Specification.
 
-### Service Groups : Subscribers Management
+## **8.4 Subscription Management**
 
-This Services APIs is not yet specified, but it should be the purpose of a next iteration of the Identity Building Block Specification
+This Services APIs is not yet specified, but it should be the purpose of a next iteration of the Identity Building Block Specification.
+
+## **8.5 Administration Management**&#x20;
+
+This Services APIs is not yet specified, but it should be the purpose of a next iteration of the Identity Building Block Specification.
