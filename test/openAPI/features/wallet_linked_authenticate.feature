@@ -51,13 +51,14 @@ Feature: The endpoint to check the correctness of the data.
     Given Wants to check the correctness of the data
     And The link code is generated before POST /linked-authorization/authenticate
     When Send POST /linked-authorization/authenticate request with given requestTime, linkedTransactionId, individualId, "PIN" as authFactorType, "password" as challenge, "alpha-numeric" as format
-    And Try to authenticate again using the same link code
     Then Receive a response from the /linked-authorization/authenticate endpoint
-    And The /linked-authorization/authenticate endpoint response should be returned in a timely manner 15000ms
-    And The /linked-authorization/authenticate endpoint response should have status 200
-    And The /linked-authorization/authenticate endpoint response should have content-type: application/json header
-    And The /linked-authorization/authenticate endpoint response should match json schema with errors
-    And The /linked-authorization/authenticate response should contain errorCode property equals to "invalid_transaction_id"
+    And Try to authenticate again using the same link code
+    And Receive a response from the /linked-authorization/authenticate endpoint for reused link code
+    And The /linked-authorization/authenticate endpoint response for reused link code should be returned in a timely manner 15000ms
+    And The /linked-authorization/authenticate endpoint response for reused link code should have status 200
+    And The /linked-authorization/authenticate endpoint response for reused link code should have content-type: application/json header
+    And The /linked-authorization/authenticate endpoint response for reused link code should match json schema with errors
+    And The /linked-authorization/authenticate response for reused link code should contain errorCode property equals to "invalid_transaction_id"
 
   @negative
   Scenario: Not able to check the correctness of the data because of invalid requestTime

@@ -2148,6 +2148,23 @@
           "default": false
         },
         {
+          "uuid": "569ced04-3966-4e79-b6f5-a3e38f990437",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"linkedTransactionId\": \"{{bodyRaw 'request.linkedTransactionId'}}\"\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Successfully checks the correctness of the data (copy)",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
           "uuid": "1bd31ad3-5c6d-4e90-89df-6433fde1760c",
           "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_transaction_id\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
           "latency": 0,

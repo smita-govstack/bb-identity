@@ -28,7 +28,7 @@ const endpointTag = { tags: `@endpoint=/${walletLinkedAuthenticateEndpoint}` };
 Before(endpointTag, () => {
   specWalletGenerateLinkCode = spec();
   specWalletLinkTransaction = spec();
-  specWalletLinkedAuthenticate = spec().inspect();
+  specWalletLinkedAuthenticate = spec();
   specWalletLinkedAuthenticateReused = spec();
 });
 
@@ -105,9 +105,10 @@ Then(
       .to.be.equal(receivedLinkedTransactionId)
 );
 
-Then('The \\/linked-authorization\\/authenticate endpoint response should match json schema without errors', () => {
-  chai.expect(specWalletLinkedAuthenticate._response.json.errors).to.be.empty;
-});
+Then(
+  'The \\/linked-authorization\\/authenticate endpoint response should match json schema without errors',
+  () => chai.expect(specWalletLinkedAuthenticate._response.json.errors).to.be.empty
+);
 
 // Scenario: Not able to check the correctness of the data because of an invalid linkedTransactionId
 // Given and others Then for this scenario are written in the aforementioned example
@@ -173,9 +174,61 @@ When('Send POST \\/linked-authorization\\/authenticate request with given invali
   });
 });
 
-// Scenario: Not able to check the correctness of the data because of duplicated transactionId
+// Scenario: Not able to check the correctness of the data because of reused link code
 // Others Given, When, Then for this scenario are written in the aforementioned example
-Given('Try to authenticate again using the same link code', () => 'Try to authenticate again using the same link code');
+Then('Try to authenticate again using the same link code', () => {
+  specWalletLinkedAuthenticateReused.post(baseUrl).withJson({
+    requestTime: new Date().toISOString(),
+    request: {
+      linkedTransactionId: receivedLinkedTransactionId,
+      individualId: individualId,
+      challengeList: [
+        {
+          authFactorType: 'PIN',
+          challenge: 'password',
+          format: 'alpha-numeric',
+        },
+      ],
+    },
+  });
+});
+
+Then(
+  'Receive a response from the \\/linked-authorization\\/authenticate endpoint for reused link code',
+  async () => await specWalletLinkedAuthenticateReused.toss()
+);
+
+Then(
+  'The \\/linked-authorization\\/authenticate endpoint response for reused link code should be returned in a timely manner 15000ms',
+  () => specWalletLinkedAuthenticateReused.response().to.have.responseTimeLessThan(defaultExpectedResponseTime)
+);
+
+Then('The \\/linked-authorization\\/authenticate endpoint response for reused link code should have status 200', () =>
+  specWalletLinkedAuthenticateReused.response().to.have.status(200)
+);
+
+Then(
+  'The \\/linked-authorization\\/authenticate endpoint response for reused link code should have content-type: application\\/json header',
+  () => specWalletLinkedAuthenticateReused.response().should.have.header(contentTypeHeader.key, contentTypeHeader.value)
+);
+
+Then(
+  'The \\/linked-authorization\\/authenticate endpoint response for reused link code should match json schema with errors',
+  () => {
+    chai
+      .expect(specWalletLinkedAuthenticateReused._response.json)
+      .to.be.jsonSchema(walletLinkedAuthenticateResponseSchema);
+    chai.expect(specWalletLinkedAuthenticateReused._response.json.errors).to.not.be.empty;
+  }
+);
+
+Then(
+  'The \\/linked-authorization\\/authenticate response for reused link code should contain errorCode property equals to {string}',
+  (errorCode) =>
+    chai
+      .expect(specWalletLinkedAuthenticateReused._response.json.errors.map((error) => error.errorCode).toString())
+      .to.be.equal(errorCode)
+);
 
 // Scenario: Not able to check the correctness of the data because of invalid requestTime
 // Given and Then for this scenario are written in the aforementioned example
