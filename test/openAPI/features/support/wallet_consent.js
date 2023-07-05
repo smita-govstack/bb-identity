@@ -11,6 +11,8 @@ const {
   walletLinkTransactionEndpoint,
   walletConsentEndpoint,
   walletConsentResponseSchema,
+  individualId,
+  walletLinkedAuthenticateEndpoint,
 } = require('./helpers/helpers');
 
 chai.use(require('chai-json-schema'));
@@ -26,6 +28,7 @@ const endpointTag = { tags: `@endpoint=/${walletConsentEndpoint}` };
 Before(endpointTag, () => {
   specWalletGenerateLinkCode = spec();
   specWalletLinkTransaction = spec();
+  specWalletLinkedAuthenticate = spec();
   specWalletConsent = spec();
 });
 
@@ -60,6 +63,25 @@ Given(
       });
 
     await specWalletLinkTransaction.toss();
+
+    specWalletLinkedAuthenticate
+      .post(localhost + walletLinkedAuthenticateEndpoint)
+      .withJson({
+        requestTime: new Date().toISOString(),
+        request: {
+          linkedTransactionId:
+            specWalletLinkTransaction._response.json.response.linkTransactionId,
+          individualId: individualId,
+          challengeList: [
+            {
+              authFactorType: 'PIN',
+              challenge: 'password',
+              format: 'alpha-numeric',
+            },
+          ],
+        },
+      });
+
     receivedLinkedTransactionId =
       specWalletLinkTransaction._response.json.response.linkTransactionId;
   }
@@ -168,5 +190,6 @@ Then(
 After(endpointTag, () => {
   specWalletGenerateLinkCode.end();
   specWalletLinkTransaction.end();
+  specWalletLinkedAuthenticate.end();
   specWalletConsent.end();
 });
