@@ -11,6 +11,7 @@ module.exports = {
   defaultExpectedResponseTime: 15000,
   transactionId: 'transactionId01',
   linkedCode: 'linkedCode01',
+  expiredLinkCode: 'expired-link-code-001',
   X_XSRF_TOKEN: {
     key: 'X-XSRF-TOKEN',
     value: 'X-XSRF-TOKEN',
@@ -434,10 +435,10 @@ module.exports = {
     required: ['responseTime'],
   },
   //oidc_userinfo
-  oidcUserinfoEndpoint: "oidc/userinfo",
+  oidcUserinfoEndpoint: 'oidc/userinfo',
   oidcUserinfoResponseSchema: {
-    type: "string",
-    format: "jwt"
+    type: 'string',
+    format: 'jwt',
   },
   //shares
   clientResponseSchema: {
