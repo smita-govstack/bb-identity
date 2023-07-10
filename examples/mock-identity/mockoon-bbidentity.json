@@ -2169,6 +2169,38 @@
       "endpoint": "linked-authorization/authenticate",
       "responses": [
         {
+          "uuid": "57addda6-caaf-4b8f-876e-8de5eb6717cc",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"errors\": [\n    {\n      \"errorCode\": \"auth_failed\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid auth",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.challengeList.0.authFactorType",
+              "value": "^PIN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList.0.challenge",
+              "value": "^9999$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
           "uuid": "c183981f-fd34-4a0a-a603-85334bb6ab91",
           "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"linkedTransactionId\": \"{{bodyRaw 'request.linkedTransactionId'}}\"\n  },\n  \"errors\": []\n}",
           "latency": 0,
@@ -2179,24 +2211,61 @@
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_01$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": true,
+              "operator": "empty_array"
+            }
+          ],
           "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true
         },
         {
-          "uuid": "3c6891e0-3431-4375-86f0-6523cd2d0a1e",
-          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_transaction_id\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "uuid": "385d72bd-96f5-4263-9efc-e2d1a94335c8",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_no_of_challenges\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
-          "label": "Invalid linkedTransactionId",
+          "label": "Invalid challengeList",
           "headers": [],
           "bodyType": "INLINE",
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": false,
+              "operator": "empty_array"
+            }
+          ],
           "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false,
@@ -2213,24 +2282,72 @@
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
           "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": false
         },
         {
-          "uuid": "385d72bd-96f5-4263-9efc-e2d1a94335c8",
-          "body": "{\n  \"responseTime\": \"string\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_no_of_challenges\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "uuid": "2dfb7758-1c2b-4947-8940-25ef99af0b16",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_request\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
-          "label": "Invalid challengeList",
+          "label": "Invalid requestTime",
           "headers": [],
           "bodyType": "INLINE",
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "null",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "3c6891e0-3431-4375-86f0-6523cd2d0a1e",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_transaction_id\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid linkedTransactionId",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_01$",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
           "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false,
@@ -2269,44 +2386,10 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": false
-        },
-        {
-          "uuid": "2dfb7758-1c2b-4947-8940-25ef99af0b16",
-          "body": "{\n  \"responseTime\": \"string\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_request\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "Invalid requestTime",
-          "headers": [],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": false
-        },
-        {
-          "uuid": "57addda6-caaf-4b8f-876e-8de5eb6717cc",
-          "body": "{\n  \"responseTime\": \"string\",\n  \"errors\": [\n    {\n      \"errorCode\": \"auth_failed\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "Invalid auth",
-          "headers": [],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": false
         }
       ],
       "enabled": true,
-      "responseMode": "SEQUENTIAL"
+      "responseMode": null
     },
     {
       "uuid": "4370f082-8742-4e17-8a05-0a5643f69e1e",
@@ -2652,5 +2735,62 @@
   ],
   "data": [],
   "folders": [],
-  "rootChildren": []
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "f90e90b4-866f-478f-b34c-a358d8196f01"
+    },
+    {
+      "type": "route",
+      "uuid": "91963d01-81ab-4fdd-8b43-9a08652e6173"
+    },
+    {
+      "type": "route",
+      "uuid": "45bd6c8d-c23c-42dd-9a73-51e98c7d7588"
+    },
+    {
+      "type": "route",
+      "uuid": "fe5ca74b-beea-400b-b9d4-057370aeb705"
+    },
+    {
+      "type": "route",
+      "uuid": "8f51c09f-816b-4137-a8aa-8e30bd56a2f7"
+    },
+    {
+      "type": "route",
+      "uuid": "5674c6e6-5e80-4f0b-9bcb-30416f76d9a7"
+    },
+    {
+      "type": "route",
+      "uuid": "7ab6c815-e9ae-4e3a-b04e-54239ab25d9f"
+    },
+    {
+      "type": "route",
+      "uuid": "cac1d80a-b7ea-4c5a-bb33-4c7c9e2d16e7"
+    },
+    {
+      "type": "route",
+      "uuid": "cd536d5a-9223-4596-8d8e-873e56f6d15a"
+    },
+    {
+      "type": "route",
+      "uuid": "d4170fb5-331e-4065-8fc0-5a377bb57307"
+    },
+    {
+      "type": "route",
+      "uuid": "432e2b24-4bf0-4573-9cac-f5bd555a838a"
+    },
+    {
+      "type": "route",
+      "uuid": "4370f082-8742-4e17-8a05-0a5643f69e1e"
+    },
+    {
+      "type": "route",
+      "uuid": "67587670-d11a-4e8e-a3ef-5cceb0eeed64"
+    },
+    {
+      "type": "route",
+      "uuid": "415293ba-d1e6-484a-8803-8166cfc8974c"
+    }
+  ]
 }
