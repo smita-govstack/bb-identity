@@ -1090,7 +1090,29 @@
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^[A-Za-z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
           "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false,
@@ -1107,41 +1129,29 @@
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": false
-        },
-        {
-          "uuid": "08233555-9805-42e1-868c-760b6d085f66",
-          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"transactionId\": \"{{bodyRaw 'request.transactionId'}}\",\n    \"linkCode\": \"string\",\n    \"expireDateTime\": \"string\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_transaction_id\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "Invalid transaction_id - 2",
-          "headers": [],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": false
-        },
-        {
-          "uuid": "cc9549f3-5e58-4911-9f2b-1a6ecd1053cc",
-          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"transactionId\": \"{{bodyRaw 'request.transactionId'}}\",\n    \"linkCode\": \"linkCode\",\n    \"expireDateTime\": \"2023-10-05T14:49:00.000Z\"\n  },\n  \"errors\": []\n}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "Succesfully generate link code before reusing",
-          "headers": [],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^[A-Za-z0-9]+$",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
           "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false,
@@ -1158,24 +1168,29 @@
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": false
-        },
-        {
-          "uuid": "d41ab616-f897-4b38-bfce-a82c3ac78ed8",
-          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"transactionId\": \"{{bodyRaw 'request.transactionId'}}\",\n    \"linkCode\": \"string\",\n    \"expireDateTime\": \"string\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_request\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "Invalid requestTime",
-          "headers": [],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^reused_completed_transaction_id$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
           "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false,
@@ -1192,7 +1207,54 @@
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^[A-Za-z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "d41ab616-f897-4b38-bfce-a82c3ac78ed8",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"transactionId\": \"{{bodyRaw 'request.transactionId'}}\",\n    \"linkCode\": \"string\",\n    \"expireDateTime\": \"string\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_request\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid requestTime",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
           "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false,
@@ -1200,7 +1262,7 @@
         }
       ],
       "enabled": true,
-      "responseMode": "SEQUENTIAL"
+      "responseMode": null
     },
     {
       "uuid": "8f51c09f-816b-4137-a8aa-8e30bd56a2f7",
