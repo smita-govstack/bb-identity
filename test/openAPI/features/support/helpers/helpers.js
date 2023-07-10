@@ -16,6 +16,11 @@ module.exports = {
     key: 'X-XSRF-TOKEN',
     value: 'X-XSRF-TOKEN',
   },
+  // value of the XSRF_TOKEN should be the same as value of the X_XSRF_TOKEN
+  XSRF_TOKEN: {
+    key: 'XSRF-TOKEN',
+    value: 'X-XSRF-TOKEN',
+  },
   individualId: '05a5eecd-8b70-480d-9662-b2e63e4bafdb',
   // oidc_well_openid_configuration
   oidcWellKnownOpenidConfigurationEndpoint: '.well-known/openid-configuration',
@@ -159,12 +164,7 @@ module.exports = {
           properties: {
             errorCode: {
               type: 'string',
-              enum: [
-                'invalid_transaction_id',
-                'link_code_gen_failed',
-                'invalid_transaction',
-                'invalid_request',
-              ],
+              enum: ['invalid_transaction_id', 'link_code_gen_failed', 'invalid_transaction', 'invalid_request'],
               errorMessage: { type: 'string' },
             },
           },
@@ -194,12 +194,7 @@ module.exports = {
               properties: {
                 errorCode: {
                   type: 'string',
-                  enum: [
-                    'invalid_transaction_id',
-                    'invalid_link_code',
-                    'response_timeout',
-                    'unknown_error',
-                  ],
+                  enum: ['invalid_transaction_id', 'invalid_link_code', 'response_timeout', 'unknown_error'],
                   errorMessage: { type: 'string' },
                 },
               },
@@ -267,12 +262,7 @@ module.exports = {
         properties: {
           errorCode: {
             type: 'string',
-            enum: [
-              'invalid_link_code',
-              'invalid_transaction',
-              'invalid_client_id',
-              'unknown_error',
-            ],
+            enum: ['invalid_link_code', 'invalid_transaction', 'invalid_client_id', 'unknown_error'],
           },
           errorMessage: { type: 'string' },
         },
