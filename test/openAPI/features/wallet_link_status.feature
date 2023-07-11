@@ -1,13 +1,13 @@
 @method=POST @endpoint=/linked-authorization/link-status
 Feature: The endpoint to checks the status of link code.
 
-  @smoke @unit @positive
+  @smoke @positive
   Scenario: Successfully checks the status of link code smoke type test
     Given Wants to check the status of link code
     And The link code is generated
     When Send POST /linked-authorization/link-status request with given X-XSRF-TOKEN header, transactionId, linkCode and requestTime
     Then Receive a response from the /linked-authorization/link-status endpoint
-    And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000ms
+    And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-status endpoint response should have status 200
     And The /linked-authorization/link-status endpoint response should have content-type: application/json header
     And The /linked-authorization/link-status endpoint response should match json schema with no errors
@@ -18,7 +18,7 @@ Feature: The endpoint to checks the status of link code.
     Given Wants to check the status of link code
     When Send POST /linked-authorization/link-status request with given X-XSRF-TOKEN header, blank transactionId, linkCode and requestTime
     Then Receive a response from the /linked-authorization/link-status endpoint
-    And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000ms
+    And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-status endpoint response should have status 200
     And The /linked-authorization/link-status endpoint response should have content-type: application/json header
     And The /linked-authorization/link-status endpoint response should match json schema with errors
@@ -29,7 +29,7 @@ Feature: The endpoint to checks the status of link code.
     Given Wants to check the status of link code
     When Send POST /linked-authorization/link-status request with given X-XSRF-TOKEN header, random transactionId, linkCode and requestTime
     Then Receive a response from the /linked-authorization/link-status endpoint
-    And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000ms
+    And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-status endpoint response should have status 200
     And The /linked-authorization/link-status endpoint response should have content-type: application/json header
     And The /linked-authorization/link-status endpoint response should match json schema with errors
@@ -40,7 +40,7 @@ Feature: The endpoint to checks the status of link code.
     Given Wants to check the status of link code
     When Send POST /linked-authorization/link-status request with given X-XSRF-TOKEN header, completed transactionId, linkCode and requestTime
     Then Receive a response from the /linked-authorization/link-status endpoint
-    And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000ms
+    And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-status endpoint response should have status 200
     And The /linked-authorization/link-status endpoint response should have content-type: application/json header
     And The /linked-authorization/link-status endpoint response should match json schema with errors
@@ -51,7 +51,7 @@ Feature: The endpoint to checks the status of link code.
     Given Wants to check the status of link code
     When Send POST /linked-authorization/link-status request with given X-XSRF-TOKEN header, transactionId, random linkCode and requestTime
     Then Receive a response from the /linked-authorization/link-status endpoint
-    And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000ms
+    And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-status endpoint response should have status 200
     And The /linked-authorization/link-status endpoint response should have content-type: application/json header
     And The /linked-authorization/link-status endpoint response should match json schema with errors
@@ -62,7 +62,7 @@ Feature: The endpoint to checks the status of link code.
     Given Wants to check the status of link code
     When Send POST /linked-authorization/link-status request with given X-XSRF-TOKEN header, transactionId, blank linkCode and requestTime
     Then Receive a response from the /linked-authorization/link-status endpoint
-    And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000ms
+    And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-status endpoint response should have status 200
     And The /linked-authorization/link-status endpoint response should have content-type: application/json header
     And The /linked-authorization/link-status endpoint response should match json schema with errors
