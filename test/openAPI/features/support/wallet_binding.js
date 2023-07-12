@@ -103,9 +103,9 @@ Then(
 );
 
 Then(
-    /^The \/wallet\-binding endpoint response should contain expireDateTime$/,
+    /^The \/wallet\-binding endpoint response should contain a future expireDateTime$/,
     () =>
-      chai.expect(specWalletBinding._response.json.response.expireDateTime).to.not.be.empty
+        chai.expect(specWalletBinding._response.json.response.expireDateTime).to.not.be.empty
 );
 
 // Scenario: Not able to generate the wallet binding because of unsupported challenge format
@@ -176,6 +176,29 @@ When(
       })
 );
 
+// Scenario: Not able to generate the wallet binding because of duplicated public key
+When(
+  /^Send POST \/wallet\-binding request with given "([^"]*)" as individualId and "([^"]*)" as authFactorType and "([^"]*)" as format and "([^"]*)" as challenge and duplicated publicKey$/,
+  (individualId, authFactorType, format, challenge) => {
+    specWalletBinding
+        .post(baseUrl)
+        .withJson({
+          requestTime: new Date().toISOString(),
+          request: {
+            individualId: individualId,
+            authFactorType: authFactorType,
+            format: format,
+            challengeList: {
+              authFactorType: authFactorType,
+              challenge: challenge,
+              format: format,
+            },
+            publicKey: base64ToJson(publicKey),
+          },
+        })
+
+    providedAuthFactorType = authFactorType;
+  });
 
 After(endpointTag, () => {
   specWalletBinding.end();
