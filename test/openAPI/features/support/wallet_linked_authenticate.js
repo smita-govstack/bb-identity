@@ -176,7 +176,7 @@ When('Send POST \\/linked-authorization\\/authenticate request with given invali
 
 // Scenario: Not able to check the correctness of the data because of reused link code
 // Others Given, When, Then for this scenario are written in the aforementioned example
-Then('Try to authenticate again using the same link code', () => {
+Then('Try to authenticate reusing link code', () => {
   specWalletLinkedAuthenticateReused.post(baseUrl).withJson({
     requestTime: new Date().toISOString(),
     request: {
@@ -218,16 +218,24 @@ Then(
     chai
       .expect(specWalletLinkedAuthenticateReused._response.json)
       .to.be.jsonSchema(walletLinkedAuthenticateResponseSchema);
-    chai.expect(specWalletLinkedAuthenticateReused._response.json.errors).to.not.be.empty;
+
+    // the test will fail using mockoon so will be invoked only on tested softwares
+    if (specWalletLinkedAuthenticateReused._response.json.responseTime != 'string') {
+      chai.expect(specWalletLinkedAuthenticateReused._response.json.errors).to.not.be.empty;
+    }
   }
 );
 
 Then(
   'The \\/linked-authorization\\/authenticate response for reused link code should contain errorCode property equals to {string}',
-  (errorCode) =>
-    chai
-      .expect(specWalletLinkedAuthenticateReused._response.json.errors.map((error) => error.errorCode).toString())
-      .to.be.equal(errorCode)
+  (errorCode) => {
+    // the test will fail using mockoon so will be invoked only on tested softwares
+    if (specWalletLinkedAuthenticateReused._response.json.responseTime != 'string') {
+      chai
+        .expect(specWalletLinkedAuthenticateReused._response.json.errors.map((error) => error.errorCode).toString())
+        .to.be.equal(errorCode);
+    }
+  }
 );
 
 // Scenario: Not able to check the correctness of the data because of invalid requestTime
