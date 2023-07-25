@@ -1,0 +1,79 @@
+{
+  "transactionId": "transactionId01",
+  "linkedCode": "linkedCode01",
+  "X_XSRF_TOKEN": {
+    "key": "X-XSRF-TOKEN",
+    "value": "X-XSRF-TOKEN"
+  },
+  "data": {
+    "client": [
+      {
+        "clientId": "e-health-service-02",
+        "clientName": "Health Service 02"
+      },
+      {
+        "clientId": "payment-service-02",
+        "clientName": "Payment Service 02"
+      },
+      {
+        "clientId": "payment-service-03",
+        "clientName": "Payment Service 03"
+      },
+      {
+        "clientId": "e-bank-service-02",
+        "clientName": "E-Bank Service 02"
+      },
+      {
+        "clientId": "e-commerce-service-02",
+        "clientName": "E-Commerce Service 02"
+      },
+      {
+        "clientId": "health-service-03",
+        "clientName": "Health Service 03"
+      },
+      {
+        "clientId": "health-service-04",
+        "clientName": "Health Service 04"
+      },
+      {
+        "clientId": "payment-service-04",
+        "clientName": "Payment Service 04"
+      },
+      {
+        "clientId": "e-bank-service-03",
+        "clientName": "E-Bank Service 03"
+      },
+      {
+        "clientId": "e-commerce-service-03",
+        "clientName": "E-Commerce Service 03"
+      },
+      {
+        "clientId": "health-service-04",
+        "clientName": "Health Service 04"
+      },
+      {
+        "clientId": "e-commerce-service-04",
+        "clientName": "E-Commerce Service 04"
+      }
+    ],
+    "publicKeys": [
+      {
+        "publicKey": {
+          "kty": "RSA",
+          "a": "AQAB",
+          "use": "sig",
+          "alg": "RS256",
+          "n": "mykWIftknK1TQmbiazuik0rWGsxeOIUE3yfSQJgoCfdGXY4HfHE6AlNKFdIKZOXe-U-L21Klj692e9iZx05rHHaZvO0a4IzyFMOyw5wjBCWoBOcA4q93LPkZTSkIq9I2Vgr6Bzwu6X7QPMbmF8xAKX4KeSn_yZcsAhElHBOWkENmKp76yCyTeE4DAIGah1BcgiB_KWvOZOedwTRDLyQ0DZM1z07-N-rPh0qSd2UFRRY-b_jc9opjyRQq3d5ZkiB9W4ReAUhIKA9uc1RDs1shc3G8zgZp3qH6fYWmsOi23BOA_q8Z-wMHwPK2vEJvgZIWovAG5jGFbMilNcFQfzLJcQ"
+        }
+      }
+    ],
+    "wallet": [
+      {
+        "individualId": "n3fy2qkg9r7h2"
+      },
+      {
+        "individualId": "05a5eecd-8b70-480d-9662-b2e63e4bafdb"
+      }
+    ]
+  }
+}

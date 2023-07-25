@@ -55,6 +55,7 @@ paths:
                     - clientName
                     - relyingPartyId
                     - logoUri
+                    - redirectUris
                     - authContextRefs
                     - publicKey
                     - userClaims
@@ -93,8 +94,12 @@ paths:
                       description: |-
                         Valid list of callback Uris of the relying party. 
                         When OIDC authorize API is called, any one Uri from this list should be sent as redirect_uri. authorization_code will be redirected to this Uri on successful authentication.
+                      minItems: 1
+                      uniqueItems: true
                       items:
                         type: string
+                        minLength: 1
+                        format: uri
                     authContextRefs:
                       type: array
                       description: The Authentication Context Class Reference is case-sensitive string specifying a list of Authentication Context Class values that identifies the Authentication Context Class. Values that the authentication performed satisfied implying a Level Of Assurance.
@@ -166,6 +171,8 @@ paths:
                     clientName: Health Service
                     relyingPartyId: bharath-gov
                     logoUri: 'http://example.com'
+                    redirectUris:
+                      - 'http://example.com/login-success'
                     publicKey: {}
                     authContextRefs:
                       - 'idbb:acr:generated-code'
@@ -221,6 +228,7 @@ paths:
                             - invalid_redirect_uri
                             - invalid_grant_type
                             - invalid_client_auth
+                            - invalid_request
                         errorMessage:
                           type: string
         '401':
@@ -279,6 +287,7 @@ paths:
                             - invalid_redirect_uri
                             - invalid_grant_type
                             - invalid_client_auth
+                            - invalid_request
                         errorMessage:
                           type: string
       description: |-
@@ -333,6 +342,7 @@ paths:
                       items:
                         type: string
                         format: uri
+                        minLength: 1
                     userClaims:
                       type: array
                       description: 'Allowed user info claims, that can be requested by OIDC client in the authorize API'
@@ -398,7 +408,7 @@ paths:
                     status: active
                     logoUri: 'http://example.com'
                     redirectUris:
-                      - 'http://example.com'
+                      - 'http://example.com/login-success'
                     userClaims:
                       - name
                     authContextRefs:
@@ -569,6 +579,7 @@ paths:
                             - invalid_transaction_id
                             - link_code_gen_failed
                             - invalid_transaction
+                            - invalid_request
                         errorMessage:
                           type: string
       operationId: get-authorization-generate-link-code
@@ -648,6 +659,7 @@ paths:
                             - invalid_link_code
                             - response_timeout
                             - unknown_error
+                            - invalid_request
                         errorMessage:
                           type: string
       operationId: post-authorization-link-status
@@ -730,6 +742,7 @@ paths:
                             - invalid_link_code
                             - response_timeout
                             - unknown_error
+                            - invalid_request
                         errorMessage:
                           type: string
       operationId: post-authorization-link-auth
@@ -837,6 +850,7 @@ paths:
                             - invalid_transaction
                             - invalid_client_id
                             - unknown_error
+                            - invalid_request
                         errorMessage:
                           type: string
       requestBody:
@@ -905,6 +919,7 @@ paths:
                             - invalid_no_of_challenges
                             - auth_failed
                             - unknown_error
+                            - invalid_request
                         errorMessage:
                           type: string
       requestBody:
@@ -1023,6 +1038,7 @@ paths:
                             - invalid_transaction
                             - invalid_accepted_claim
                             - invalid_permitted_scope
+                            - invalid_request
                         errorMessage:
                           type: string
       tags:
@@ -1278,6 +1294,7 @@ paths:
                             - invalid_public_key
                             - invalid_auth_challenge
                             - duplicate_public_key
+                            - invalid_request
                         errorMessage:
                           type: string
                 required:
