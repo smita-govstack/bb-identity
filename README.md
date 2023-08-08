@@ -45,7 +45,7 @@ I added the example API from [swaggerhub](https://app.swaggerhub.com/apis/GovSta
 
 Ideally, we can generate the server completely from OpenAPI. I'd like to use express and typescript, lots of folks know it.
 
-[https://blog.simonireilly.com/posts/typescript-openapi]() gives a good overview of the current situation with typescript server generation. The author is working on a [https://github.com/simonireilly/compeller](library called compeller) that looks promising. Unfortunately, it can't import OpenAPI just yet.
+[This post](https://blog.simonireilly.com/posts/typescript-openapi) gives a good overview of the current situation with typescript server generation. The author is working on a [library-called compeller](https://github.com/simonireilly/compeller) that looks promising. Unfortunately, it can't import OpenAPI just yet.
 
 ### Trying openapi-generator (js only)
 
