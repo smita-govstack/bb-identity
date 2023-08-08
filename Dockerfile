@@ -1,4 +1,4 @@
-#use node 16 base image (see .vnmrc)
+#use node 16 base image (see .nvmrc)
 FROM node:16-alpine as ts-compiler
 
 # Install build deps
