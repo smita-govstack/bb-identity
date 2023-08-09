@@ -10,6 +10,7 @@ module.exports = {
   },
   defaultExpectedResponseTime: 15000,
   transactionId: 'transactionId01',
+  transactionId_2: 'transactionId02',
   linkedCode: 'linkedCode01',
   expiredLinkCode: 'expired-link-code-001',
   X_XSRF_TOKEN: {

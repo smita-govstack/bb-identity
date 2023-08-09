@@ -1108,7 +1108,46 @@
             {
               "target": "body",
               "modifier": "request.transactionId",
-              "value": "^[A-Za-z0-9]+$",
+              "value": "^transactionId01$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "132c3dd1-e861-4a1d-af2f-3c0c3c2e421d",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"transactionId\": \"{{bodyRaw 'request.transactionId'}}\",\n    \"linkCode\": \"linkCode_02\",\n    \"expireDateTime\": \"2023-10-05T14:49:00.000Z\"\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Succesfully generate link code 02",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^transactionId02$",
               "invert": false,
               "operator": "regex"
             }
@@ -1499,6 +1538,57 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true
+        },
+        {
+          "uuid": "f2502fb2-9789-488b-9026-7177fd71ebe2",
+          "body": "{\n  \"responseTIme\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"transactionId\": \"{{bodyRaw 'request.transactionId'}}\",\n    \"linkStatus\": \"LINKED\",\n    \"linkedDateTime\": \"2011-10-05T14:49:00.000Z\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_link_code\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid linkCode -  link code connected to a different transaction id",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^transactionId01$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkCode",
+              "value": "^linkCode_02$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
         },
         {
           "uuid": "ad887cb0-8f86-414f-b6cf-1c0aa79f8673",
@@ -2709,5 +2799,62 @@
   ],
   "data": [],
   "folders": [],
-  "rootChildren": []
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "f90e90b4-866f-478f-b34c-a358d8196f01"
+    },
+    {
+      "type": "route",
+      "uuid": "91963d01-81ab-4fdd-8b43-9a08652e6173"
+    },
+    {
+      "type": "route",
+      "uuid": "45bd6c8d-c23c-42dd-9a73-51e98c7d7588"
+    },
+    {
+      "type": "route",
+      "uuid": "fe5ca74b-beea-400b-b9d4-057370aeb705"
+    },
+    {
+      "type": "route",
+      "uuid": "8f51c09f-816b-4137-a8aa-8e30bd56a2f7"
+    },
+    {
+      "type": "route",
+      "uuid": "5674c6e6-5e80-4f0b-9bcb-30416f76d9a7"
+    },
+    {
+      "type": "route",
+      "uuid": "7ab6c815-e9ae-4e3a-b04e-54239ab25d9f"
+    },
+    {
+      "type": "route",
+      "uuid": "cac1d80a-b7ea-4c5a-bb33-4c7c9e2d16e7"
+    },
+    {
+      "type": "route",
+      "uuid": "cd536d5a-9223-4596-8d8e-873e56f6d15a"
+    },
+    {
+      "type": "route",
+      "uuid": "d4170fb5-331e-4065-8fc0-5a377bb57307"
+    },
+    {
+      "type": "route",
+      "uuid": "432e2b24-4bf0-4573-9cac-f5bd555a838a"
+    },
+    {
+      "type": "route",
+      "uuid": "4370f082-8742-4e17-8a05-0a5643f69e1e"
+    },
+    {
+      "type": "route",
+      "uuid": "67587670-d11a-4e8e-a3ef-5cceb0eeed64"
+    },
+    {
+      "type": "route",
+      "uuid": "415293ba-d1e6-484a-8803-8166cfc8974c"
+    }
+  ]
 }

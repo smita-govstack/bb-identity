@@ -8,6 +8,7 @@ const {
   X_XSRF_TOKEN,
   XSRF_TOKEN,
   transactionId,
+  transactionId_2,
   individualId,
   walletLiskStatusResponseSchema,
   walletLinkStatusEndpoint,
@@ -21,13 +22,16 @@ chai.use(require('chai-json-schema'));
 
 let specWalletLinkStatus;
 let specWalletGenerateLinkCode;
+let specWalletGenerateLinkCode_02;
 let recivedLinkCode;
+let recivedLinkCode_2;
 
 const baseUrl = localhost + walletLinkStatusEndpoint;
 const endpointTag = { tags: `@endpoint=/${walletLinkStatusEndpoint}` };
 
 Before(endpointTag, () => {
   specWalletGenerateLinkCode = spec();
+  specWalletGenerateLinkCode_02 = spec();
   specWalletLinkTransaction = spec();
   specWalletLinkedAuthenticate = spec();
   specWalletConsent = spec();
@@ -274,8 +278,44 @@ When(
   }
 );
 
+// Scenario: Not able to check the status of link code because of the link code connected to a different transaction id
+// Given and others Then for this scenario are written in the aforementioned example
+Given('The second link code for diffrent transaction id is generated', async () => {
+  specWalletGenerateLinkCode_02
+    .post(localhost + walletGenerateLinkCodeEndpoint)
+    .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+    .withCookies(XSRF_TOKEN.key, XSRF_TOKEN.value)
+    .withJson({
+      requestTime: new Date().toISOString(),
+      request: {
+        transactionId: transactionId_2,
+      },
+    });
+
+  await specWalletGenerateLinkCode_02.toss();
+  recivedLinkCode_2 = specWalletGenerateLinkCode_02._response.json.response.linkCode;
+});
+
+When(
+  /^Send POST \/linked-authorization\/link-status request with given X-XSRF-TOKEN header, transactionId, link code connected to a different transaction id and requestTime$/,
+  () => {
+    specWalletLinkStatus
+      .post(baseUrl)
+      .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+      .withCookies(XSRF_TOKEN.key, XSRF_TOKEN.value)
+      .withJson({
+        requestTime: new Date().toISOString(),
+        request: {
+          transactionId: transactionId,
+          linkCode: recivedLinkCode_2,
+        },
+      });
+  }
+);
+
 After(endpointTag, () => {
   specWalletGenerateLinkCode.end();
+  specWalletGenerateLinkCode_02.end();
   specWalletLinkTransaction.end();
   specWalletLinkedAuthenticate.end();
   specWalletConsent.end();
