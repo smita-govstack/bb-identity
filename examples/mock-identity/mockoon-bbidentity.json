@@ -1080,6 +1080,45 @@
           "default": true
         },
         {
+          "uuid": "0334052c-1a00-4c40-a21e-cdd38240590b",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"transactionId\": \"{{bodyRaw 'request.transactionId'}}\",\n    \"linkCode\": \"linkCode003\",\n    \"expireDateTime\": \"2023-10-05T14:49:00.000Z\"\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Succesfully generate second link code",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^transactionId03$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
           "uuid": "13129174-8b5a-4d01-8aac-8b1d154c069a",
           "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"transactionId\": \"{{bodyRaw 'request.transactionId'}}\",\n    \"linkCode\": \"linkCode\",\n    \"expireDateTime\": \"2023-10-05T14:49:00.000Z\"\n  },\n  \"errors\": []\n}",
           "latency": 0,
@@ -1368,6 +1407,43 @@
       "responses": [
         {
           "uuid": "07bbba8c-5628-405d-ae82-79558e3ac696",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"linkTransactionId\": \"link_transaction_id_003\",\n    \"clientName\": \"OIDC Client\",\n    \"logoUrl\": \"http://example.com\",\n    \"authorizeScopes\": [\n      \"openid\"\n    ],\n    \"essentialClaims\": [\n      \"name\"\n    ],\n    \"voluntaryClaims\": [\n      \"nonce\"\n    ],\n    \"authFactors\": [\n      [\n        {\n          \"type\": \"PIN\",\n          \"count\": 0,\n          \"bioSubTypes\": [\n            \"string\"\n          ]\n        }\n      ]\n    ],\n    \"configs\": {}\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Successfully validates the link-code and its expiry and generates the linkTransactionId #2",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkCode",
+              "value": "^linkCode003$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
+          "uuid": "18707c70-5ac6-4243-9d28-0ca050e128fb",
           "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"linkTransactionId\": \"link_transaction_id_01\",\n    \"clientName\": \"OIDC Client\",\n    \"logoUrl\": \"http://example.com\",\n    \"authorizeScopes\": [\n      \"openid\"\n    ],\n    \"essentialClaims\": [\n      \"name\"\n    ],\n    \"voluntaryClaims\": [\n      \"nonce\"\n    ],\n    \"authFactors\": [\n      [\n        {\n          \"type\": \"PIN\",\n          \"count\": 0,\n          \"bioSubTypes\": [\n            \"string\"\n          ]\n        }\n      ]\n    ],\n    \"configs\": {}\n  },\n  \"errors\": []\n}",
           "latency": 0,
           "statusCode": 200,
@@ -1401,7 +1477,7 @@
           "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": true
+          "default": false
         },
         {
           "uuid": "4cf2ff9a-43e4-45ec-8dda-13b6d61a2760",
@@ -1787,6 +1863,57 @@
       "endpoint": "linked-authorization/link-auth-code",
       "responses": [
         {
+          "uuid": "91ea9e63-f102-46a8-b7fd-8f31ba76af7b",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"code\": \"code\",\n    \"redirectUri\": \"redirectUri\",\n    \"state\": \"state\",\n    \"nonce\": \"nonce\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_link_code\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid link_code but both are not connected to each other",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedCode",
+              "value": "^linkCode003$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^[A-Za-z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
           "uuid": "dde1df64-be08-48d3-89a8-db8aad9cf785",
           "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"code\": \"code\",\n    \"redirectUri\": \"redirectUri\",\n    \"state\": \"state\",\n    \"nonce\": \"nonce\"\n  },\n  \"errors\": []\n}",
           "latency": 0,
@@ -1830,12 +1957,19 @@
               "value": "^[A-Za-z0-9]+$",
               "invert": false,
               "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^transactionId04$",
+              "invert": true,
+              "operator": "regex"
             }
           ],
           "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": true
+          "default": false
         },
         {
           "uuid": "56cd107f-fc24-4052-a0fe-40432bed09aa",
@@ -1874,57 +2008,6 @@
               "value": "^[A-Za-z0-9]+$",
               "invert": true,
               "operator": "regex"
-            },
-            {
-              "target": "body",
-              "modifier": "request.transactionId",
-              "value": "^[A-Za-z0-9]+$",
-              "invert": false,
-              "operator": "regex"
-            }
-          ],
-          "rulesOperator": "AND",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": false
-        },
-        {
-          "uuid": "91ea9e63-f102-46a8-b7fd-8f31ba76af7b",
-          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"code\": \"code\",\n    \"redirectUri\": \"redirectUri\",\n    \"state\": \"state\",\n    \"nonce\": \"nonce\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_link_code\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "Invalid link_code but both are not connected to each other",
-          "headers": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "header",
-              "modifier": "X-XSRF-TOKEN",
-              "value": "^X-XSRF-TOKEN$",
-              "invert": false,
-              "operator": "regex"
-            },
-            {
-              "target": "body",
-              "modifier": "requestTime",
-              "value": "",
-              "invert": true,
-              "operator": "null"
-            },
-            {
-              "target": "body",
-              "modifier": "request.linkedCode",
-              "value": "valid_link_code_001",
-              "invert": false,
-              "operator": "equals"
             },
             {
               "target": "body",
@@ -1995,7 +2078,7 @@
           "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"code\": \"code\",\n    \"redirectUri\": \"redirectUri\",\n    \"state\": \"state\",\n    \"nonce\": \"nonce\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_transaction_id\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
-          "label": "Invalid transaction id (copy)",
+          "label": "Invalid transaction id - reuse of the completed transaction_id",
           "headers": [
             {
               "key": "Content-Type",
@@ -2031,7 +2114,7 @@
             {
               "target": "body",
               "modifier": "request.transactionId",
-              "value": "transaction_id_004",
+              "value": "transactionId04",
               "invert": false,
               "operator": "equals"
             }
@@ -2566,6 +2649,52 @@
           "default": true
         },
         {
+          "uuid": "32712fe4-c71c-46ed-b93d-8b3dbdb9e5f3",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"linkedTransactionId\": \"{{bodyRaw 'request.linkedTransactionId'}}\"\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Successfully checks the correctness of the data  #2",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_002$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": true,
+              "operator": "empty_array"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
           "uuid": "385d72bd-96f5-4263-9efc-e2d1a94335c8",
           "body": "{\n  \"responseTime\": \"string\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_no_of_challenges\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
           "latency": 0,
@@ -2663,6 +2792,13 @@
               "target": "body",
               "modifier": "request.linkedTransactionId",
               "value": "^link_transaction_id_01$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_003$",
               "invert": true,
               "operator": "regex"
             }

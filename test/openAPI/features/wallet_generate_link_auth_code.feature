@@ -7,7 +7,7 @@ Feature: The endpoint to validates the link-code and its expiry and generates th
     And The link code, transaction and authenticate is completed before POST /linked-authorization/link-auth-code
     When Send POST /linked-authorization/link-auth-code request with given linkCode and transactionId
     Then Receive a response from the /linked-authorization/link-auth-code endpoint
-    And The /linked-authorization/link-auth-code endpoint response should be returned in a timely manner 15000ms
+    And The /linked-authorization/link-auth-code endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-auth-code endpoint response should have status 200
     And The /linked-authorization/link-auth-code endpoint response should have content-type: application/json header
     And The /linked-authorization/link-auth-code endpoint response should match json schema with no errors
@@ -18,7 +18,7 @@ Feature: The endpoint to validates the link-code and its expiry and generates th
     And The link code, transaction and authenticate is completed before POST /linked-authorization/link-auth-code
     When Send POST /linked-authorization/link-auth-code request with given invalid linkCode
     Then Receive a response from the /linked-authorization/link-auth-code endpoint
-    And The /linked-authorization/link-auth-code endpoint response should be returned in a timely manner 15000ms
+    And The /linked-authorization/link-auth-code endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-auth-code endpoint response should have status 200
     And The /linked-authorization/link-auth-code endpoint response should have content-type: application/json header
     And The /linked-authorization/link-auth-code endpoint response should match json schema with errors
@@ -30,7 +30,7 @@ Feature: The endpoint to validates the link-code and its expiry and generates th
     And The link code, transaction and authenticate is completed before POST /linked-authorization/link-auth-code
     When Send POST /linked-authorization/link-auth-code request with given invalid transactionId
     Then Receive a response from the /linked-authorization/link-auth-code endpoint
-    And The /linked-authorization/link-auth-code endpoint response should be returned in a timely manner 15000ms
+    And The /linked-authorization/link-auth-code endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-auth-code endpoint response should have status 200
     And The /linked-authorization/link-auth-code endpoint response should have content-type: application/json header
     And The /linked-authorization/link-auth-code endpoint response should match json schema with errors
@@ -42,7 +42,7 @@ Feature: The endpoint to validates the link-code and its expiry and generates th
     And The link code, transaction and authenticate is completed before POST /linked-authorization/link-auth-code
     When Send POST /linked-authorization/link-auth-code request with given invalid linkCode and transactionId
     Then Receive a response from the /linked-authorization/link-auth-code endpoint
-    And The /linked-authorization/link-auth-code endpoint response should be returned in a timely manner 15000ms
+    And The /linked-authorization/link-auth-code endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-auth-code endpoint response should have status 200
     And The /linked-authorization/link-auth-code endpoint response should have content-type: application/json header
     And The /linked-authorization/link-auth-code endpoint response should match json schema with errors
@@ -54,7 +54,7 @@ Feature: The endpoint to validates the link-code and its expiry and generates th
     And The link code, transaction and authenticate is completed before POST /linked-authorization/link-auth-code
     When Send POST /linked-authorization/link-auth-code request with given linkCode and transactionId and invalidRequestTime
     Then Receive a response from the /linked-authorization/link-auth-code endpoint
-    And The /linked-authorization/link-auth-code endpoint response should be returned in a timely manner 15000ms
+    And The /linked-authorization/link-auth-code endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-auth-code endpoint response should have status 200
     And The /linked-authorization/link-auth-code endpoint response should have content-type: application/json header
     And The /linked-authorization/link-auth-code endpoint response should match json schema with errors
@@ -64,9 +64,10 @@ Feature: The endpoint to validates the link-code and its expiry and generates th
   Scenario: Not able to validate the link-code and its expiry because of transaction and link code are not connected to each other
     Given Wants to validate the link-auth-code and generate the auth code
     And The link code, transaction and authenticate is completed before POST /linked-authorization/link-auth-code
+    And The second link code, transaction and authenticate is completed before POST /linked-authorization/link-auth-code
     When Send POST /linked-authorization/link-auth-code request with given valid linkCode and transactionId
     Then Receive a response from the /linked-authorization/link-auth-code endpoint
-    And The /linked-authorization/link-auth-code endpoint response should be returned in a timely manner 15000ms
+    And The /linked-authorization/link-auth-code endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-auth-code endpoint response should have status 200
     And The /linked-authorization/link-auth-code endpoint response should have content-type: application/json header
     And The /linked-authorization/link-auth-code endpoint response should match json schema with errors

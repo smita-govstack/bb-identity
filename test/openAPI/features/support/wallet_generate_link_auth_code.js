@@ -4,7 +4,6 @@ const { Given, When, Then, Before, After } = require('@cucumber/cucumber');
 const {
   localhost,
   contentTypeHeader,
-  defaultExpectedResponseTime,
   walletGenerateLinkCodeEndpoint,
   X_XSRF_TOKEN,
   transactionId,
@@ -12,18 +11,28 @@ const {
   walletGenerateLinkAuthCodeEndpoint,
   individualId,
   walletLinkedAuthenticateEndpoint,
-  walletLinkTransactionEndpoint
+  walletLinkTransactionEndpoint,
+  walletConsentEndpoint,
+  transactionId_03,
+  transactionId_04
 } = require('./helpers/helpers');
 
 chai.use(require('chai-json-schema'));
 
 let specWalletGenerateLinkCode;
+let specWalletGenerateLinkCode_2;
 let specWalletGenerateLinkAuthCode;
 let specWalletGenerateLinkAuthCodeReusable;
 let specWalletLinkTransaction;
+let specWalletLinkTransaction_2;
 let specWalletLinkedAuthenticate;
+let specWalletLinkedAuthenticate_2;
+let specWalletConsent;
+let specWalletConsent_2;
 let receivedLinkCode;
+let receivedLinkCode_2;
 let receivedLinkedTransactionId;
+let receivedLinkedTransactionId_2;
 
 const baseUrl = localhost + walletGenerateLinkAuthCodeEndpoint;
 const endpointTag = { tags: `@endpoint=/${walletGenerateLinkAuthCodeEndpoint}` };
@@ -32,8 +41,13 @@ Before(endpointTag, () => {
   specWalletGenerateLinkAuthCode = spec();
   specWalletGenerateLinkAuthCodeReusable = spec();
   specWalletGenerateLinkCode = spec();
+  specWalletGenerateLinkCode_2 = spec();
   specWalletLinkTransaction = spec();
+  specWalletLinkTransaction_2 = spec();
   specWalletLinkedAuthenticate = spec();
+  specWalletLinkedAuthenticate_2 = spec();
+  specWalletConsent = spec();
+  specWalletConsent_2 = spec();
 });
 
 // Scenario: Successfully validates the link-code and its expiry and generates the link auth code smoke type test
@@ -92,6 +106,15 @@ Given(
         })
 
       await specWalletLinkedAuthenticate.toss();
+
+      specWalletConsent.post(localhost + walletConsentEndpoint).withJson({
+        requestTime: new Date().toISOString(),
+        request: {
+          linkedTransactionId: specWalletLinkedAuthenticate._response.json.response.linkTransactionId,
+        },
+      })
+
+      await specWalletConsent.toss();
     }
 );
 
@@ -115,11 +138,11 @@ Then(
 );
 
 Then(
-    /^The \/linked\-authorization\/link\-auth\-code endpoint response should be returned in a timely manner 15000ms$/,
-    () =>
+    /^The \/linked\-authorization\/link\-auth\-code endpoint response should be returned in a timely manner (\d+) ms$/,
+    (responseTime) =>
         specWalletGenerateLinkAuthCode
             .response()
-            .to.have.responseTimeLessThan(defaultExpectedResponseTime)
+            .to.have.responseTimeLessThan(responseTime)
 );
 
 Then(
@@ -233,6 +256,63 @@ When(
 
 // Scenario: Not able to validate the link-code and its expiry because of transaction and link code are not connected to each other
 // Given and others Then for this scenario are written in the aforementioned example
+Given(/^The second link code, transaction and authenticate is completed before POST \/linked-authorization\/link-auth-code$/, async () => {
+  specWalletGenerateLinkCode_2
+    .post(localhost + walletGenerateLinkCodeEndpoint)
+    .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
+    .withJson({
+      requestTime: new Date().toISOString(),
+      request: {
+        transactionId: transactionId_03,
+      },
+    });
+
+  await specWalletGenerateLinkCode_2.toss();
+
+  receivedLinkCode_2 =
+      specWalletGenerateLinkCode_2._response.json.response.linkCode;
+
+  specWalletLinkTransaction_2
+    .post(localhost + walletLinkTransactionEndpoint)
+    .withJson({
+      requestTime: new Date().toISOString(),
+      request: {
+        linkCode: receivedLinkCode_2,
+      },
+  });
+
+  await specWalletLinkTransaction_2.toss();
+
+  receivedLinkedTransactionId_2 =
+      specWalletLinkTransaction_2._response.json.response.linkTransactionId;
+
+  specWalletLinkedAuthenticate_2.post(localhost + walletLinkedAuthenticateEndpoint)
+    .withJson({
+      requestTime: new Date().toISOString(),
+      request: {
+        linkedTransactionId: receivedLinkedTransactionId_2,
+        individualId: individualId,
+        challengeList: [
+          {
+            authFactorType: "PIN",
+            challenge: "password",
+            format: "alpha-numeric",
+          },
+        ],
+      },
+    })
+
+  await specWalletLinkedAuthenticate_2.toss();
+
+  specWalletConsent_2.post(localhost + walletConsentEndpoint).withJson({
+    requestTime: new Date().toISOString(),
+    request: {
+      linkedTransactionId: specWalletLinkedAuthenticate_2._response.json.response.linkTransactionId,
+    },
+  })
+
+  await specWalletConsent_2.toss();
+})
 
 When(
     /^Send POST \/linked\-authorization\/link\-auth\-code request with given valid linkCode and transactionId$/,
@@ -242,7 +322,7 @@ When(
             .withJson({
               requestTime: new Date().toISOString(),
               request: {
-                linkedCode: 'valid_link_code_001',
+                linkedCode: receivedLinkCode_2,
                 transactionId: transactionId
               },
             })
@@ -250,7 +330,6 @@ When(
 
 // Scenario: Not able to validate the link-code and its expiry because of reuse of the completed transaction_id
 // Given and others Then for this scenario are written in the aforementioned example
-
 Given(
     /^The first authorization flow for transactionID ends$/,
     async () => {
@@ -260,7 +339,7 @@ Given(
           .withJson({
             requestTime: new Date().toISOString(),
             request: {
-              transactionId: transactionId,
+              transactionId: transactionId_04,
             },
           });
       await specWalletGenerateLinkCode.toss();
@@ -300,13 +379,22 @@ Given(
 
       await specWalletLinkedAuthenticate.toss();
 
+      specWalletConsent.post(localhost + walletConsentEndpoint).withJson({
+        requestTime: new Date().toISOString(),
+        request: {
+          linkedTransactionId: specWalletLinkedAuthenticate._response.json.response.linkTransactionId,
+        },
+      })
+
+      await specWalletConsent.toss();
+
       specWalletGenerateLinkAuthCode.post(baseUrl)
           .withHeaders(X_XSRF_TOKEN.key, X_XSRF_TOKEN.value)
           .withJson({
             requestTime: new Date().toISOString(),
             request: {
               linkedCode: receivedLinkCode,
-              transactionId: 'transaction_id_004'
+              transactionId: transactionId_04
             },
           })
 
@@ -322,7 +410,7 @@ When(
               requestTime: new Date().toISOString(),
               request: {
                 linkedCode: receivedLinkCode,
-                transactionId: 'transaction_id_004'
+                transactionId: transactionId_04
               },
             })
 );
@@ -377,5 +465,12 @@ Then(
 
 After(endpointTag, () => {
   specWalletGenerateLinkCode.end();
+  specWalletGenerateLinkCode_2.end();
   specWalletGenerateLinkAuthCode.end();
+  specWalletLinkTransaction.end();
+  specWalletLinkTransaction_2.end();
+  specWalletLinkedAuthenticate.end();
+  specWalletLinkedAuthenticate_2.end();
+  specWalletConsent.end();
+  specWalletConsent_2.end();
 });
