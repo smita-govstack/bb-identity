@@ -75,7 +75,7 @@ Feature: The endpoint to validates the link-code and its expiry and generates th
   @negative
   Scenario: Not able to validate the link-code and its expiry because of reuse of the completed transaction_id
     Given Wants to validate the link-auth-code and generate the auth code
-    And The first authorization flow for transactionId ends
+    And The first authorization flow for transactionID ends
     When Send POST /linked-authorization/link-auth-code request with given linkCode and reused completed transactionId
     Then Receive a response for reuse transactionId from the /linked-authorization/link-auth-code endpoint
     And The /linked-authorization/link-auth-code endpoint response for reuse transactionId should have status 200

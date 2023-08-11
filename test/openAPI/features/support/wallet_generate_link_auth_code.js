@@ -252,7 +252,7 @@ When(
 // Given and others Then for this scenario are written in the aforementioned example
 
 Given(
-    /^The first authorization flow for transactionId ends$/,
+    /^The first authorization flow for transactionID ends$/,
     async () => {
       specWalletGenerateLinkCode
           .post(localhost + walletGenerateLinkCodeEndpoint)
