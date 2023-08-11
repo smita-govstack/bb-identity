@@ -2399,8 +2399,38 @@
       "endpoint": "wallet-binding",
       "responses": [
         {
+          "uuid": "b0f9124a-f5d6-44d4-8373-5f2fcb8b7aca",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"walletUserId\": \"string\",\n    \"certificate\": \"string\",\n    \"expireDateTime\": \"2023-07-21T12:34:56Z\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"duplicate_public_key\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Duplicated public key",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.publicKey",
+              "value": "^eyJrdHkiOiJSU0EiLCJhIjoiQVFBQiIsInVzZSI6InNpZyIsImFsZyI6IlJTMjU2IiwibiI6IlZGVWlQaHBPTkttNTRXeWhUZ1FKMU9ORU53WDFYNm5SNHF5TldBT0RLRlhzWUcyMEVadEp3THl1dUwzNUQxb0JtTEhoUVk5emRXVlpaVnk1cjh1SjN1ZWIwcGZsOFpxTzVCTnZnZW9ETTZkZXh0cEk2c250UUNVY1J1RVJCN29DOUZycldQWWtLTzlsRlFmckpGUmhtRHRONFh2aUVwSkFYVzVMcHgwaU5YSm5YTnJGWk9jS3JmUWZBV1B4QnJJRlBNSlJCeTZnaU0xUkpBandqSFE4VUxPV0dScG9JT0d5UXkySU9XS0c2ZjBVckZhTzlxVUltQlI4MmFQdW1TQXVKYXNsUkZUaE00bjZBSkZycmhCVDVuQWdTNmpQZjlENDhOWWtYUnJvSm5UbEpxbTdrVmdmT01qUEtnUTdUOUpzSjlNVHBWNWtlVFFTd0UyR0haTmExUCJ9$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
           "uuid": "9d3cfad3-8697-4f8d-b685-88f06f12f1cc",
-          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"walletUserId\": \"string\",\n    \"certificate\": \"string\",\n    \"expireDateTime\": \"string\"\n  },\n  \"errors\": []\n}",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"walletUserId\": \"string\",\n    \"certificate\": \"string\",\n    \"expireDateTime\": \"2023-07-21T12:34:56Z\"\n  },\n  \"errors\": []\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "Successfully generated wallet user id",
@@ -2465,7 +2495,7 @@
         },
         {
           "uuid": "c47d087b-0485-46b6-8e52-043eefe0ccec",
-          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"walletUserId\": \"string\",\n    \"certificate\": \"string\",\n    \"expireDateTime\": \"string\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"unsupported_challenge_format\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"walletUserId\": \"string\",\n    \"certificate\": \"string\",\n    \"expireDateTime\": \"2023-07-21T12:34:56Z\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"unsupported_challenge_format\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "Unsupported challenge format",
@@ -2512,7 +2542,7 @@
               "target": "body",
               "modifier": "request.challengeList",
               "value": "",
-              "invert": true,
+              "invert": false,
               "operator": "empty_array"
             },
             {
@@ -2530,7 +2560,7 @@
         },
         {
           "uuid": "fc19815f-ab7d-4972-ae2e-e6c7b79c1ec1",
-          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"walletUserId\": \"string\",\n    \"certificate\": \"string\",\n    \"expireDateTime\": \"string\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_public_key\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"walletUserId\": \"string\",\n    \"certificate\": \"string\",\n    \"expireDateTime\": \"2023-07-21T12:34:56Z\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_public_key\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "Invalid public key",
@@ -2774,7 +2804,11 @@
     },
     {
       "type": "route",
-      "uuid": "d4170fb5-331e-4065-8fc0-5a377bb57307"
+      "uuid": "4370f082-8742-4e17-8a05-0a5643f69e1e"
+    },
+    {
+      "type": "route",
+      "uuid": "67587670-d11a-4e8e-a3ef-5cceb0eeed64"
     },
     {
       "type": "route",
@@ -2782,11 +2816,7 @@
     },
     {
       "type": "route",
-      "uuid": "4370f082-8742-4e17-8a05-0a5643f69e1e"
-    },
-    {
-      "type": "route",
-      "uuid": "67587670-d11a-4e8e-a3ef-5cceb0eeed64"
+      "uuid": "d4170fb5-331e-4065-8fc0-5a377bb57307"
     },
     {
       "type": "route",
