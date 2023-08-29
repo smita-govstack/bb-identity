@@ -1,5 +1,7 @@
 {
   "transactionId": "transactionId01",
+  "_comment": "Below transactionId is used in the test scenario: Not able to check the status of link code because of the link code connected to a different transaction id",
+  "transactionId_2": "transactionId02",
   "linkedCode": "linkedCode01",
   "X_XSRF_TOKEN": {
     "key": "X-XSRF-TOKEN",
