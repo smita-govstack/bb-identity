@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   test-app:
-    image: bb-identity-api-image
+    image: esignet-bb-identity-api-image
     ports:
       - 3333:3001
     networks:

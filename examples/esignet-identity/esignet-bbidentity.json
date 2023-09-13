@@ -1,0 +1,3248 @@
+{
+  "uuid": "256918d8-70c9-4e45-ad37-a6cb1a3f39f7",
+  "lastMigration": 27,
+  "name": "BB-Identity",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3001,
+  "hostname": "",
+  "routes": [
+    {
+      "uuid": "f90e90b4-866f-478f-b34c-a358d8196f01",
+      "documentation": "API to update existing Open ID Connect (OIDC) client.",
+      "method": "put",
+      "endpoint": "client-mgmt/oidc-client/:client_id",
+      "responses": [
+        {
+          "uuid": "1278a74d-ef8f-4cec-9bf6-04f1cfd7d4f9",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{urlParam 'client_id'}}\"\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Successfully updated the client",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "client_id",
+              "value": "^.{1,50}$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "params",
+              "modifier": "client_id",
+              "value": "e-health-service",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d(?:\\.\\d+)?Z?",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.clientAuthMethods",
+              "value": "^private_key_jwt$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.grantTypes",
+              "value": "^authorization_code$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.userClaims",
+              "value": "^name$|^given_name$|^middle_name$|^preferred_username$|^nickname$|^gender$|^birthdate$|^email$|^email_verified$|^phone_number$|^phone_number_verified$|^picture$|^address$|^family_name$|^locale$|^zoneinfo$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.authContextRefs",
+              "value": "^idbb:acr:static-code$|^idbb:acr:generated-code$|^idbb:acr:linked-wallet$|^idbb:acr:biometrics$|^idbb:acr:biometrics-generated-code$|^idbb:acr:linked-wallet-static-code$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.redirectUris",
+              "value": "^.{1,}$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.logoUri",
+              "value": "^.{1,1024}$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.clientName",
+              "value": "^.{1,256}$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.status",
+              "value": "^active$|^inactive$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
+          "uuid": "5b5025eb-a4ca-4a4f-b0ee-3b7e866eb071",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{urlParam 'client_id'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_grant_type\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid grantTypes",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.grantTypes",
+              "value": "^authorization_code$",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "ced4ac69-586c-4de8-9a68-e69bb211cc08",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{urlParam 'client_id'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_client_auth\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid clientAuthMethods",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.clientAuthMethods",
+              "value": "^private_key_jwt$",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "e0c2302f-b052-4d47-bd18-40d5af822ab1",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{urlParam 'client_id'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_claim\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid userClaims",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.userClaims",
+              "value": "^name$|^given_name$|^middle_name$|^preferred_username$|^nickname$|^gender$|^birthdate$|^email$|^email_verified$|^phone_number$|^phone_number_verified$|^picture$|^address$|^family_name$|^locale$|^zoneinfo$",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "704d8a1a-8517-4d16-aa10-13cf76758be3",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{urlParam 'client_id'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_acr\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid authContextRefs",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.authContextRefs",
+              "value": "^idbb:acr:static-code$|^idbb:acr:generated-code$|^idbb:acr:linked-wallet$|^idbb:acr:biometrics$|^idbb:acr:biometrics-generated-code$|^idbb:acr:linked-wallet-static-code$",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "f331b6df-0f53-4dad-931c-cfde3854dea2",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{urlParam 'client_id'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_redirect_uri\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid redirectUri",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.redirectUris",
+              "value": "^.{1,}$",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "6a9cad88-8010-4bc7-95b6-8bfeabc8f4f8",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{urlParam 'client_id'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_uri\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid logoUri",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.logoUri",
+              "value": "^.{1,1024}$",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "86136758-01a8-402f-8897-3d647c305c20",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{urlParam 'client_id'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_client_name\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid clientName",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.clientName",
+              "value": "^.{1,256}$",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "bf45f01a-d052-430c-8a88-ea4524b29f69",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{urlParam 'client_id'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_client_id\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid clientId",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "client_id",
+              "value": "^.{1,50}$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "params",
+              "modifier": "client_id",
+              "value": "e-health-service",
+              "invert": true,
+              "operator": "equals"
+            },
+            {
+              "target": "params",
+              "modifier": "client_id",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "91963d01-81ab-4fdd-8b43-9a08652e6173",
+      "documentation": "The authorize endpoint of Open ID Connect (OIDC)",
+      "method": "get",
+      "endpoint": "authorize",
+      "responses": [
+        {
+          "uuid": "7fcecddc-a8e7-41f9-b59b-43933a64efaf",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Successfully validates the provided query parameters using oauth-details endpoint",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "scope",
+              "value": "^openid profile$|^openid$|^profile$|^email$|^address$|^phone$|^offline_access$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "query",
+              "modifier": "scope",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "query",
+              "modifier": "response_type",
+              "value": "code",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "response_type",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "query",
+              "modifier": "client_id",
+              "value": "^.{1,}$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "query",
+              "modifier": "client_id",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "query",
+              "modifier": "redirect_uri",
+              "value": "^.{1,}$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "query",
+              "modifier": "redirect_uri",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "45bd6c8d-c23c-42dd-9a73-51e98c7d7588",
+      "documentation": "API to add new open ID connect (OIDC) clients,",
+      "method": "post",
+      "endpoint": "client-mgmt/oidc-client",
+      "responses": [
+        {
+          "uuid": "94eea743-3d4c-4561-ab0d-7f7486afa20d",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{bodyRaw 'request.clientId'}}\"\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Successfully added new client",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d(?:\\.\\d+)?Z?",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.clientId",
+              "value": "^.{1,50}$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.clientName",
+              "value": "^.{1,256}$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.clientName",
+              "value": "^duplicated$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.relyingPartyId",
+              "value": "^.{1,50}$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.logoUri",
+              "value": "^.{1,1024}$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.publicKey",
+              "value": "^([a-zA-Z0-9_=]+)([a-zA-Z0-9_=]+)([a-zA-Z0-9_\\-\\+\\/=]*)",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.authContextRefs",
+              "value": "^idbb:acr:static-code$|^idbb:acr:generated-code$|^idbb:acr:linked-wallet$|^idbb:acr:biometrics$|^idbb:acr:biometrics-generated-code$|^idbb:acr:linked-wallet-static-code$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.userClaims",
+              "value": "^name$|^given_name$|^middle_name$|^preferred_username$|^nickname$|^gender$|^birthdate$|^email$|^email_verified$|^phone_number$|^phone_number_verified$|^picture$|^address$|^family_name$|^locale$|^zoneinfo$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.grantTypes",
+              "value": "^authorization_code$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.clientAuthMethods",
+              "value": "^private_key_jwt$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.redirectUris",
+              "value": "",
+              "invert": true,
+              "operator": "empty_array"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
+          "uuid": "03b23315-afa8-48cc-87a1-6d8630c0cea8",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{bodyRaw 'request.clientId'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_public_key\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid publicKey",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.publicKey",
+              "value": "^([a-zA-Z0-9_=]+)([a-zA-Z0-9_=]+)([a-zA-Z0-9_\\-\\+\\/=]*)",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "468fc7ee-0274-4d38-8972-b54f6f4d74c0",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"string\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_request\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid clientId",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.publicKey",
+              "value": "^([a-zA-Z0-9_=]+)([a-zA-Z0-9_=]+)([a-zA-Z0-9_\\-\\+\\/=]*)",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "12c0867b-96ff-49e9-a990-a33757dd29d3",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"errors\": [\n    {\n      \"errorCode\": \"duplicate_client_id\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Duplicate clientId",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.clientName",
+              "value": "^duplicated$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "d28c8c16-0ecc-4632-84ad-7c91b157f7b5",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{bodyRaw 'request.clientId'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_redirect_uri\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid redirectUris",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.redirectUris",
+              "value": "",
+              "invert": false,
+              "operator": "empty_array"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "1ea64ae0-7339-480d-9410-b2d23c05341e",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{bodyRaw 'request.clientId'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_client_id\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid clientId",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.clientId",
+              "value": "^.{1,50}$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.clientId",
+              "value": "^private_key_jwt$",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "5b12b1cf-c4a7-4056-8758-d18165cdcc0d",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{bodyRaw 'request.clientId'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_client_name\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid clientName",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.clientName",
+              "value": "^.{1,256}$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.clientName",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "36870a8b-e550-4cc1-9f01-a335a19c79f9",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{bodyRaw 'request.clientId'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_rp_id\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid relyingPartyId",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.relyingPartyId",
+              "value": "^.{1,50}$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.relyingPartyId",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "0cd71796-8114-43c7-8434-084f9115a056",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{bodyRaw 'request.clientId'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_uri\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid logoUri",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.logoUri",
+              "value": "^.{1,1024}$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.logoUri",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "976858a2-b81b-4b0d-92dc-c6ebc508270f",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{bodyRaw 'request.clientId'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_client_auth\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid clientAuthMethods",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.clientAuthMethods",
+              "value": "^private_key_jwt$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.clientAuthMethods",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "1594eecf-78eb-40eb-ab33-8e7e0e2a19cb",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{bodyRaw 'request.clientId'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_grant_type\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid grantTypes",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.grantTypes",
+              "value": "^authorization_code$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.grantTypes",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "9d88d26b-4db0-450b-86b8-b6b183f44af3",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{bodyRaw 'request.clientId'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_claim\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid userClaims",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.userClaims",
+              "value": "^name$|^given_name$|^middle_name$|^preferred_username$|^nickname$|^gender$|^birthdate$|^email$|^email_verified$|^phone_number$|^phone_number_verified$|^picture$|^address$|^family_name$|^locale$|^zoneinfo$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.userClaims",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "44e3a0d2-dc37-4d97-a8dd-3b996fa3d7e7",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{bodyRaw 'request.clientId'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_acr\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid authContextRefs",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.authContextRefs",
+              "value": "^idbb:acr:static-code$|^idbb:acr:generated-code$|^idbb:acr:linked-wallet$|^idbb:acr:biometrics$|^idbb:acr:biometrics-generated-code$|^idbb:acr:linked-wallet-static-code$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.authContextRefs",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "7d8f0305-baba-476e-8906-a001b862c0af",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"clientId\": \"{{bodyRaw 'request.clientId'}}\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_request\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid requestTime",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d(?:\\.\\d+)?Z?",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "fe5ca74b-beea-400b-b9d4-057370aeb705",
+      "type": "http",
+      "documentation": "Generate Link code",
+      "method": "post",
+      "endpoint": "linked-authorization/link-code",
+      "responses": [
+        {
+          "uuid": "13129174-8b5a-4d01-8aac-8b1d154c069a",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"transactionId\": \"{{bodyRaw 'request.transactionId'}}\",\n    \"linkCode\": \"linkCode\",\n    \"expireDateTime\": \"2023-10-05T14:49:00.000Z\"\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Succesfully generate link code",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^[A-Za-z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
+          "uuid": "3181a1d5-4546-4546-ac52-3e60a0ca944d",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"transactionId\": \"{{bodyRaw 'request.transactionId'}}\",\n    \"linkCode\": \"string\",\n    \"expireDateTime\": \"string\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_transaction_id\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid transaction_id",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^[A-Za-z0-9]+$",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "8f51c09f-816b-4137-a8aa-8e30bd56a2f7",
+      "documentation": "Endpoint to fetch all the public keys of the IDBB server. Returns public key set in the JWKS format",
+      "method": "get",
+      "endpoint": ".well-known/jwks.json",
+      "responses": [
+        {
+          "uuid": "a30c589f-e696-4472-96fa-0050decf17c7",
+          "body": "{\n  \"keys\": [\n    {{#repeat 4}}\n    {\n      \"kid\": \"{{faker 'random.alpha' 5}}\",\n      \"use\": \"sig\",\n      \"kty\": \"RSA\",\n      \"e\": \"string\",\n      \"n\": \"string\",\n      \"x5t#S256\": \"string\",\n      \"x5c\": \"string\",\n      \"exp\": \"string\"\n    }\n    {{/repeat}}\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Retrieved public key set in the JWKS format",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "5674c6e6-5e80-4f0b-9bcb-30416f76d9a7",
+      "documentation": "This endpoint is only for facilitating the OIDC provider details in a standard way.",
+      "method": "get",
+      "endpoint": ".well-known/openid-configuration",
+      "responses": [
+        {
+          "uuid": "ca26fe7c-4914-4670-8881-365692a23410",
+          "body": "{\n  \"issuer\": \"string\",\n  \"authorization_endpoint\": \"string\",\n  \"token_endpoint\": \"string\",\n  \"userinfo_endpoint\": \"string\",\n  \"jwks_uri\": \"string\",\n  \"registration_endpoint\": \"string\",\n  \"scopes_supported\": [\n    \"openid\"\n  ],\n  \"response_types_supported\": [\n    \"code\"\n  ],\n  \"acr_values_supported\": [\n    \"string\"\n  ],\n  \"userinfo_signing_alg_values_supported\": [\n    \"string\"\n  ],\n  \"userinfo_encryption_alg_values_supported\": [\n    \"string\"\n  ],\n  \"userinfo_encryption_enc_values_supported\": [\n    \"string\"\n  ],\n  \"token_endpoint_auth_methods_supported\": [\n    \"private_key_jwt\"\n  ],\n  \"display_values_supported\": [\n    \"string\"\n  ],\n  \"claim_types_supported\": [\n    \"normal\"\n  ],\n  \"claims_supported\": [\n    \"string\"\n  ],\n  \"claims_locales_supported\": [\n    \"string\"\n  ],\n  \"ui_locales_supported\": [\n    \"string\"\n  ],\n  \"response_modes_supported\": [\n    \"query\"\n  ],\n  \"token_endpoint_auth_signing_alg_values_supported\": [\n    \"RS256\"\n  ],\n  \"id_token_signing_alg_values_supported\": [\n    \"RS256\"\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Successfully faciliated the OIDC provider detais",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "7ab6c815-e9ae-4e3a-b04e-54239ab25d9f",
+      "type": "http",
+      "documentation": "Validate the link-code and its expiry and generate the linkTransactionId",
+      "method": "post",
+      "endpoint": "linked-authorization/link-transaction",
+      "responses": [
+        {
+          "uuid": "07bbba8c-5628-405d-ae82-79558e3ac696",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"linkTransactionId\": \"link_transaction_id_01\",\n    \"clientName\": \"OIDC Client\",\n    \"logoUrl\": \"http://example.com\",\n    \"authorizeScopes\": [\n      \"openid\"\n    ],\n    \"essentialClaims\": [\n      \"name\"\n    ],\n    \"voluntaryClaims\": [\n      \"nonce\"\n    ],\n    \"authFactors\": [\n      [\n        {\n          \"type\": \"PIN\",\n          \"count\": 0,\n          \"bioSubTypes\": [\n            \"string\"\n          ]\n        }\n      ]\n    ],\n    \"configs\": {}\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Successfully validates the link-code and its expiry and generates the linkTransactionId",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkCode",
+              "value": "^linkCode$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
+          "uuid": "4cf2ff9a-43e4-45ec-8dda-13b6d61a2760",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"linkTransactionId\": \"\",\n    \"clientName\": \"\",\n    \"logoUrl\": \"\",\n    \"authorizeScopes\": [],\n    \"essentialClaims\": [],\n    \"voluntaryClaims\": [],\n    \"authFactors\": [\n      [\n        {\n          \"type\": \"PIN\",\n          \"count\": 0,\n          \"bioSubTypes\": []\n        }\n      ]\n    ],\n    \"configs\": {}\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_link_code\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid linkCode",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkCode",
+              "value": "^linkCode$",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "cac1d80a-b7ea-4c5a-bb33-4c7c9e2d16e7",
+      "type": "http",
+      "documentation": "Checks the status of link code",
+      "method": "post",
+      "endpoint": "linked-authorization/link-status",
+      "responses": [
+        {
+          "uuid": "e5e585c3-d25b-468e-9353-558e93b2567f",
+          "body": "{\n  \"responseTIme\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"transactionId\": \"{{bodyRaw 'request.transactionId'}}\",\n    \"linkStatus\": \"LINKED\",\n    \"linkedDateTime\": \"2011-10-05T14:49:00.000Z\"\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Successfully checks the status of link code",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^[A-Za-z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkCode",
+              "value": "^linkCode$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
+          "uuid": "ad887cb0-8f86-414f-b6cf-1c0aa79f8673",
+          "body": "{\n  \"responseTIme\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"transactionId\": \"{{bodyRaw 'request.transactionId'}}\",\n    \"linkStatus\": \"LINKED\",\n    \"linkedDateTime\": \"2011-10-05T14:49:00.000Z\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_transaction_id\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid transactionId",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^[A-Za-z0-9]+$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkCode",
+              "value": "^linkCode$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "9cb8a231-62c8-4d13-afef-b150e0b67578",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_no_of_challenges\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid challengeList",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_01$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": false,
+              "operator": "empty_array"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "5db15977-e0ba-452c-b1ee-0e369c59e9ac",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_no_of_challenges\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid challengeList",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_01$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": false,
+              "operator": "empty_array"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "e002bcb5-f015-4b12-ac5c-84031e48b9f0",
+          "body": "{\n  \"responseTIme\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"transactionId\": \"{{bodyRaw 'request.transactionId'}}\",\n    \"linkStatus\": \"LINKED\",\n    \"linkedDateTime\": \"2011-10-05T14:49:00.000Z\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_link_code\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid linkCode",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^[A-Za-z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkCode",
+              "value": "^linkCode$",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "6437140a-dc3a-40c4-b7d2-515b7fb5130f",
+      "type": "http",
+      "documentation": "Validate the link-code and its expiry and generate the linkTransactionId",
+      "method": "post",
+      "endpoint": "linked-authorization/link-transaction",
+      "responses": [
+        {
+          "uuid": "72d7a9ac-daa5-4459-b744-a2686b316eed",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"linkTransactionId\": \"link_transaction_id_01\",\n    \"clientName\": \"OIDC Client\",\n    \"logoUrl\": \"http://example.com\",\n    \"authorizeScopes\": [\n      \"openid\"\n    ],\n    \"essentialClaims\": [\n      \"name\"\n    ],\n    \"voluntaryClaims\": [\n      \"nonce\"\n    ],\n    \"authFactors\": [\n      [\n        {\n          \"type\": \"PIN\",\n          \"count\": 0,\n          \"bioSubTypes\": [\n            \"string\"\n          ]\n        }\n      ]\n    ],\n    \"configs\": {}\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Successfully validates the link-code and its expiry and generates the linkTransactionId",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkCode",
+              "value": "^linkCode$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
+          "uuid": "9fdf6972-d4b2-455c-a301-38dbcbcff367",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"linkTransactionId\": \"\",\n    \"clientName\": \"\",\n    \"logoUrl\": \"\",\n    \"authorizeScopes\": [],\n    \"essentialClaims\": [],\n    \"voluntaryClaims\": [],\n    \"authFactors\": [\n      [\n        {\n          \"type\": \"PIN\",\n          \"count\": 0,\n          \"bioSubTypes\": []\n        }\n      ]\n    ],\n    \"configs\": {}\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_link_code\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid linkCode",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkCode",
+              "value": "^linkCode$",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "cd536d5a-9223-4596-8d8e-873e56f6d15a",
+      "type": "http",
+      "documentation": "Generate Link auth code",
+      "method": "post",
+      "endpoint": "linked-authorization/link-auth-code",
+      "responses": [
+        {
+          "uuid": "dde1df64-be08-48d3-89a8-db8aad9cf785",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"code\": \"code\",\n    \"redirectUri\": \"redirectUri\",\n    \"state\": \"state\",\n    \"nonce\": \"nonce\"\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Succesfully generate link auth code",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedCode",
+              "value": "^[A-Za-z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^[A-Za-z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
+          "uuid": "56cd107f-fc24-4052-a0fe-40432bed09aa",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"response\": {\n    \"code\": \"code\",\n    \"redirectUri\": \"redirectUri\",\n    \"state\": \"state\",\n    \"nonce\": \"nonce\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_link_code\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid link_code",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "X-XSRF-TOKEN",
+              "value": "^X-XSRF-TOKEN$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedCode",
+              "value": "^[A-Za-z0-9]+$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.transactionId",
+              "value": "^[A-Za-z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "d4170fb5-331e-4065-8fc0-5a377bb57307",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "oauth/token",
+      "responses": [
+        {
+          "uuid": "5c2cd23e-bb5e-4d43-9c2d-cf5eaf68fbaa",
+          "body": "{\n  \"id_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\",\n  \"access_token\": \"string.string.string\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 0\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Succesfully recieves the ID and access token",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-store"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "grant_type",
+              "value": "authorization_code",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "code",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "client_id",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "client_assertion_type",
+              "value": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "client_assertion",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "redirect_uri",
+              "value": "http://example.com",
+              "invert": true,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "33e4b39e-1394-477e-af92-b787b3398bf4",
+          "body": "{\n  \"error\": \"invalid_assertion\",\n  \"error_description\": \"string\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Invalid assertion",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "client_assertion",
+              "value": "^([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_\\-\\+\\/=]*)",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "redirect_uri",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "7b2c9922-a21c-4c5a-9744-d1cdfbf63bd6",
+          "body": "{\n  \"error\": \"invalid_assertion_type\",\n  \"error_description\": \"string\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Invalid assertion type",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "client_assertion_type",
+              "value": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "redirect_uri",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "de6728ab-0e67-4747-9974-613bf9c625ad",
+          "body": "{\n  \"error\": \"invalid_redirect_uri\",\n  \"error_description\": \"string\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "invalid_redirect_uri",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-store"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "client_assertion",
+              "value": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "redirect_uri",
+              "value": "http://example.com",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "b4ed8616-a68a-4559-ae00-67fb92a0157b",
+          "body": "{\n  \"error\": \"invalid_payload\",\n  \"error_description\": \"string\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Invalid payload",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "grant_type",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "code",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "client_id",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "client_assertion_type",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "client_assertion",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "redirect_uri",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
+          "uuid": "b4c73209-405e-4410-a31f-3ae44d8b8e20",
+          "body": "{\n  \"error\": \"invalid_input\",\n  \"error_description\": \"string\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Invalid input",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "grant_type",
+              "value": "",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "code",
+              "value": "",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "client_id",
+              "value": "",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "client_assertion_type",
+              "value": "",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "client_assertion",
+              "value": "",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "redirect_uri",
+              "value": "",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "432e2b24-4bf0-4573-9cac-f5bd555a838a",
+      "type": "http",
+      "documentation": "Checks the correctness of the data",
+      "method": "post",
+      "endpoint": "linked-authorization/authenticate",
+      "responses": [
+        {
+          "uuid": "c183981f-fd34-4a0a-a603-85334bb6ab91",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"linkedTransactionId\": \"{{bodyRaw 'request.linkedTransactionId'}}\"\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Successfully checks the correctness of the data",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_01$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": true,
+              "operator": "empty_array"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
+          "uuid": "385d72bd-96f5-4263-9efc-e2d1a94335c8",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_no_of_challenges\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid challengeList",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_01$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": false,
+              "operator": "empty_array"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "700d5649-5b0a-4227-a2dc-6f63de05865f",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_transaction_id\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid linkedTransactionId",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_01$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": true,
+              "operator": "empty_array"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "c729f372-adaa-4930-baaa-52e0e37e1500",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_identifier\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid identifier",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_01$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": true,
+              "operator": "empty_array"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "4370f082-8742-4e17-8a05-0a5643f69e1e",
+      "type": "http",
+      "documentation": "Wallet binding endpoint is invoked by Wallet's backend server.",
+      "method": "post",
+      "endpoint": "wallet-binding",
+      "responses": [
+        {
+          "uuid": "9d3cfad3-8697-4f8d-b685-88f06f12f1cc",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"walletUserId\": \"string\",\n    \"certificate\": \"string\",\n    \"expireDateTime\": \"string\"\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Successfully generated wallet user id",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "^[a-zA-Z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.authFactorType",
+              "value": "^[a-zA-Z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.format",
+              "value": "^[A-Za-z0-9]+-[A-Za-z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": true,
+              "operator": "empty_array"
+            },
+            {
+              "target": "body",
+              "modifier": "request.publicKey",
+              "value": "^([a-zA-Z0-9_=]+)([a-zA-Z0-9_=]+)([a-zA-Z0-9_\\\\-\\\\+\\\\/=]*)",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "c47d087b-0485-46b6-8e52-043eefe0ccec",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"walletUserId\": \"string\",\n    \"certificate\": \"string\",\n    \"expireDateTime\": \"string\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"unsupported_challenge_format\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Unsupported challenge format",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "^[a-zA-Z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.authFactorType",
+              "value": "^[a-zA-Z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.format",
+              "value": "[A-Za-z]+-[A-Za-z]+",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": true,
+              "operator": "empty_array"
+            },
+            {
+              "target": "body",
+              "modifier": "request.publicKey",
+              "value": "^([a-zA-Z0-9_=]+)([a-zA-Z0-9_=]+)([a-zA-Z0-9_\\\\-\\\\+\\\\/=]*)",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
+          "uuid": "fc19815f-ab7d-4972-ae2e-e6c7b79c1ec1",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"walletUserId\": \"string\",\n    \"certificate\": \"string\",\n    \"expireDateTime\": \"string\"\n  },\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_public_key\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid public key",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "^[a-zA-Z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.authFactorType",
+              "value": "^[a-zA-Z0-9]+$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.format",
+              "value": "[A-Za-z]+-[A-Za-z]+",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": true,
+              "operator": "empty_array"
+            },
+            {
+              "target": "body",
+              "modifier": "request.publicKey",
+              "value": "^([a-zA-Z0-9_=]+)([a-zA-Z0-9_=]+)([a-zA-Z0-9_\\\\-\\\\+\\\\/=]*)",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "432e2b24-4bf0-4573-9cac-f5bd555a838a",
+      "type": "http",
+      "documentation": "Checks the correctness of the data",
+      "method": "post",
+      "endpoint": "linked-authorization/authenticate",
+      "responses": [
+        {
+          "uuid": "c183981f-fd34-4a0a-a603-85334bb6ab91",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"linkedTransactionId\": \"{{bodyRaw 'request.linkedTransactionId'}}\"\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Successfully checks the correctness of the data",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_01$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": true,
+              "operator": "empty_array"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
+          "uuid": "9cb8a231-62c8-4d13-afef-b150e0b67578",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_no_of_challenges\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid challengeList",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_01$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": false,
+              "operator": "empty_array"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "700d5649-5b0a-4227-a2dc-6f63de05865f",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_transaction_id\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid linkedTransactionId",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_01$",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": true,
+              "operator": "empty_array"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "c729f372-adaa-4930-baaa-52e0e37e1500",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_identifier\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid identifier",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "requestTime",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_01$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "request.individualId",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "request.challengeList",
+              "value": "",
+              "invert": true,
+              "operator": "empty_array"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "67587670-d11a-4e8e-a3ef-5cceb0eeed64",
+      "type": "http",
+      "documentation": "Linked Consent Endpoint",
+      "method": "post",
+      "endpoint": "linked-authorization/consent",
+      "responses": [
+        {
+          "uuid": "737da048-da05-4860-9950-592269b51e72",
+          "body": "{\n  \"responseTime\": \"string\",\n  \"response\": {\n    \"linkedTransactionId\": \"{{bodyRaw 'request.linkedTransactionId'}}\"\n  },\n  \"errors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Successfully sends the accepted user claims and permitted scopes",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_01$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
+          "uuid": "b1b8269c-1963-4f97-b06c-debe5541ea8c",
+          "body": "{\n  \"responseTime\": \"2011-10-05T14:49:00.000Z\",\n  \"errors\": [\n    {\n      \"errorCode\": \"invalid_transaction_id\",\n      \"errorMessage\": \"string\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Invalid linkedTransactionId",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "request.linkedTransactionId",
+              "value": "^link_transaction_id_01$",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "d4170fb5-331e-4065-8fc0-5a377bb57307",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "oauth/token",
+      "responses": [
+        {
+          "uuid": "5c2cd23e-bb5e-4d43-9c2d-cf5eaf68fbaa",
+          "body": "{\n  \"id_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\",\n  \"access_token\": \"string.string.string\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 0\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Succesfully recieves the ID and access token",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-store"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "grant_type",
+              "value": "authorization_code",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "code",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "client_id",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "client_assertion_type",
+              "value": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "client_assertion",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "redirect_uri",
+              "value": "http://example.com",
+              "invert": true,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "33e4b39e-1394-477e-af92-b787b3398bf4",
+          "body": "{\n  \"error\": \"invalid_assertion\",\n  \"error_description\": \"string\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Invalid assertion",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "client_assertion",
+              "value": "^([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_\\-\\+\\/=]*)",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "redirect_uri",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "7b2c9922-a21c-4c5a-9744-d1cdfbf63bd6",
+          "body": "{\n  \"error\": \"invalid_assertion_type\",\n  \"error_description\": \"string\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Invalid assertion type",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "client_assertion_type",
+              "value": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "redirect_uri",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "de6728ab-0e67-4747-9974-613bf9c625ad",
+          "body": "{\n  \"error\": \"invalid_redirect_uri\",\n  \"error_description\": \"string\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "invalid_redirect_uri",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-store"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "client_assertion",
+              "value": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "redirect_uri",
+              "value": "http://example.com",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "b4ed8616-a68a-4559-ae00-67fb92a0157b",
+          "body": "{\n  \"error\": \"invalid_payload\",\n  \"error_description\": \"string\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Invalid payload",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "grant_type",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "code",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "client_id",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "client_assertion_type",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "client_assertion",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "redirect_uri",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
+          "uuid": "b4c73209-405e-4410-a31f-3ae44d8b8e20",
+          "body": "{\n  \"error\": \"invalid_input\",\n  \"error_description\": \"string\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Invalid input",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "grant_type",
+              "value": "",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "code",
+              "value": "",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "client_id",
+              "value": "",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "client_assertion_type",
+              "value": "",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "client_assertion",
+              "value": "",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "redirect_uri",
+              "value": "",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "415293ba-d1e6-484a-8803-8166cfc8974c",
+      "type": "http",
+      "documentation": "API to receive user information",
+      "method": "get",
+      "endpoint": "oidc/userinfo",
+      "responses": [
+        {
+          "uuid": "0c40d908-de21-4c06-8687-c659b0109e96",
+          "body": "\"string\"",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "successfully receives user information",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/jwt"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "folders": [],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "45bd6c8d-c23c-42dd-9a73-51e98c7d7588"
+    },
+    {
+      "type": "route",
+      "uuid": "91963d01-81ab-4fdd-8b43-9a08652e6173"
+    },
+    {
+      "type": "route",
+      "uuid": "f90e90b4-866f-478f-b34c-a358d8196f01"
+    },
+    {
+      "type": "route",
+      "uuid": "8f51c09f-816b-4137-a8aa-8e30bd56a2f7"
+    },
+    {
+      "type": "route",
+      "uuid": "6437140a-dc3a-40c4-b7d2-515b7fb5130f"
+    },
+    {
+      "type": "route",
+      "uuid": "5674c6e6-5e80-4f0b-9bcb-30416f76d9a7"
+    },
+    {
+      "type": "route",
+      "uuid": "cac1d80a-b7ea-4c5a-bb33-4c7c9e2d16e7"
+    },
+    {
+      "type": "route",
+      "uuid": "cd536d5a-9223-4596-8d8e-873e56f6d15a"
+    },
+    {
+      "type": "route",
+      "uuid": "fe5ca74b-beea-400b-b9d4-057370aeb705"
+    },
+    {
+      "type": "route",
+      "uuid": "d4170fb5-331e-4065-8fc0-5a377bb57307"
+    },
+    {
+      "type": "route",
+      "uuid": "432e2b24-4bf0-4573-9cac-f5bd555a838a"
+    },
+    {
+      "type": "route",
+      "uuid": "4370f082-8742-4e17-8a05-0a5643f69e1e"
+    },
+    {
+      "type": "route",
+      "uuid": "8f51c09f-816b-4137-a8aa-8e30bd56a2f7"
+    },
+    {
+      "type": "route",
+      "uuid": "432e2b24-4bf0-4573-9cac-f5bd555a838a"
+    },
+    {
+      "type": "route",
+      "uuid": "5674c6e6-5e80-4f0b-9bcb-30416f76d9a7"
+    },
+    {
+      "type": "route",
+      "uuid": "67587670-d11a-4e8e-a3ef-5cceb0eeed64"
+    }
+  ]
+}
