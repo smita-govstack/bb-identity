@@ -1,5 +1,9 @@
 {
   "transactionId": "transactionId01",
+  "_comment": "Below transactionId is used in the test scenario: Not able to check the status of link code because of the link code connected to a different transaction id",
+  "transactionId_2": "transactionId02",
+  "transactionId_03": "transactionId03",
+  "transactionId_04": "transactionId04",
   "linkedCode": "linkedCode01",
   "X_XSRF_TOKEN": {
     "key": "X-XSRF-TOKEN",
@@ -58,12 +62,22 @@
     ],
     "publicKeys": [
       {
-        "publicKey": {
+        "publicKeyOne": {
           "kty": "RSA",
           "a": "AQAB",
           "use": "sig",
           "alg": "RS256",
           "n": "mykWIftknK1TQmbiazuik0rWGsxeOIUE3yfSQJgoCfdGXY4HfHE6AlNKFdIKZOXe-U-L21Klj692e9iZx05rHHaZvO0a4IzyFMOyw5wjBCWoBOcA4q93LPkZTSkIq9I2Vgr6Bzwu6X7QPMbmF8xAKX4KeSn_yZcsAhElHBOWkENmKp76yCyTeE4DAIGah1BcgiB_KWvOZOedwTRDLyQ0DZM1z07-N-rPh0qSd2UFRRY-b_jc9opjyRQq3d5ZkiB9W4ReAUhIKA9uc1RDs1shc3G8zgZp3qH6fYWmsOi23BOA_q8Z-wMHwPK2vEJvgZIWovAG5jGFbMilNcFQfzLJcQ"
+        }
+      },
+      "//using for negative test - duplicate public key",
+      { 
+        "publicKeyTwo": {
+          "kty": "RSA",
+          "a": "AQAB",
+          "use": "sig",
+          "alg": "RS256",
+          "n": "VFUiPhpONKm54WyhTgQJ1ONENwX1X6nR4qyNWAODKFXsYG20EZtJwLyuuL35D1oBmLHhQY9zdWVZZVy5r8uJ3ueb0pfl8ZqO5BNvgeoDM6dextpI6sntQCUcRuERB7oC9FrrWPYkKO9lFQfrJFRhmDtN4XviEpJAXW5Lpx0iNXJnXNrFZOcKrfQfAWPxBrIFPMJRBy6giM1RJAjwjHQ8ULOWGRpoIOGyQy2IOWKG6f0UrFaO9qUImBR82aPumSAuJaslRFThM4n6AJFrrhBT5nAgS6jPf9D48NYkXRroJnTlJqm7kVgfOMjPKgQ7T9JsJ9MTpV5keTQSwE2GHZNa1P"
         }
       }
     ],
