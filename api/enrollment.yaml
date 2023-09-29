@@ -128,7 +128,10 @@ components:
                     payload:
                       type: array
                       items:
-                        example: "string"
+                        properties:
+                          type: string
+                      example:
+                        - payload
                     integrity:
                       type: boolean
                     creationDate:
@@ -270,15 +273,24 @@ components:
                       bdb:
                         type: array
                         items:
-                          example: string
+                          properties:
+                            type: string
+                        example:
+                          - string
                       sb:
                         type: array
                         items:
-                          example: string
+                          properties:
+                            type: string
+                        example: 
+                          - string
                       birs:
                         type: array
                         items:
-                            example: { }
+                           properties:
+                           type: object
+                        example:
+                          - {}
                       sbInfo:
                         type: object
                         properties:
