@@ -168,6 +168,11 @@ components:
                             type: string
                           payload:
                             type: array
+                            items:
+                              properties:
+                                type: string
+                            example:
+                              - payload
                           integrity:
                             type: boolean
                           creationDate:
@@ -181,6 +186,11 @@ components:
                         properties:
                           challengeResponse:
                             type: array
+                            items:
+                              properties:
+                                type: string
+                            example:
+                              - response
                           index:
                             type: string
                           format:
