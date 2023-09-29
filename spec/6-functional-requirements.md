@@ -64,11 +64,12 @@ Through this list of capabilities we can see there are numerous but limited opti
 
 * Identity Building Block must offer an API to Enroll persons following a GovStack recommended Open Standard API. (REQUIRED)
 * Identity Building Block must offer capacity to perform an enrollment in one step. (REQUIRED)
-* Identity Building Block must offer capacity to perform an enrollment in multiple steps (i.e. pre-enrollment and enrollment). (REQUIRED)
+* Identity Building Block must offer capacity to perform an enrollment in multiple steps (i.e. demographic data collection, biometric data collections, supporting documents collections, etc.). (REQUIRED)
 * Identity Building Block must offer capacity to search, retrieve and update and enrollment made (if it has not been committed yet). (REQUIRED)
 * Identity Building Block must allow to control integrity and origin of an enrollment request by implementing enrollment meta-data about the context and actors of the enrollment, such as signature of data to ensure integrity. To ensure the integrity of the enrollment process, the Building Block must be able to implement technical controls so that only approved enrollment services can engage with the enrollment service. Cryptographic trust should be implemented.(REQUIRED)
 * Identity Building Block must support receiving encrypted data to ensure privacy protection and prevent data theft. (REQUIRED)
 * Identity Building Block must offer capacity to perform an enrollment offline which means not expecting interactions between registration client and server during the enrollment process, and data being uploaded as a whole packet. (REQUIRED)
+* Identity Building Block must support porting existing demographic, biometric, and other enrollment data from external servers during enrollment process. (REQUIRED)
 * Identity Building Block must keep track of the enrollment request identifiers within its internal management in order to facilitate traceability and troubleshooting. (REQUIRED)
 * Identity Building Block must generate a Unique Identifier for Identity created. This number must be kept secret within the Identity Building Block. (REQUIRED)
 * Identity Building Block must be capable to generate Virtual Identifier for referring to a User. The Virtual Identifier will be linked to the User's Unique Identifier. (REQUIRED)
