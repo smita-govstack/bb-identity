@@ -10,6 +10,9 @@ module.exports = {
   },
   defaultExpectedResponseTime: 15000,
   transactionId: 'transactionId01',
+  transactionId_2: 'transactionId02',
+  transactionId_03: 'transactionId03',
+  transactionId_04: 'transactionId04',
   linkedCode: 'linkedCode01',
   expiredLinkCode: 'expired-link-code-001',
   X_XSRF_TOKEN: {
@@ -174,6 +177,7 @@ module.exports = {
   },
   // wallet_link_status
   walletLinkStatusEndpoint: 'linked-authorization/link-status',
+  walletLinkStatusExpectedResponseTime: 25000,
   walletLiskStatusResponseSchema: {
     type: 'object',
     properties: {
@@ -318,6 +322,7 @@ module.exports = {
                 'invalid_link_code',
                 'response_timeout',
                 'unknown_error',
+                'invalid_request'
               ],
               errorMessage: { type: 'string' },
             },
