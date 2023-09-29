@@ -6,6 +6,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: govstack/idbuildingblock:release-0.0.4
+    image: technogovstack/esignet:1.0.0
     ports:
-      - '8081:8081'
+      - '8088:8088'
