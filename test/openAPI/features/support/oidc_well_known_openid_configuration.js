@@ -14,6 +14,8 @@ chai.use(require('chai-json-schema'));
 const baseUrl = localhost + oidcWellKnownOpenidConfigurationEndpoint;
 const endpointTag = { tags: `@endpoint=/${oidcWellKnownOpenidConfigurationEndpoint}` };
 
+let specOpenidConfiguration;
+
 Before(endpointTag, () => {
   specOpenidConfiguration = spec();
 });

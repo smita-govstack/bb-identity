@@ -9,7 +9,7 @@ Feature: The endpoint to checks the status of link code.
     Then Receive a response from the /linked-authorization/link-status endpoint
     And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-status endpoint response should have status 200
-    And The /linked-authorization/link-status endpoint response should have content-type: application/json header
+    And The /linked-authorization/link-status response should have "content-type": "application/json" header
     And The /linked-authorization/link-status endpoint response should match json schema with no errors
     And The /linked-authorization/link-status response should contain transactionId property equals provided transactionId
 
@@ -20,7 +20,7 @@ Feature: The endpoint to checks the status of link code.
     Then Receive a response from the /linked-authorization/link-status endpoint
     And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-status endpoint response should have status 200
-    And The /linked-authorization/link-status endpoint response should have content-type: application/json header
+    And The /linked-authorization/link-status response should have "content-type": "application/json" header
     And The /linked-authorization/link-status endpoint response should match json schema with errors
     And The /linked-authorization/link-status response should contain errorCode property equals to "invalid_transaction_id"
 
@@ -31,7 +31,7 @@ Feature: The endpoint to checks the status of link code.
     Then Receive a response from the /linked-authorization/link-status endpoint
     And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-status endpoint response should have status 200
-    And The /linked-authorization/link-status endpoint response should have content-type: application/json header
+    And The /linked-authorization/link-status response should have "content-type": "application/json" header
     And The /linked-authorization/link-status endpoint response should match json schema with errors
     And The /linked-authorization/link-status response should contain errorCode property equals to "invalid_transaction_id"
 
@@ -42,7 +42,7 @@ Feature: The endpoint to checks the status of link code.
     Then Receive a response from the /linked-authorization/link-status endpoint
     And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-status endpoint response should have status 200
-    And The /linked-authorization/link-status endpoint response should have content-type: application/json header
+    And The /linked-authorization/link-status response should have "content-type": "application/json" header
     And The /linked-authorization/link-status endpoint response should match json schema with errors
     And The /linked-authorization/link-status response should contain errorCode property equals to "invalid_transaction_id"
 
@@ -53,7 +53,7 @@ Feature: The endpoint to checks the status of link code.
     Then Receive a response from the /linked-authorization/link-status endpoint
     And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-status endpoint response should have status 200
-    And The /linked-authorization/link-status endpoint response should have content-type: application/json header
+    And The /linked-authorization/link-status response should have "content-type": "application/json" header
     And The /linked-authorization/link-status endpoint response should match json schema with errors
     And The /linked-authorization/link-status response should contain errorCode property equals to "invalid_link_code"
     
@@ -64,7 +64,7 @@ Feature: The endpoint to checks the status of link code.
     Then Receive a response from the /linked-authorization/link-status endpoint
     And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-status endpoint response should have status 200
-    And The /linked-authorization/link-status endpoint response should have content-type: application/json header
+    And The /linked-authorization/link-status response should have "content-type": "application/json" header
     And The /linked-authorization/link-status endpoint response should match json schema with errors
     And The /linked-authorization/link-status response should contain errorCode property equals to "invalid_link_code"
 
@@ -77,6 +77,6 @@ Feature: The endpoint to checks the status of link code.
     Then Receive a response from the /linked-authorization/link-status endpoint
     And The /linked-authorization/link-status endpoint response should be returned in a timely manner 25000 ms
     And The /linked-authorization/link-status endpoint response should have status 200
-    And The /linked-authorization/link-status endpoint response should have content-type: application/json header
+    And The /linked-authorization/link-status response should have "content-type": "application/json" header
     And The /linked-authorization/link-status endpoint response should match json schema with errors
     And The /linked-authorization/link-status response should contain errorCode property equals to "invalid_link_code"
