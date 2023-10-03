@@ -109,7 +109,7 @@ module.exports = {
     ],
   },
   // oidc_well_known_jwks
-  oidcWellKnownJWKSEndpoint: 'oauth/.well-known/jwks.json',
+  oidcWellKnownJWKSEndpoint: '.well-known/jwks.json',
   oidcWellKnownJWKSResponseSchema: {
     type: 'object',
     properties: {
