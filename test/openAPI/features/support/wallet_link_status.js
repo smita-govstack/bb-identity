@@ -91,9 +91,11 @@ Then(/^The \/linked-authorization\/link-status endpoint response should have sta
 });
 
 Then(
-  /^The \/linked-authorization\/link-status endpoint response should have content-type: application\/json header$/,
-  () => {
-    specWalletLinkStatus.response().should.have.header(contentTypeHeader.key, contentTypeHeader.value);
+  /^The \/linked-authorization\/link-status response should have "([^"]*)": "([^"]*)" header$/,
+  (key, value) => {
+    specWalletLinkStatus
+      .response()
+      .should.have.headerContains(key, value);
   }
 );
 

@@ -14,6 +14,8 @@ chai.use(require('chai-json-schema'));
 const baseUrl = localhost + oidcWellKnownJWKSEndpoint;
 const endpointTag = { tags: `@endpoint=/${oidcWellKnownJWKSEndpoint}` };
 
+let specJWKS;
+
 Before(endpointTag, () => {
   specJWKS = spec();
 });
