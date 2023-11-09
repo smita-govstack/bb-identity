@@ -32,7 +32,11 @@ Where human citizen subjects adopt the use of a simple numerical digital ID, the
 
 ## 5.2 Consent Management <a href="#docs-internal-guid-da47132b-7fff-3138-7667-f87bd4540eb3" id="docs-internal-guid-da47132b-7fff-3138-7667-f87bd4540eb3"></a>
 
-Whilst ID and Verification as defined and understood in this Building Block should be supported by local or supranational laws and regulations (like internal security or global AML rules), translation of the appropriate use, in reality, is complex and hardly enforceable. Hence, we recommend that any solution should have a defined consent management mechansîsm by design. The specifications for such mechanisms are out of scope for this Building Block, but should follow the following requirements:
+Whilst ID and Verification as defined and understood in this Building Block should be supported by local or supranational laws and regulations (like internal security or global AML rules), translation of the appropriate use, in reality, is complex and hardly enforceable.&#x20;
+
+Hence, we recommend that any solution should have a defined consent management mechansîsm by design.&#x20;
+
+The specifications for such mechanisms but should follow the following requirements:
 
 1. Consent should be created in the context of the user and should be available to the user.
 2. Take consideration of consent receipts ([Kantara Initiative Releases the First Open, Global Consent Receipt Specification](https://kantarainitiative.org/kantara-initiative-releases-first-open-global-consent-receipt-specification/))
@@ -42,6 +46,10 @@ Whilst ID and Verification as defined and understood in this Building Block shou
 6. A request-response approach or a link to a transaction ID and parties and dates would also help.
 7. An assisted model would also be required, where 3rd party agencies can come in to collect consent from the user.
 8. Apart from technical requirements, it is helpful to differentiate between consent as an ethical process versus consent as a legal basis for processing personal data (certainly under GDPR).
+
+Identity Building Block implement a Consent collection mechanism in order to be aligned with the open-standard openID Connect. This consent collection ensure an authentic approval of an individual before sharing its PII (Personal Identifiable Information), as the the individual is authenticated as a first step.
+
+In future releases, after a proper study being done, the Identity Building Block would integrate with the Consent Building Block to leverage the storing and verification features, together with the standardization brought by Consent Building Block.
 
 ## 5.3 Trust Framework
 
