@@ -26,7 +26,7 @@ A selection of various alternatives for digital ID is required in order to cater
 
 Note that multi-factor authentication must be able to be implemented for both external and internal subjects (people, systems, components etc.) but is not necessarily required for internal non-human subjects (such as building block components) as they communicate via the information mediator Building Block (see the Information Mediation Building Block Definition).
 
-## 5.1.3 Numerical Digital ID Attribute (REQUIRED)
+## 5.1.3 Use Multi-Factor Authentication with Numerical Digital ID (REQUIRED)
 
 Where human citizen subjects adopt the use of a simple numerical digital ID, the multi-factor authentication process MUST include a time-sensitive credential (AKA OTP or one-time PIN).
 
