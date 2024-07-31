@@ -14,7 +14,7 @@ The [GovStack non-functional requirements document](https://govstack.gitbook.io/
 
 The tests for the Identity Building Block can be found in [this GitHub repository](https://github.com/GovStackWorkingGroup/bb-identity/tree/main/test/openAPI).
 
-## API standards <a href="#_heading-h.3o7alnk" id="_heading-h.3o7alnk"></a>
+## API standards <a href="#heading-h.3o7alnk" id="heading-h.3o7alnk"></a>
 
 * The microservice interfaces are defined as per [OPENAPI Ver3.0 standards](https://swagger.io/specification/).
 * For implementation purposes, it is suggested to refer [TMF630\_REST\_API\_Design\_Guidelines](https://www.tmforum.org/resources/standard/tmf630-rest-api-design-guidelines-4-2-0/).
@@ -25,7 +25,7 @@ The Identity usage APIs are a set of OpenAPI specifications exposed by the Ident
 
 The Identity usage APIs are based on the following principles:
 
-* Verification APIs are inspired from OpenID Connect protocol which simplifies integrations using pre-existing libraries
+* Verification APIs are inspired by OpenID Connect protocol which simplifies integrations using pre-existing libraries
 * Only secure options in OpenID connect should be supported to ensure the user data is handled securely
 * All biometric capture for user verification should be done using [Secure Biometrics Interface standards](https://standards.ieee.org/ieee/3167/10925/)
 
@@ -110,11 +110,52 @@ The Enrollment APIs are based on the following principles:
 
 ## **8.3 Credential Management**
 
-This Services APIs is not yet specified, but it should be the purpose of a next iteration of the Identity Building Block Specification.
+These Credential Management APIs are a set of OpenAPI specifications exposed by the Identity Building Block to service identity credential requests by credential partners such as printing and QR code partners.
+
+The Credential Management APIs are based on the following principles:
+
+* The credential request API is asynchronous for the identity holder i.e., the call to share credentials is responded with an event ID. Then the identity holder later uses the event ID to retrieve the details using the API '/events/{eventId}'.
+* The '/share-credential' API is used to convey the format of the credential information. The format allows the credential information to be masked/unmasked. The API also conveys the consent of the identity holder.
+* The API '/download/personalized-card' is used to download the identity card in PDF format.
+* Systems for Voter ID, Tax ID, Card printing etc. receive internal notifications from IDBB.
+* Wallet applications will receive the identity credentials as per pre-authorized flow.
+* The APIs '/block', '/unblock' and '/updateIdentity' can only be called by systems with administrative permissions given by the IDBB.
+
+{% swagger src=".gitbook/assets/Credential-Management.yaml" path="/share-credential" method="post" %}
+[Credential-Management.yaml](.gitbook/assets/Credential-Management.yaml)
+{% endswagger %}
+
+{% swagger src=".gitbook/assets/Credential-Management.yaml" path="/events/{eventId}?language=LANGCODE" method="get" %}
+[Credential-Management.yaml](.gitbook/assets/Credential-Management.yaml)
+{% endswagger %}
+
+{% swagger src=".gitbook/assets/Credential-Management.yaml" path="/download/personalized-card" method="post" %}
+[Credential-Management.yaml](.gitbook/assets/Credential-Management.yaml)
+{% endswagger %}
+
+{% swagger src=".gitbook/assets/Credential-Management.yaml" path="/update-uin" method="post" %}
+[Credential-Management.yaml](.gitbook/assets/Credential-Management.yaml)
+{% endswagger %}
+
+{% swagger src=".gitbook/assets/Credential-Management.yaml" path="/service-history/{langCode}" method="get" %}
+[Credential-Management.yaml](.gitbook/assets/Credential-Management.yaml)
+{% endswagger %}
+
+{% swagger src=".gitbook/assets/Credential-Management.yaml" path="/updateIdentity" method="patch" %}
+[Credential-Management.yaml](.gitbook/assets/Credential-Management.yaml)
+{% endswagger %}
+
+{% swagger src=".gitbook/assets/Credential-Management.yaml" path="/unblock" method="post" %}
+[Credential-Management.yaml](.gitbook/assets/Credential-Management.yaml)
+{% endswagger %}
+
+{% swagger src=".gitbook/assets/Credential-Management.yaml" path="/block" method="post" %}
+[Credential-Management.yaml](.gitbook/assets/Credential-Management.yaml)
+{% endswagger %}
 
 ## **8.4 Subscription Management**
 
-This Services APIs is not yet specified, but it should be the purpose of a next iteration of the Identity Building Block Specification.
+The Subscription Management APIs follow the APIs from these standards - WebSub and WebHooks.
 
 ## **8.5 Administration Management**
 

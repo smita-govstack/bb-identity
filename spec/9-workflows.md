@@ -6,7 +6,7 @@ description: >-
 
 # 9 Internal Workflows
 
-If GovStack will offer global workflow management for cross-building block use cases, Identity and Verification Building Block will have its internal workflows for its own internal business flows execution.
+the If GovStack will offer global workflow management for cross-building block use cases, Identity and Verification Building Block will have its internal workflows for its own internal business flows execution.
 
 Non-exhaustive list of examples:
 
@@ -92,35 +92,33 @@ The enrollment process differs from country to country and the enrollment data c
 These are the sample steps for fresh enrollment where the enrollment data is collected afresh:
 
 1. User goes to the Enrollment office.&#x20;
-2. The Enrollment Client collects user demographic details and supporting documents and calls the createPacket API of GovStack Packet Store.
+2. The Enrollment Client collects user demographic details and supporting documents and calls the createPacket API of the GovStack Packet Store.
 3. Enrollment Client collects user bio-metric details and calls createPacket API of GovStack Packet Store.
-4. Once all the enrollment data is available at the GovStack Packet Store, it triggers the enrollment process in GovStack Packet Processor.
-5. GovStack Packet Processor processes the data and generates Unique Identity for the user.
-6. The user is notified of successful enrollment and the receives the Unique Identity by mail.
-
-
+4. Once all the enrollment data is available at the GovStack Packet Store, it triggers enrollment process in the GovStack Packet Processor.
+5. GovStack Packet Processor processes the data and generates a Unique Identity for the user.
+6. The user is notified of successful enrollment and receives the Unique Identity by mail.
 
 ```mermaid
 sequenceDiagram
     User->>+Enrollment Client: Initiate enrollment
-    Enrollment Client->>+GovStack Packet Store: createPacket API Request (Demographics Data + Supporting Documents)
-    Enrollment Client->>GovStack Packet Store: createPacket API Request (with Biometrics Data)
-    GovStack Packet Store->>Enrollment Client: createPacket API Response
-    GovStack Packet Store->>+GovStack Packet Processor: Trigger Enrollment Process
-    GovStack Packet Processor->>GovStack Packet Processor: Generate Unique Identity
-    GovStack Packet Processor->>User: Upon successful enrollment, notify user of Unique Identity generation
+    Enrollment Client->>+IDBB Packet Store: createPacket API Request (Demographics Data + Supporting Documents)
+    Enrollment Client->>IDBB Packet Store: createPacket API Request (with Biometrics Data)
+    IDBB Packet Store->>Enrollment Client: createPacket API Response
+    IDBB Packet Store->>+IDBB Packet Processor: Trigger Enrollment Process
+    IDBB Packet Processor->>IDBB Packet Processor: Generate Unique Identity
+    IDBB Packet Processor->>User: Upon successful enrollment, notify user of Unique Identity generation
 ```
 
-#### Enrollment Workflow (Enrollment with existing database)
+#### 9.2.2 Enrollment Workflow (Enrollment with existing database)
 
 These are the steps for enrollment using existing data, in which the demographic details are collected from an existing database and biometric data is collected afresh.
 
-1. User goes to the Enrollment office.&#x20;
-2. Enrollment Client retrieves the user demographic details and supporting documents from an existing database and calls createPacket API of GovStack Packet Store.
+1. The user goes to the Enrollment office.&#x20;
+2. The enrollment Client retrieves the user demographic details and supporting documents from an existing database and calls the createPacket API of the GovStack Packet Store.
 3. Enrollment Client collects user biometric details afresh and calls createPacket API of GovStack Packet Store.
-4. Once all the enrollment data is available at the GovStack Packet Store, it triggers the enrollment process in GovStack Packet Processor.
-5. GovStack Packet Processor processes the data and generates Unique Identity for the user.
-6. The user is notified of successful enrollment and the receives the Unique Identity by mail.
+4. Once all the enrollment data is available at the GovStack Packet Store, it triggers the enrollment process in the GovStack Packet Processor.
+5. GovStack Packet Processor processes the data and generates a Unique Identity for the user.
+6. The user is notified of successful enrollment and receives the Unique Identity by mail.
 
 
 
@@ -129,10 +127,65 @@ sequenceDiagram
     User->>+Enrollment Client: Initiate enrollment
     Enrollment Client->>+Existing Database: Retrieve demographic details
     Existing Database->>Enrollment Client: Respond with demographic data
-    Enrollment Client->>+GovStack Packet Store: createPacket API Request (with Demographics data)
-    Enrollment Client->>GovStack Packet Store: createPacket API Request (with Biometrics data)
-    GovStack Packet Store->>Enrollment Client: createPacket API Response
-    GovStack Packet Store->>+GovStack Packet Processor: Trigger Enrollment Process
-    GovStack Packet Processor->>GovStack Packet Processor: Generate Unique Identity
-    GovStack Packet Processor->>User: Upon successful enrollment, notify user of Unique Identity generation
+    Enrollment Client->>+IDBB Packet Store: createPacket API Request (with Demographics data)
+    Enrollment Client->>IDBB Packet Store: createPacket API Request (with Biometrics data)
+    IDBB Packet Store->>Enrollment Client: createPacket API Response
+    IDBB Packet Store->>+IDBB Packet Processor: Trigger Enrollment Process
+    IDBB Packet Processor->>IDBB Packet Processor: Generate Unique Identity
+    IDBB Packet Processor->>User: Upon successful enrollment, notify user of Unique Identity generation
 ```
+
+### 9.3 Credential Management&#x20;
+
+#### 9.3.1 Sharing Credentials
+
+This sequence diagram shows the workflow for sharing credentials.
+
+1. The user logs into the Citizen Portal.
+2. After authentication, the user can select the format of the credentials to be shared. The format is defined by the attributes such as fully/partially masking.
+3. The user gives consent for sharing the credentials and logs a request. The Citizen Portal returns an event ID.&#x20;
+4. The user logs in to the Citizen Portal after some time and checks the status of the credential-sharing request using the event ID.
+5. The credentials can be provided as a Verifiable Credential in PDF format with the issuer's signature.
+
+```mermaid
+sequenceDiagram
+    User->>+Citizen Portal: Login in the portal
+    Citizen Portal->>User: After authentication success, show share credentials
+    User->>Citizen Portal: Provide the consent and attributes of credentials (masked/unmasked) to share
+    Citizen Portal->>+IDBB: Call /share-credential with user-selected details
+    IDBB->>Citizen Portal: Return eventId
+    Citizen Portal->>User: Display eventId
+    User->>Citizen Portal: Logout
+    User->>Citizen Portal: Login after sometime
+    Citizen Portal->>User: After authentication success, show retrieve event status
+    User->>Citizen Portal: Provide the event Id
+    Citizen Portal->>IDBB: Call /events/{eventId}?language=language_code
+    IDBB->>Citizen Portal: /event/eventId response in the form of key-value pairs
+    Citizen Portal->>User: Provide a downloadable document with the user's credentials
+```
+
+#### 9.3.2 Download Credentials
+
+This sequence diagram shows the workflow for downloading a Unique Identity Card:
+
+* The user logs into the Citizen Portal.
+* After authentication, the user clicks on the Download Card.
+* The Citizen Portal calls the '/download/personalized-card' API on the IDBB.
+* IDBB returns a link for the card download.
+* The Citizen Portal shares the link with the user.
+
+```mermaid
+sequenceDiagram
+   User->>+Citizen Portal: Login in the portal
+   Citizen Portal->>User: After authentication success, display download card menu item
+   User->>Citizen Portal: Click on download card
+   Citizen Portal->>+IDBB: Call /download/personalized-card
+   IDBB->>Citizen Portal: Return the download link for the card
+    Citizen Portal->>User: Display card download link
+    User->>Citizen Portal: Logout
+```
+
+### 9.4 Notification Workflow
+
+
+

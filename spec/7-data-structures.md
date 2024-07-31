@@ -139,7 +139,7 @@ Identity management uses these data structures.
 
 **Fields:**
 
-<table data-header-hidden data-full-width="true"><thead><tr><th></th><th></th><th></th><th></th></tr></thead><tbody><tr><td><strong>Name</strong></td><td><strong>Type</strong></td><td><strong>Description</strong></td><td><strong>Example</strong></td></tr><tr><td>id</td><td>string</td><td>ID of the API</td><td>mosip.resident.enrollment</td></tr><tr><td>version</td><td>string</td><td>Version of the API</td><td>v1</td></tr><tr><td>requesttime</td><td>string</td><td>Request time of the API</td><td>2022-06-06T13:24:50.605Z</td></tr><tr><td>request</td><td>object</td><td>Request Object</td><td></td></tr><tr><td>request.offlineMode</td><td>boolean</td><td>Offline mode</td><td>false</td></tr><tr><td>request.id</td><td>string</td><td>ID of the packet</td><td>10001100020010120230704042404</td></tr><tr><td>request.refId</td><td>string</td><td>Reference ID used in multi-step enrolment</td><td>10001_10002</td></tr><tr><td>request.fields</td><td>object</td><td>Fields of the Packet in key-value pair</td><td><p>{</p><p>      "gender": "[ { "language" : "eng", "value" : "Male" } ]",</p><p>      "city": "[ { "language" : "eng", "value" : "Kenitra" } ]",</p><p>      "postalCode": "14022",</p><p>      "fullName": "[ { "language" : "eng", "value" : "Enrollment89 I290" } ]",</p><p>      "dateOfBirth": "1988/11/07", email": "techece@gmail.com"</p><p>    }</p></td></tr><tr><td>request.metaInfo</td><td>object</td><td>Metainfo of the Packet in key-value pair</td><td><p>{    </p><p>"metaData": "[ { label" : "centerId",</p><p>"value" : "10001" }, { "label" : "machineId", "value" : "10002" }, { "label" : "REGISTRATIONTYPE", "value" : null } ]"</p><p>}</p></td></tr><tr><td>request.process</td><td>string</td><td>Process of the Packet</td><td>NEW, UPDATE, DEMO, BIO etc.</td></tr><tr><td>request.source</td><td>string</td><td>Source of the Packet</td><td>REGISTRATION_CLIENT</td></tr><tr><td>request.audits</td><td>Array of JSON strings</td><td>Audit trail of the Packet in key-value pair</td><td><p>[</p><p>      {</p><p>        "eventId": "RPR_405",</p><p>        "hostName": "Techno-367",</p><p>        "sessionUserId": "mosip",</p><p>        "idType": "REGISTRATION_ID",</p><p>        "hostIp": "192.168.1.100",</p><p>        "moduleName": "REQUEST_HANDLER_SERVICE",</p><p>        "description": "Packet uploaded successfully",</p><p>        "eventType": "USER"</p><p>      }</p><p>    ]</p></td></tr><tr><td>request.biometrics</td><td>object</td><td>Biometrics of the Packet (click here)</td><td>Explained in the next table</td></tr><tr><td>request.documents</td><td>object</td><td>Documents of the Packet</td><td></td></tr></tbody></table>
+<table data-full-width="false"><thead><tr><th>Name</th><th></th><th>Description</th><th width="184">Example</th></tr></thead><tbody><tr><td>id</td><td>string</td><td>ID of the API</td><td>mosip.resident.enrollment</td></tr><tr><td>version</td><td>string</td><td>Version of the API</td><td>v1</td></tr><tr><td>requesttime</td><td>string</td><td>Request time of the API</td><td>2022-06-06T13:24:50.605Z</td></tr><tr><td>request</td><td>object</td><td>Request Object</td><td></td></tr><tr><td>request.offlineMode</td><td>boolean</td><td>Offline mode</td><td>false</td></tr><tr><td>request.id</td><td>string</td><td>ID of the packet</td><td>10001100020010120230704042404</td></tr><tr><td>request.refId</td><td>string</td><td>Reference ID used in multi-step enrolment</td><td>10001_10002</td></tr><tr><td>request.fields</td><td>object</td><td>Fields of the Packet in key-value pair</td><td><p>{</p><p>      "gender": "[ { "language" : "eng", "value" : "Male" } ]",</p><p>      "city": "[ { "language" : "eng", "value" : "Kenitra" } ]",</p><p>      "postalCode": "14022",</p><p>      "fullName": "[ { "language" : "eng", "value" : "Enrollment89 I290" } ]",</p><p>      "dateOfBirth": "1988/11/07", email": "techece@gmail.com"</p><p>    }</p></td></tr><tr><td>request.metaInfo</td><td>object</td><td>Metainfo of the Packet in key-value pair</td><td><p>{    </p><p>"metaData": "[ { label" : "centerId",</p><p>"value" : "10001" }, { "label" : "machineId", "value" : "10002" }, { "label" : "REGISTRATIONTYPE", "value" : null } ]"</p><p>}</p></td></tr><tr><td>request.process</td><td>string</td><td>Process of the Packet</td><td>NEW, UPDATE, DEMO, BIO etc.</td></tr><tr><td>request.source</td><td>string</td><td>Source of the Packet</td><td>REGISTRATION_CLIENT</td></tr><tr><td>request.audits</td><td>Array of JSON strings</td><td>Audit trail of the Packet in key-value pair</td><td><p>[</p><p>      {</p><p>        "eventId": "RPR_405",</p><p>        "hostName": "Techno-367",</p><p>        "sessionUserId": "mosip",</p><p>        "idType": "REGISTRATION_ID",</p><p>        "hostIp": "192.168.1.100",</p><p>        "moduleName": "REQUEST_HANDLER_SERVICE",</p><p>        "description": "Packet uploaded successfully",</p><p>        "eventType": "USER"</p><p>      }</p><p>    ]</p></td></tr><tr><td>request.biometrics</td><td>object</td><td>Biometrics of the Packet (click here)</td><td>Explained in the next table</td></tr><tr><td>request.documents</td><td>object</td><td>Documents of the Packet</td><td></td></tr></tbody></table>
 
 * **request.biometrics** - The table below describes the structure for this field.
 
@@ -211,24 +211,86 @@ Identity management uses these data structures.
 
 **Fields:**
 
-| **Name**                 | **Type**           | **Description**                                                                                  | **Example**                    |
-| ------------------------ | ------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------ |
-| id                       | string             | ID of the API                                                                                    |                                |
-| version                  | string             | Version of the API                                                                               |                                |
-| responsetime             | string\<date-time> | Response time of the API                                                                         | 2023-06-09T06:59:32.946225700Z |
-| metadata                 | object             | Metainfo of the Packet in key-value pair                                                         | NULL                           |
-| response                 | Array of objects   | Response of the API                                                                              |                                |
-| response.id              | string             | The registration id                                                                              | rid                            |
-| response.packetName      | string             | The sub packet name                                                                              | Id / optional / evidence       |
-| response.source          | string             | Packet source. Typically name of the source system                                               | REGISTRATION\_CLIENT           |
-| response.process         | string             | The packet process. Could be NEW/UPDATE/LOST or a newly created process                          | NEW/UPDATE/LAST                |
-| response.refId           | string             | The reference id used for getting the private key from keymanager. Typically centerid\_machineid | 110011\_110011                 |
-| response.schemaVersion   | string             | The id schema version                                                                            | 0.1                            |
-| response.signature       | string             | The packet signature                                                                             | The signature string           |
-| response.encryptedHash   | string             | The sub packet encrypted hash value                                                              | The encrypted hash string      |
-| response.providerName    | string             | The packet store provider                                                                        | PacketWriterImpl               |
-| response.providerVersion | string             | The version of provider                                                                          | 1.0                            |
-| response.creationDate    | string             | The packet creation date                                                                         | 2023-06-09T06:59:32.946225700Z |
-| errors                   | Array of objects   | Errors if any                                                                                    |                                |
-| errors.errorCode         | string             | The error code                                                                                   |                                |
-| errors.message           | string             | The error message                                                                                |                                |
+<table data-header-hidden><thead><tr><th width="200"></th><th></th><th></th><th></th></tr></thead><tbody><tr><td><strong>Name</strong></td><td><strong>Type</strong></td><td><strong>Description</strong></td><td><strong>Example</strong></td></tr><tr><td>id</td><td>string</td><td>ID of the API</td><td></td></tr><tr><td>version</td><td>string</td><td>Version of the API</td><td></td></tr><tr><td>responsetime</td><td>string&#x3C;date-time></td><td>Response time of the API</td><td>2023-06-09T06:59:32.946225700Z</td></tr><tr><td>metadata</td><td>object</td><td>Metainfo of the Packet in key-value pair</td><td>NULL</td></tr><tr><td>response</td><td>Array of objects</td><td>Response of the API</td><td></td></tr><tr><td>response.id</td><td>string</td><td>The registration id</td><td>rid</td></tr><tr><td>response.packetName</td><td>string</td><td>The sub packet name</td><td>Id / optional / evidence</td></tr><tr><td>response.source</td><td>string</td><td>Packet source. Typically name of the source system</td><td>REGISTRATION_CLIENT</td></tr><tr><td>response.process</td><td>string</td><td>The packet process. Could be NEW/UPDATE/LOST or a newly created process</td><td>NEW/UPDATE/LAST</td></tr><tr><td>response.refId</td><td>string</td><td>The reference id used for getting the private key from keymanager. Typically centerid_machineid</td><td>110011_110011</td></tr><tr><td>response.schemaVersion</td><td>string</td><td>The id schema version</td><td>0.1</td></tr><tr><td>response.signature</td><td>string</td><td>The packet signature</td><td>The signature string</td></tr><tr><td>response.encryptedHash</td><td>string</td><td>The sub packet encrypted hash value</td><td>The encrypted hash string</td></tr><tr><td>response.providerName</td><td>string</td><td>The packet store provider</td><td>PacketWriterImpl</td></tr><tr><td>response.providerVersion</td><td>string</td><td>The version of provider</td><td>1.0</td></tr><tr><td>response.creationDate</td><td>string</td><td>The packet creation date</td><td>2023-06-09T06:59:32.946225700Z</td></tr><tr><td>errors</td><td>Array of objects</td><td>Errors if any</td><td></td></tr><tr><td>errors.errorCode</td><td>string</td><td>The error code</td><td></td></tr><tr><td>errors.message</td><td>string</td><td>The error message</td><td></td></tr></tbody></table>
+
+## 7.4 Credential Management Data Structures
+
+Credential management uses these API fields and data structures.
+
+#### 7.4.1  Common API Parameters
+
+This table describes common parameters used by the Credential Management APIs.
+
+<table><thead><tr><th>Name</th><th width="110">Type</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td>id</td><td>string</td><td>ID of the API</td><td>resident.share.credential</td></tr><tr><td>version</td><td>string</td><td>Version of the API</td><td>1.0</td></tr><tr><td>requesttime</td><td>string</td><td>Request time of the API</td><td>2022-06-23T12:00:40.326Z</td></tr><tr><td>responsetime</td><td>string</td><td>Response time of the API</td><td>2022-06-23T12:00:40.326Z</td></tr><tr><td>errors</td><td>Array of objects</td><td>Errors if any</td><td></td></tr><tr><td>errors.errorCode</td><td>string</td><td>The error code</td><td></td></tr><tr><td>errors.message</td><td>string</td><td>The error message</td><td></td></tr></tbody></table>
+
+#### 7.4.2 Request to Share Credential
+
+This table describes the parameters of the schema 'ShareCredentialInfo' used by the Credential Management API '/share-credential'.
+
+<table><thead><tr><th width="340">Name</th><th width="95">Type</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td>partnerId </td><td>string</td><td>Id to which credentials will be shared</td><td>resident.share.credential</td></tr><tr><td>sharableAttributes</td><td>Array of objects</td><td></td><td></td></tr><tr><td>sharableAttributes.attributeName</td><td>string</td><td>Name of attribute</td><td>dateOfBirth</td></tr><tr><td>sharableAttributes.format</td><td>string</td><td>Format of attribute</td><td>DDMMYYYY</td></tr><tr><td>sharableAttributes.isMasked</td><td>boolean</td><td>Boolean value whether to mask or not</td><td>true</td></tr><tr><td>purpose</td><td>string</td><td>Alphanumeric string stating the purpose of sharing the credential</td><td>Sharing Credential with Partner</td></tr><tr><td>consent</td><td>string</td><td>Consent whether Accepted or denied</td><td>Accepted</td></tr></tbody></table>
+
+#### 7.4.3 Event Response for Sharing Credential
+
+This table describes the parameters of the schema 'EventResp' used by the API '/events/{eventId}?language=LANGCODE'.
+
+<table><thead><tr><th width="275">Name</th><th>Type</th><th width="184">Description</th><th>Example</th></tr></thead><tbody><tr><td>eventId</td><td>string</td><td>The eventId for the share credential format</td><td>Randomly generated 16 digit number</td></tr><tr><td>eventType</td><td>string</td><td>Type of event</td><td>Authentication</td></tr><tr><td>eventStatus</td><td>string</td><td>Status of request</td><td>succss, failure or in-progress</td></tr><tr><td>individualId</td><td>string</td><td>UIN/Vid of logged in user</td><td></td></tr><tr><td>summary</td><td>string</td><td>short summary about the event</td><td></td></tr><tr><td>timestamp</td><td>string</td><td>local timestamp</td><td></td></tr><tr><td>info</td><td>object</td><td>Info for multiple attributes</td><td></td></tr><tr><td>info.purpose</td><td>string</td><td>Purpose to share credential like </td><td>sharing with a banking parter</td></tr><tr><td>info.applicantName</td><td>string</td><td>name of applicant</td><td></td></tr><tr><td>info.partnerId</td><td>string</td><td>parter id to which we want to share credential</td><td></td></tr><tr><td>info.partnerLogo</td><td>string</td><td>Logo of partner if any</td><td></td></tr><tr><td>info.partnerName</td><td>string</td><td>name of partner</td><td></td></tr><tr><td>info.paymentStatus</td><td>string</td><td>status of payment</td><td></td></tr><tr><td>info.partnerTransactionId</td><td>string</td><td>unique transaction id of payment if any</td><td></td></tr><tr><td>info.deliveryAddres</td><td>string </td><td>delieveryAddress of user in case of order physical card</td><td></td></tr><tr><td>info.authenticationMode</td><td>string </td><td>mode of authentication like OTP</td><td></td></tr><tr><td>info.vidType</td><td>string </td><td>type of vid</td><td>permanent or one-time</td></tr><tr><td>info.vid</td><td>string </td><td>virtual id that is created with the help of uin</td><td></td></tr><tr><td>info.attributeList</td><td>string </td><td>list of attributes</td><td>firstName, email, etc.</td></tr><tr><td>info.downloadCardLink</td><td>string </td><td>direct link to download</td><td></td></tr><tr><td>info.orderTrackingLink</td><td>string </td><td>direct link to track order status</td><td></td></tr><tr><td>info.trackingId</td><td>string</td><td>id to track order</td><td></td></tr></tbody></table>
+
+#### 7.4.4 Update Credential Information for a Unique Identity Number&#x20;
+
+This table describes the parameters of the schema 'UpdateUINInfo' used by the API '/update-uin'.
+
+| Name             | Type             | Description                                          | Example           |
+| ---------------- | ---------------- | ---------------------------------------------------- | ----------------- |
+| transactionID    | string           | transactionId will be shown that is used to send otp |                   |
+| individualId     | string           | uin/vid which is used to send otp for updating uin   |                   |
+| individualIdType | string           | type of individual id                                | uin/vid           |
+| otp              | string           | otp to verify mobile number                          |                   |
+| identityJson     | string           | base 64 encoded identity value to update             |                   |
+| documents        | Array of objects | Array of document type and content                   |                   |
+| documents.name   | string           | document cateogory                                   | proof of resident |
+| documents.value  | string           | document value                                       | pdf content       |
+
+#### 7.4.5 Status of Credential Service Request
+
+This table describes the parameters of the schema 'ServiceHistoryInfo' used by the API '/service-history/{langCode}'.
+
+| Name                  | Type             | Description                                                    | Example |
+| --------------------- | ---------------- | -------------------------------------------------------------- | ------- |
+| pageNo                | integer          | starting number of page from where history needs to be fetched |         |
+| pageSize              | integer          | number of pages                                                |         |
+| totalItems            | integer          | total items across all pages                                   |         |
+| totalPages            | integer          | total number of pages                                          |         |
+| data                  | Array of objects |                                                                |         |
+| data.eventId          | string           | Random 16 digits eventId                                       |         |
+| data.eventDescription | string           | details of events                                              |         |
+| data.eventStatus      | string           | status of event                                                |         |
+| data.timeStamp        | string           | timestamp of response                                          |         |
+| data.requestType      | string           | type of request                                                |         |
+
+#### 7.4.6 Update identity information for a specific UIN
+
+This table describes the parameters of the schema 'ServiceHistoryInfo' used by the API '/service-history/{langCode}'.
+
+| Name                               | Type             | Description                            | Example           |
+| ---------------------------------- | ---------------- | -------------------------------------- | ----------------- |
+| status                             | string           | status of updateIdentity API           |                   |
+| identity                           | object           | identity which user wants to update    |                   |
+| documents                          | array of Objects |                                        |                   |
+| documents.category                 | string           | document cateogory                     | proof of resident |
+| documents.value                    | string           | document value                         | pdf content       |
+| verifiedAttributes                 | array of Strings |                                        |                   |
+| verifiedAttributes.attributeString | string           | name off the verified attribute        |                   |
+| registrationId                     | string           | unique id created while registring uin |                   |
+| uin                                | string           | unique value for each individual       |                   |
+
+#### 7.4.7 Administratively block/unblock UIN
+
+This table describes the parameters of the schema 'UINAdminRequest' used by the APIs '/block' and '/unblock'.
+
+| Name            | Type   | Description                   | Example |
+| --------------- | ------ | ----------------------------- | ------- |
+| id              | string | unique id                     |         |
+| idType          | string | type of id like uin/vid       |         |
+| status          | string | status of API                 |         |
+| expiryTimestamp | string | timestamp when it will expire |         |
+
